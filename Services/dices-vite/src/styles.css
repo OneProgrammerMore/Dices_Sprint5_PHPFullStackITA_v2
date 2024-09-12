@@ -1,0 +1,884 @@
+@font-face {
+	font-family: 'opensans';
+	src: url('./fonts/OpenSans-VariableFont_wdth,wght.ttf');
+}
+
+
+:root{
+
+	--my-brown: #000000;
+	--my-green: none;
+	--my-red:  #444444;
+	--my-red2: #333333;
+	--my-brown-img: none;
+	--my-green-img: none;
+	--logo-img: url("./imgs/diceWhite.png");
+	--eye-icon: url("./imgs/eyeWhite.png");
+	--login-icon: url("./imgs/enter-white.png");
+	--registerPlayer-icon: url("./imgs/player-white.png");
+	--registerAdmin-icon: url("./imgs/setting-white.png");
+	--close-icon: url("./imgs/close-white.png");
+	--menu-icon: url("./imgs/menu-white.png");
+	--nav-side-color: rgba(21, 21, 21, 0.85);
+	--play-color: rgba(77, 7, 47, 0.8);
+}
+
+
+input, select, textarea{
+    background-color: var(--my-green);
+    background-image: var(--my-green-img);
+}
+
+input {
+	all: unset;
+}
+
+html *{
+	font-family: opensans !important;
+	font-weight: 900;
+	color: white;
+	background-color: transparent;
+}
+
+
+a{
+	text-decoration: none;
+}
+
+
+html{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	
+	width: 100%;
+	height: 100%;
+	
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+}
+
+#dices-background{
+	position: fixed;
+	z-index:  -1;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+#mainContainer{
+	display: flex;
+	flex-direction: column;
+	height: 85vh;
+	width: 100%;
+}
+
+body{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+#MYHTML{
+	width: 70%;
+	flex-wrap: wrap;
+	flex-direction: column;
+	height: 100%;
+	margin-right: auto;
+    margin-left: auto;
+	margin-bottom: 50px;
+    margin-top: 50px;
+	background-color: transparent;
+}
+
+header{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	
+	width: 100%;
+	height: auto;
+	
+	align-content: center;
+	align-items: center;
+	justify-content: space-between;
+	
+	background-color: var(--my-green);
+	background-image: var(--my-green-img);
+	
+}
+
+#HeaderLeft{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	
+	width: auto;
+	height: auto;
+	
+	align-content: center;
+	align-items: center;
+
+}
+#HeaderRight{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	
+	width: 30%;
+	height: auto;
+	
+	align-content: center;
+	align-items: center;
+	justify-content: flex-end;
+	margin-right: 30px;
+	
+	font-size: 22px;
+
+}
+.LogOutDiv:hover{
+	cursor: pointer;
+	
+}
+.LogOutDiv{
+	font-size: 12px;
+	font-weight: bold;
+}
+
+
+#WebLogo{
+	background-image: var(--logo-img);
+	height: 20px;
+	width: 20px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	padding: 10px;
+	margin-left: 40px;
+}
+#WebName{
+	font-size: 20px;
+	font-weight: bold;
+	margin-left: 10px;
+}
+#WebName:hover{
+	cursor: pointer;
+}
+
+nav{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	
+	width: 100%;
+	height: auto;
+	margin-top: 5px;
+	background-color: var(--my-green);
+	background-image: var(--my-green-img);
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+.nav-menu-icon{
+	display: flex;
+	width: 30px;
+	height: 30px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin: 4px;
+	position: fixed;
+
+}
+
+.menu-i{
+	background-image: var(--menu-icon);
+}
+
+.close-i{
+	background-image: var(--close-icon);
+}
+
+.navSection{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	
+	width: 60%;
+	height: auto;
+	
+	align-items: center;
+	text-align: center;
+	font-size: 25px;
+	
+}
+
+.navName{
+	font-size: 20px;
+	font-weight: bold;
+	
+}
+
+.navItems{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	
+	width: 100%;
+	height: auto;
+	
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.navItem{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+footer{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-evenly;
+	
+	margin-top: 20px;
+	
+	width: 100%;
+	height: auto;
+	
+	align-content: center;
+	align-items: center;
+	
+	background-color: var(--my-green);
+	background-image: var(--my-green-img);
+	padding-bottom: 20px;
+}
+
+.footerLink{
+	font-size: 12px;
+	font-weight: normal;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+/*MAIN AND MORE COMPONENTS*/
+main{
+	background-color: var(--my-green);
+	background-image: var(--my-green-img);
+	width: 100%;
+	height: auto;
+	margin-top: 20px;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-evenly;
+	flex: 1;
+}
+
+.home{
+	margin-top: auto;
+	margin-bottom: auto;
+	text-align: center;
+}
+
+
+/*Login Component */
+.main_container{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-content: space-evenly;
+	width: 95%;
+	text-align: center;
+
+}
+
+.buttonLoginSelector{
+	text-align: center;
+	border-color: white;
+	border-width: 2px;
+	border-style: solid;
+	margin: 10px;
+	padding: 3px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.loginIcon, .registerPlayerIcon, .registerAdminIcon, .closeIcon{
+	display: flex;
+	height: 25px;
+	width: 25px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	margin: 5px;
+}
+
+.loginIcon{
+	background-image: var(--login-icon); 	
+
+}
+
+.registerPlayerIcon{
+	background-image: var(--registerPlayer-icon); 
+}
+
+.registerAdminIcon{
+	background-image: var(--registerAdmin-icon); 
+}
+
+.closeIcon{
+	background-image: var(--close-icon);
+	height: 15px;
+}
+
+.closeRow{
+	display: flex;
+	justify-content: start;
+
+}
+
+.form_section{
+
+	width: 100%;
+	height: 100%;
+	background-color: none;
+	position: fixed;
+
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+
+}
+
+.form_section input, .form_section_home input{
+	border: solid;
+	border-color: white;
+	border-width: 2px;
+	text-align: start;
+	padding-left: 4px;
+	font-size: 14px;
+}
+
+.errorMessageForm, .errorMessageFormEmpty{
+
+	display: flex;
+    align-items: start;
+    white-space: nowrap;
+	min-width: 0;
+	padding: 0px;
+	margin: 0px;
+}
+
+.errorMessageForm > h3{
+	white-space: pre-line;
+	font-size: 12px;
+	min-width: 0;
+	margin: 0px 0px 0px 0px;
+	text-align: start;
+	color: rgb(244, 36, 46);
+	font-weight: 550;
+	margin-left: 4px;
+	padding: 0;
+	min-height: 14px;
+}
+
+.errorMessageFormEmpty > h3{
+	margin: 0;
+	padding: 0;
+	min-height: 17px;
+}
+
+input:has(+ .errorMessageForm){
+	color: rgb(244, 36, 46);
+	border-color: rgb(244, 36, 46);
+}
+
+input{
+	transition: color 0.1s ease;
+	transition: border-color 0.1s ease;
+}
+
+
+.background-form{
+	width: 100%;
+	height: 100%;
+	background-color: #444444;
+	opacity: 0.5;
+	position: fixed;
+
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: -2;
+}
+
+.form_section-inner{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	flex:inherit;
+	
+	height: 450px;
+	width:280px;
+	
+	background-color: var(--my-brown);
+	background-image: var(--my-brown-img);
+	
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding: 30px 60px 30px 60px;
+	border-radius: 10px;
+	max-width: 280px;
+}
+
+#play_form{
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: var(--play-color) !important;
+	text-align:center;
+	border-radius: 14px;
+
+}
+#play_form > .submitBttn {
+	margin-bottom: 21px !important;
+}
+
+.form_section-inner-login{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	flex:inherit;
+	
+	height: 300px;
+	width:280px;
+	
+	background-color: var(--my-brown);
+	background-image: var(--my-brown-img);
+	
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding: 30px 60px 30px 60px;
+	border-radius: 10px;
+	max-width: 280px;
+}
+
+.form_section_home{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	flex:inherit;
+	
+	height: auto;
+	width:auto;
+	
+	background-color: rgba(0, 0, 0, 0.8);
+	background-image: var(--my-brown-img);
+	
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding: 30px 40px 30px 40px;
+	border-radius: 10px;
+	max-width: 400px;
+}
+.form_section_play{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	flex:inherit;
+	
+	height: auto;
+	width:auto;
+
+	background-color: rgba(0, 0, 0, 0.8);
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border-radius: 10px;
+	max-width: 400px;
+}
+
+.form_section > h3{
+	padding: 0px;
+}
+.form_section > h3{
+	font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.form_user{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	flex: 1;
+}
+
+.form_user > .submitBttn{
+	margin-top: 21px;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+
+/*Play Component*/
+.goodLuck{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	text-align: center;
+	align-content: center;
+	align-items: center;
+
+	background-color: rgba(0, 0, 0, 0.8);
+	background-image: var(--my-brown-img);
+	
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding: 30px 60px 30px 60px;
+	padding: auto;
+	border-radius: 10px;
+	max-width: 400px;
+}
+
+#dices{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	text-align: center;
+	margin-top:10px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	font-weight: bold;
+	align-content: center;
+	
+	background-color: (--my-brown);
+	background-image: var(--my-brown-img);	
+}
+
+#dices *{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	text-align: center;
+	align-items: center;
+}
+
+#dices_results{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+#dice_1, #dice_2{
+	width: 90px;
+	height: 90px;
+	
+	text-align: center;
+	justify-content: center;
+	align-content: center;
+	display: flex;
+	flex-wrap: wrap;
+	
+	border: solid;
+	border-color: white;
+	border-width: 1px;
+	
+	background-color: var(--my-red);
+	background-image: none;
+}
+#all_dices{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+#dices_sum{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-evenly;
+	text-align: center;
+	margin-top:10px;
+	margin-bottom: 10px;
+	font-size: 21px;
+	font-weight: bold;
+	border-color: white;
+	border-width: 1px;
+	border: solid;
+	
+	background-image: var(--my-green-img);
+	
+	
+}
+.goodLuck > #dices, .goodLuck > .form_section {
+	max-width: 300px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding: 17px;
+}
+
+
+/*List Other Component*/
+#user_table{
+	display: table;
+	border: solid 1px;
+	border-collapse: collapse;
+	width: 100%;
+	text-align: left;
+	table-layout: fixed;
+}
+
+tr{
+	text-align: center;
+}
+#user_table > thead > tr{
+	background-color: var(--my-brown) ;
+}
+#user_table > tbody > tr:nth-child(even){
+	background-color: var(--my-red);
+}
+#user_table > tbody > tr:nth-child(odd){
+	background-color: var(--my-red2);
+}
+#user_table td:first-child, #user_table th:first-child { display: none; }
+
+/*List Player Component*/
+#player_table{
+	display: table;
+	border: solid 1px;
+	border-collapse: collapse;
+	width: 100%;
+	text-align: left;
+	table-layout: fixed;
+}
+
+tr{
+	text-align: center;
+}
+#player_table > thead > tr{
+	background-color: var(--my-brown) ;
+}
+#player_table > tbody > tr:nth-child(even){
+	background-color: var(--my-red);
+}
+#player_table > tbody > tr:nth-child(odd){
+	background-color: var(--my-red2);
+}
+#player_table td:first-child, #player_table th:first-child, #player_table td:nth-child(2), #player_table th:nth-child(2)  { display: none; }
+
+
+.moreInfoIcon{
+	display: flex;
+	background-image: var(--eye-icon); 
+	height: 25px;
+	width: auto;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+.moreInfoIcon:hover{
+	cursor: pointer;
+}
+.hiddenClass{
+	visibility: hidden;
+}
+.visibleClass{
+	visibility: visible;
+}
+
+#menu-icon{
+	display: none;
+}
+
+
+@media only screen and (max-width: 935px) {
+	.main_container{
+		flex-direction: column;
+	}
+	.form_section{
+		width: 100%;
+	}
+	#MYHTML{
+		width:85%;
+	}
+	#menu-icon{
+		display: flex;
+	}
+	.form_section-inner, .form_section-inner-login{
+		padding: 15px 10px 15px 10px;
+	}
+	#menu-icon{
+		display: absolute;
+		background: none;
+        width: 45px;
+        height: 45px;
+        right: 10px;
+        top: 10px;
+		position: fixed;
+		z-index: 1;
+	}
+	#UserNav, #AdminNav{
+		visibility: hidden;
+		position: fixed;
+		z-index: 3;
+		top: 0;
+		left: 0;
+		background-color: var(--nav-side-color);
+		overflow-x: hidden;
+		transition: 0.5s;
+		padding-top: 20px;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		align-items: center;
+	}
+	#EmptyNav{
+		font-size:20px;
+	}
+	.navName{
+		font-size:24px;
+	}
+	.navOpen{
+		visibility: visible !important;
+		width: 100%;
+		min-width: 100%;
+		position: fixed;
+		display: flex;
+		height: 100%;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: var(--nav-side-color);
+		margin-left: 0;
+	}
+	.navClosed{
+		visibility: visible !important;
+		min-width: 100%;
+		margin-left: -100%;
+		position: fixed;
+		display: flex;
+		height: 100%;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: var(--nav-side-color);
+	}
+	.navOpen > .navItems, .navClosed > .navItems{
+		display: flex;
+		flex-direction: column;
+	}
+	.navOpen > .navItems > .navItem, .navClosed > .navItems > .navItem{
+		display: flex;
+		flex-direction: column;
+		padding: 15px;
+	}
+	.navClosed{
+		width: 0;
+	}
+	.navName{
+		margin-top: 70px;;
+	}
+ }
+
+ @media only screen and (max-width: 450px) {
+	.main_container{
+		flex-direction: column;
+	}
+	.form_section{
+		width: 100%;
+	}
+	#MYHTML{
+		width:85%;
+	}
+	.navName{
+		font-size: 14px;
+	}
+	.navItems{
+		font-size: 12px;
+	}
+	main{
+		font-size: 12px;
+	}
+	#user_table{
+		font-size: 10px;
+	}
+	#UserNav, #AdminNav, #EmptyNav{
+		font-size: 17px;
+	}
+	.goodLuck{
+		padding: 0;
+		margin: 0;
+	}
+	#root{
+		padding-top: 5px;
+	}
+	.navName{
+		font-size:32px;
+	}
+	.navItems{
+		font-size:18px;
+	}
+ }
