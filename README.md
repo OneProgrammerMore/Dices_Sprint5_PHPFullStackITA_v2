@@ -43,7 +43,7 @@ docker-compose up
 
 * If you find any bug in the frontend or backend let me know by Github. I am just OneProgrammerMore.
 
-* Depending on the software running the threejs component can react differently. Causing slowness in the computer. (Not usual)
+* Depending on the hardware running the threejs component can react differently. Causing slowness in the computer. (Not usual)
 
 
 
@@ -62,6 +62,8 @@ REACT APP:
 - [ ] Improve Dices Animations with timers for similar behaviours in different hardware
 - [ ] React Testing App Auto
 - [ ] Improve ThreeJS Components by optimizing them for any hardware
+- [ ] Add Valitaion To Component Modify_Name
+- [ ] Clean & Refactor Redux Context - Forgot completely about it ^^'
 
 
 
