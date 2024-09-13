@@ -1,7 +1,7 @@
 # Dices! Too Many Dices!
 
 This is the API & the AJAX Application for the 5th Sprint of the Bootcamp PHP Full Stack Developer by IT Academy Barcelona.
-Well... it is not the first version... the first version was just a simple AJAX application using AJAX with no design at all... sadly my design capabilities are not quite good...
+Well... it is not the first version... the first version was just a simple AJAX application using React with no design at all... sadly my design capabilities are not quite good...
 
 But now... it has Dices! A lot of dices!!! And they move it move it with the implementation of a react component hook using threejs.
 
