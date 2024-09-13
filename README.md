@@ -65,6 +65,7 @@ REACT APP:
 - [ ] Improve ThreeJS Components by optimizing them for any hardware
 - [ ] Add Valitaion To Component Modify_Name
 - [ ] Clean & Refactor Redux Context - Forgot completely about it ^^'
+- [ ] Free Resources When Browser Or Tab Closing - ThreeJS Components
 
 
 
