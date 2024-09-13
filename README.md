@@ -55,7 +55,8 @@ API REST:
 - [ ] Adding SQL Transactions
 - [ ] Endpoint in order to obtain type of user
 - [ ] Auto Documentation Using Scribe
-- [ ] Documentation Covering Using - 
+- [ ] Documentation Covering Using -
+- [ ] Format Actual Swagger Documentation To Follow Standards
 
 REACT APP:
 - [ ] Use new endpoint for user type discovery
