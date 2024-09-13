@@ -32,18 +32,18 @@ docker-compose up
   - http://127.0.0.1:83
   - http://localhost:83
 
-  *Assure that the browser is not redirecting you to the httpS url, some browser do this nowadays for user's security, quite annoying stuff for hackers who sniff the traffic. (HTTPS not supported with current docker configuration)
+  *Assure that the browser is not redirecting you to the httpS url, some browsers do this nowadays for user's security, quite annoying stuff for hackers who sniff the traffic. (HTTPS not supported with current docker configuration)
 
 4. You should now be able to browse the web... But remember...
 
 **IMPORTANT**
 - DO NOT enter your real email to the platform, emails are not validated neither stored in any foreign database and nobody cares about them in that project. But who knows... if no needed... it is better to do not give you real information ;) (If the email is already taken just try another one)
-- USE an easy password that do NOT is any other that you use! I know... you will need to use another password than your email's password "password"... but sometimes people need to think a little haha ^^ (If the password is already taken use another one. - Just kidding haha)
+- USE an easy password that does NOT is any other that you use! I know... you will need to use another password than your email's password "password"... but sometimes people need to think a little haha ^^ (If the password is already taken use another one. - Just kidding haha)
 
 
 * If you find any bug in the frontend or backend let me know by Github. I am just OneProgrammerMore.
 
-* Depending on the hardware running the threejs component can react differently. Causing slowness in the computer. (Not usual)
+* Depending on the hardware, the threejs component can react differently. Causing slowness in the computer. (Not usual)
 
 
 
