@@ -4,6 +4,8 @@ import React from 'react';
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
 
+import * as Yup from 'yup';
+
 
 interface IProps {
 	props?: any;
@@ -12,6 +14,7 @@ interface IProps {
 interface IState {
 	jsonData?: any[];
 	dataItems?: any[];
+	error: any;
 }
 export default class ModifyName extends React.Component<IProps, IState>{
   
@@ -20,14 +23,24 @@ export default class ModifyName extends React.Component<IProps, IState>{
 
 		this.handleSubmitModifyName = this.handleSubmitModifyName.bind(this);
 		this.modifyName = this.modifyName.bind(this);
+
+		this.state = {
+			error: []
+		};
+
 	}
   
  
 	handleSubmitModifyName(event: any) {
 		event.preventDefault();
-		this.modifyName(event);
+		//this.modifyName(event);
+		this.handleFormModifyName(event)
 	}
-  
+
+	userSchema:Yup.AnyObject = Yup.object().shape({
+			password: Yup.string().min(4, "Password must be at least 4 characters long").required("Password is required")
+	});
+
 	async modifyNameApiCall(event: any){
 
 		var token = Functions.getCookie('token');
@@ -53,17 +66,78 @@ export default class ModifyName extends React.Component<IProps, IState>{
 		
 		return response;
 	}
+	
+	handleFormModifyName = async(e:any) => {
+		e.preventDefault()
+		let form = e.target;
+		let formData = new FormData(form)
+		let formObj = Object.fromEntries(formData.entries())
+		let validForm = await this.userSchema.isValid(formObj);
+		var errorsInfo: any = {};
+		var arrayAux:string[] = [];
+
+		try{
+			if(validForm) {
+				this.setState({
+					error: {}
+				});
+				this.modifyName(e);
+			}else{
+				let validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: any, i:number) => {
+					if (error.path !== undefined) {
+						if(Array.isArray(errorsInfo[error.path]) == false){
+							arrayAux = [];
+							errorsInfo[error.path] = arrayAux;
+						}
+						if(errorsInfo[error.path]){
+							errorsInfo[error.path].push(validationError.errors[i]);
+						}
+					}
+				});
+				this.setState({
+					error: errorsInfo
+				});
+			}
+		}catch(err:any) {
+			
+			err.inner.forEach((error: any, i:number) => {
+				if (error.path !== undefined) {
+					if(Array.isArray(errorsInfo[error.path]) == false){
+						arrayAux = [];
+						errorsInfo[error.path] = arrayAux;
+					}
+					if(errorsInfo[error.path]){
+						errorsInfo[error.path].push(err.errors[i]);
+					}
+				}
+			});
+			this.setState({
+				error: errorsInfo
+			});
+		}
+	}
   
-  
-  
+	
+	clearForm() {
+		const form = document.getElementById('change_name_form')!;
+		const inputs = form.querySelectorAll('input');
+		inputs.forEach(input => {
+			input.value = ''; // Clear the value of each input
+		});
+	}
+
 	async modifyName(event: any){
+
 		const response = await this.modifyNameApiCall(event);
 		if(response.ok){
 			Functions.setCookie('userName', event.target.name.value , 90);
+			this.clearForm();
 			alert("Your name has been correclty modified");
 		}else{
-			alert("It was not possible to modify your name. The new name is either taken or the password was wrong");
+			//alert("It was not possible to modify your name. The new name is either taken or the password was wrong");
 		}
+		
 	}
   
 	render(){
@@ -84,6 +158,11 @@ export default class ModifyName extends React.Component<IProps, IState>{
 						</label>
 						<input id="change_name_form_password" type="password" name="password" required />
 						
+						{ this.state.error.password && this.state.error['password'].map((errorText: string) => {return(<div key={errorText} className="errorMessageForm"><h3 >{errorText}</h3></div>)} )}
+						{ !this.state.error.password && <div className="errorMessageFormEmpty"><h3></h3></div>}
+						{ ( !this.state.error.password || this.state.error.password.length < 2) && <div className="errorMessageFormEmpty"><h3></h3></div>}
+
+
 						<input type="submit"  className="submitBttn" value="Submit" />
 					
 					</form>			

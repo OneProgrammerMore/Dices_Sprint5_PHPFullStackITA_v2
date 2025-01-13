@@ -14,14 +14,14 @@
         "/players/{user}/games": {
             "get": {
                 "tags": [
-                    "Game -> ListGames"
+                    "Game"
                 ],
                 "summary": "List the games of a player",
                 "description": "List the games of a player",
                 "operationId": "listGame",
                 "parameters": [
                     {
-                        "name": "userID",
+                        "name": "user",
                         "in": "path",
                         "description": "User ID",
                         "required": true,
@@ -56,14 +56,14 @@
             },
             "post": {
                 "tags": [
-                    "Game -> PlaysGame"
+                    "Game"
                 ],
                 "summary": "Plays a game as a Player",
                 "description": "Plays a game as a Player",
                 "operationId": "playsGame",
                 "parameters": [
                     {
-                        "name": "userID",
+                        "name": "user",
                         "in": "path",
                         "description": "User ID",
                         "required": true,
@@ -119,14 +119,14 @@
             },
             "delete": {
                 "tags": [
-                    "Game -> DeleteGames"
+                    "Game"
                 ],
                 "summary": "Delete the games of a given player",
                 "description": "Delete the games of a player",
                 "operationId": "deleteGames",
                 "parameters": [
                     {
-                        "name": "userID",
+                        "name": "user",
                         "in": "path",
                         "description": "User ID",
                         "required": true,
@@ -160,7 +160,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Player -> Login"
+                    "User"
                 ],
                 "summary": "Logs a user",
                 "description": "Logs an user",
@@ -235,7 +235,7 @@
         "/register": {
             "post": {
                 "tags": [
-                    "Player -> RegisterPlayer"
+                    "User"
                 ],
                 "summary": "Register as a Player",
                 "description": "Register an user with a player role",
@@ -320,7 +320,7 @@
         "/registeradmin": {
             "post": {
                 "tags": [
-                    "Player -> RegisterPlayer"
+                    "User"
                 ],
                 "summary": "Register as a Administrator",
                 "description": "Register an user with a administrator role",
@@ -400,7 +400,7 @@
         "/players": {
             "get": {
                 "tags": [
-                    "Player -> ListPlayers"
+                    "Player"
                 ],
                 "summary": "List the players",
                 "description": "List the players with games as admin",
@@ -432,14 +432,14 @@
         "/players/{user}": {
             "post": {
                 "tags": [
-                    "Player -> UpdateName"
+                    "Player"
                 ],
                 "summary": "Modify the name of a player",
                 "description": "Modifies the name of a user with player role",
                 "operationId": "updatesName",
                 "parameters": [
                     {
-                        "name": "userID",
+                        "name": "user",
                         "in": "path",
                         "description": "User ID",
                         "required": true,
@@ -487,7 +487,7 @@
         "/players/ranking": {
             "get": {
                 "tags": [
-                    "Player -> Ranking"
+                    "Player"
                 ],
                 "summary": "Returns the ranking of all players.",
                 "description": "Returns the ranking of all players.",
@@ -519,7 +519,7 @@
         "/players/ranking/loser": {
             "get": {
                 "tags": [
-                    "Player -> Loser"
+                    "Player"
                 ],
                 "summary": "Returns the worst of all players.",
                 "description": "Returns the worst of all players.",
@@ -551,7 +551,7 @@
         "/players/ranking/winner": {
             "get": {
                 "tags": [
-                    "Player -> Winner"
+                    "Player"
                 ],
                 "summary": "Returns the winner of all players.",
                 "description": "Returns the winner of all players.",
@@ -595,44 +595,16 @@
     },
     "tags": [
         {
-            "name": "Game -> PlaysGame",
-            "description": "Game -> PlaysGame"
+            "name": "Game",
+            "description": "Game"
         },
         {
-            "name": "Game -> ListGames",
-            "description": "Game -> ListGames"
+            "name": "User",
+            "description": "User"
         },
         {
-            "name": "Game -> DeleteGames",
-            "description": "Game -> DeleteGames"
-        },
-        {
-            "name": "Player -> Login",
-            "description": "Player -> Login"
-        },
-        {
-            "name": "Player -> RegisterPlayer",
-            "description": "Player -> RegisterPlayer"
-        },
-        {
-            "name": "Player -> ListPlayers",
-            "description": "Player -> ListPlayers"
-        },
-        {
-            "name": "Player -> UpdateName",
-            "description": "Player -> UpdateName"
-        },
-        {
-            "name": "Player -> Ranking",
-            "description": "Player -> Ranking"
-        },
-        {
-            "name": "Player -> Loser",
-            "description": "Player -> Loser"
-        },
-        {
-            "name": "Player -> Winner",
-            "description": "Player -> Winner"
+            "name": "Player",
+            "description": "Player"
         }
     ]
 }

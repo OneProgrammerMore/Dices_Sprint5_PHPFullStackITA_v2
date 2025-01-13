@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace App\Annotations\OpenApi\Controllers;
 
+use OpenApi\Annotations as OA;
+
 class GameAnnotation
 {
 	
@@ -9,13 +11,13 @@ class GameAnnotation
      * @OA\Post (
      *     path="/players/{user}/games",
      *     operationId="playsGame",
-     *     tags={"Game -> PlaysGame"},
+     *     tags={"Game"},
      *     summary="Plays a game as a Player",
      *     description="Plays a game as a Player",
      *     security={{"bearerAuth":{}}},
      * 
      *     @OA\Parameter(
-     *         name="userID",
+     *         name="user",
      *         in="path",
      *         description="User ID",
      *         required=true,
@@ -74,13 +76,13 @@ class GameAnnotation
      * @OA\Get (
      *     path="/players/{user}/games",
      *     operationId="listGame",
-     *     tags={"Game -> ListGames"},
+     *     tags={"Game"},
      *     summary="List the games of a player",
      *     description="List the games of a player",
      *     security={{"bearerAuth":{}}},
      * 
      *     @OA\Parameter(
-     *         name="userID",
+     *         name="user",
      *         in="path",
      *         description="User ID",
      *         required=true,
@@ -120,13 +122,13 @@ class GameAnnotation
      * @OA\Delete (
      *     path="/players/{user}/games",
      *     operationId="deleteGames",
-     *     tags={"Game -> DeleteGames"},
+     *     tags={"Game"},
      *     summary="Delete the games of a given player",
      *     description="Delete the games of a player",
      *     security={{"bearerAuth":{}}},
      * 
      *     @OA\Parameter(
-     *         name="userID",
+     *         name="user",
      *         in="path",
      *         description="User ID",
      *         required=true,

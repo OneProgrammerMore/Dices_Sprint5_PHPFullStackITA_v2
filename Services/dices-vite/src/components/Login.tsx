@@ -78,7 +78,6 @@ export default class Login extends React.Component<IProps, IState>{
 			let validForm = await this.userSchema.isValid(formObj)
 			if(validForm) {
 				this.handleSubmitLogin(e);
-
 			}else{
 				let validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
 				validationError.inner.forEach((error: any, i:number) => {

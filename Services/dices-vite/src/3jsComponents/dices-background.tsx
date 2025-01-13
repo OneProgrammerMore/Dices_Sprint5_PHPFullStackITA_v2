@@ -5,7 +5,8 @@ import { useEffect, useRef } from "react";
 function dices_background() {
 
     const refContainer:any = useRef(null);
-   
+    let time_prev:number = +new Date();
+    const time_frame:number = 20;
     
     useEffect(() => {
         const scene = new THREE.Scene();
@@ -104,28 +105,35 @@ function dices_background() {
         camera.position.z = 5;
 
         var animate = function () {
+            
+            const time_act:number = +new Date();
 
-            renderer.render( scene, camera );
+            if(time_act - time_prev >= time_frame ){
+                
+                time_prev = time_act;
 
-            for (let i = 0; i < amount_dices; i++) {
-                if(dices[i]){
-                    dices[i].rotation.x += dices[i].x_rotation ;
-                    dices[i].rotation.y += dices[i].y_rotation ;
-                    dices[i].position.y -= dices[i].y_speed ;
+                renderer.render( scene, camera );
 
-                    if(dices[i].position.y < -5){
-                        dices[i].position.y = Math.floor(Math.random() * 10) + 15;
-                        dices[i].position.x = Math.floor(Math.random() * 20)-10;
-                        dices[i].position.z = Math.floor(Math.random() * 1);
+                for (let i = 0; i < amount_dices; i++) {
+                    if(dices[i]){
+                        dices[i].rotation.x += dices[i].x_rotation ;
+                        dices[i].rotation.y += dices[i].y_rotation ;
+                        dices[i].position.y -= dices[i].y_speed ;
 
-                        dices[i].x_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
-                        dices[i].y_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
-                        dices[i].y_speed = Math.floor(Math.random() * 10)/100 + 0.01;
+                        if(dices[i].position.y < -5){
+                            dices[i].position.y = Math.floor(Math.random() * 10) + 15;
+                            dices[i].position.x = Math.floor(Math.random() * 20)-10;
+                            dices[i].position.z = Math.floor(Math.random() * 1);
+
+                            dices[i].x_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
+                            dices[i].y_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
+                            dices[i].y_speed = Math.floor(Math.random() * 10)/100 + 0.01;
+
+                        }
 
                     }
-
                 }
-            }
+            }    
 
         }
 

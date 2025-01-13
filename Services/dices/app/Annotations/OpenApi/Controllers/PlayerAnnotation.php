@@ -8,7 +8,7 @@ class PlayerAnnotation
      * @OA\Post (
      *     path="/login",
      *     operationId="loginUser",
-     *     tags={"Player -> Login"},
+     *     tags={"User"},
      *     summary="Logs a user",
      *     description="Logs an user",
      * 
@@ -83,7 +83,7 @@ class PlayerAnnotation
      * @OA\Post (
      *     path="/register",
      *     operationId="registerPlayer",
-     *     tags={"Player -> RegisterPlayer"},
+     *     tags={"User"},
      *     summary="Register as a Player",
      *     description="Register an user with a player role",
      *     security={{"bearerAuth":{}}},
@@ -160,7 +160,7 @@ class PlayerAnnotation
      * @OA\Post (
      *     path="/registeradmin",
      *     operationId="registerAdmin",
-     *     tags={"Player -> RegisterPlayer"},
+     *     tags={"User"},
      *     summary="Register as a Administrator",
      *     description="Register an user with a administrator role",
      * 
@@ -237,7 +237,7 @@ class PlayerAnnotation
      * @OA\Get (
      *     path="/players",
      *     operationId="players",
-     *     tags={"Player -> ListPlayers"},
+     *     tags={"Player"},
      *     summary="List the players",
      *     description="List the players with games as admin",
      *     security={{"bearerAuth":{}}},
@@ -272,12 +272,12 @@ class PlayerAnnotation
      * @OA\Post (
      *     path="/players/{user}",
      *     operationId="updatesName",
-     *     tags={"Player -> UpdateName"},
+     *     tags={"Player"},
      *     summary="Modify the name of a player",
      *     description="Modifies the name of a user with player role",
      * 
      *     @OA\Parameter(
-     *         name="userID",
+     *         name="user",
      *         in="path",
      *         description="User ID",
      *         required=true,
@@ -323,7 +323,7 @@ class PlayerAnnotation
      * @OA\Get (
      *     path="/players/ranking",
      *     operationId="ranking",
-     *     tags={"Player -> Ranking"},
+     *     tags={"Player"},
      *     summary="Returns the ranking of all players.",
      *     description="Returns the ranking of all players.",
      *     security={{"bearerAuth":{}}},
@@ -358,7 +358,7 @@ class PlayerAnnotation
      * @OA\Get (
      *     path="/players/ranking/loser",
      *     operationId="Loser",
-     *     tags={"Player -> Loser"},
+     *     tags={"Player"},
      *     summary="Returns the worst of all players.",
      *     description="Returns the worst of all players.",
      *     security={{"bearerAuth":{}}},
@@ -393,7 +393,7 @@ class PlayerAnnotation
      * @OA\Get (
      *     path="/players/ranking/winner",
      *     operationId="winner",
-     *     tags={"Player -> Winner"},
+     *     tags={"Player"},
      *     summary="Returns the winner of all players.",
      *     description="Returns the winner of all players.",
      *     security={{"bearerAuth":{}}},

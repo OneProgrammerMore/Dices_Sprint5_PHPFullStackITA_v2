@@ -1,0 +1,38 @@
+ToDo
+
+- [x] Hoover buttons
+- [x] Cursor buttons
+- [x] Format Swagger Docu To Follow Standards
+
+- [x] Improve Dices Animations with timers for similar behaviours in different hardware
+- [x] Improve ThreeJS Components by optimizing them for any hardware
+- [x] Add Valitaion To Component Modify_Name
+- [ ] Clean & Refactor Redux Context - Forgot completely about it ^^'
+- [ ] Free Resources When Browser Or Tab Closing - ThreeJS Components
+Monday
+- [ ] React Testing App Auto
+- [x] Refactor Code Laravel API
+Wednesday
+- [ ] Change README
+Wednesday
+
+Several things can be improved for the next version of this project:
+
+API REST:
+
+    Adding SQL Transactions
+    Endpoint in order to obtain type of user
+    Auto Documentation Using Scribe
+    Documentation Covering Using -
+    Format Actual Swagger Documentation To Follow Standards
+
+REACT APP:
+
+    Use new endpoint for user type discovery
+    Improve Dices Animations with timers for similar behaviours in different hardware
+    React Testing App Auto
+    Improve ThreeJS Components by optimizing them for any hardware
+    Add Valitaion To Component Modify_Name
+    Clean & Refactor Redux Context - Forgot completely about it ^^'
+    Free Resources When Browser Or Tab Closing - ThreeJS Components
+

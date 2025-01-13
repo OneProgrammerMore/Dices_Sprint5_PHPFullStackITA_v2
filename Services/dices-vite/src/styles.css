@@ -318,7 +318,14 @@ main{
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	cursor: pointer;
 }
+
+.buttonLoginSelector:hover{
+	border-color: red;
+	font: red;
+}
+
 
 .loginIcon, .registerPlayerIcon, .registerAdminIcon, .closeIcon{
 	display: flex;
@@ -329,7 +336,9 @@ main{
 	background-size: contain;
 	margin: 5px;
 }
-
+.closeIcon, closeRow, .submitBttn{
+	cursor: pointer;
+}
 .loginIcon{
 	background-image: var(--login-icon); 	
 
@@ -482,7 +491,7 @@ input{
 	margin-bottom: 21px !important;
 }
 
-.form_section-inner-login{
+.form_section-inner-login, .form_section_home{
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
@@ -504,7 +513,7 @@ input{
 	border-radius: 10px;
 	max-width: 280px;
 }
-
+/*
 .form_section_home{
 	display: flex;
 	flex-wrap: wrap;
@@ -526,7 +535,7 @@ input{
 	padding: 30px 40px 30px 40px;
 	border-radius: 10px;
 	max-width: 400px;
-}
+}*/
 .form_section_play{
 	display: flex;
 	flex-wrap: wrap;
