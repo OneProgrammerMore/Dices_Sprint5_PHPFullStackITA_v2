@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["react"], // Optional: Includes React typings
 
     /* Linting */
     "strict": true,

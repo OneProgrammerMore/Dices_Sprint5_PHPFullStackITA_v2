@@ -2,9 +2,17 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { useEffect, useRef } from "react";
 
+
+type Dice = {
+    x_rotation: number;
+    y_rotation: number;
+    y_speed: number;
+};
+
+
 function dices_background() {
 
-    const refContainer:any = useRef(null);
+    const refContainer = useRef<HTMLDivElement | null>(null);
     let time_prev:number = +new Date();
     const time_frame:number = 20;
     
@@ -12,7 +20,7 @@ function dices_background() {
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-        var canvasRef = document.getElementById('dices-background')!;
+        const canvasRef = document.getElementById('dices-background')!;
         const renderer = new THREE.WebGLRenderer({antialias: true, canvas: canvasRef});
 
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -66,8 +74,9 @@ function dices_background() {
         const loader = new GLTFLoader();
 
 
-        var amount_dices = 7;
-        var dices:any= [];
+        const amount_dices = 7;
+        const dices: THREE.Object3D[]= [];
+        const dicesAux: Dice[] = [];
 
         for (let i = 0; i < amount_dices; i++) {
 
@@ -88,11 +97,11 @@ function dices_background() {
                 
                 scene.add(dices[i]);
                 
-                dices[i].x_rotation = Math.floor(Math.random() * 100)/1000; 
-                dices[i].y_rotation = Math.floor(Math.random() * 100)/1000; 
-
-                dices[i].y_speed = Math.floor(Math.random() * 10)/100 + 0.01; 
-
+                dicesAux.push({
+                    x_rotation: Math.floor(Math.random() * 100)/1000,
+                    y_rotation: Math.floor(Math.random() * 100)/1000,
+                    y_speed: Math.floor(Math.random() * 10)/100 + 0.01
+                })
             }, undefined, function ( error ) {
             
                 console.error( error );
@@ -104,7 +113,7 @@ function dices_background() {
 
         camera.position.z = 5;
 
-        var animate = function () {
+        const animate = function () {
             
             const time_act:number = +new Date();
 
@@ -116,18 +125,18 @@ function dices_background() {
 
                 for (let i = 0; i < amount_dices; i++) {
                     if(dices[i]){
-                        dices[i].rotation.x += dices[i].x_rotation ;
-                        dices[i].rotation.y += dices[i].y_rotation ;
-                        dices[i].position.y -= dices[i].y_speed ;
+                        dices[i].rotation.x += dicesAux[i].x_rotation ;
+                        dices[i].rotation.y += dicesAux[i].y_rotation ;
+                        dices[i].position.y -= dicesAux[i].y_speed ;
 
                         if(dices[i].position.y < -5){
                             dices[i].position.y = Math.floor(Math.random() * 10) + 15;
                             dices[i].position.x = Math.floor(Math.random() * 20)-10;
                             dices[i].position.z = Math.floor(Math.random() * 1);
 
-                            dices[i].x_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
-                            dices[i].y_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
-                            dices[i].y_speed = Math.floor(Math.random() * 10)/100 + 0.01;
+                            dicesAux[i].x_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
+                            dicesAux[i].y_rotation = Math.floor(Math.random() * 100)/1000 + 0.01; 
+                            dicesAux[i].y_speed = Math.floor(Math.random() * 10)/100 + 0.01;
 
                         }
 
@@ -151,6 +160,7 @@ function dices_background() {
 
 
     }, []);
+
     return (
       <div ref={refContainer}></div>
   

@@ -1,13 +1,13 @@
-function setCookie(cname: any, cvalue: any, exdays: any) {
+function setCookie(cname: string, cvalue: string, exdays: number) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  let expires = "expires="+d.toUTCString();
+  const expires:string = "expires="+d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";SameSite=Strict;" + expires + ";path=/";
 }
 
-function getCookie(cname: any) {
-  let name = cname + "=";
-  let ca = document.cookie.split(';');
+function getCookie(cname: string) {
+  const name:string = cname + "=";
+  const ca: string[] = document.cookie.split(';');
   for(let i = 0; i < ca.length; i++) {
     let c = ca[i];
     while (c.charAt(0) == ' ') {

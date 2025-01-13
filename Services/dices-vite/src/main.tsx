@@ -1,6 +1,6 @@
-import {createRoot} from 'react-dom/client'
-import {useState} from 'react';
-import './dices.tsx'
+import { useState }  from 'react';
+import {createRoot} from 'react-dom/client';;
+import './dices.tsx';
 import MyHTMLDiv from './components/MyHtml.tsx';
 import DicesBackground from './3jsComponents/dices-background.tsx';
 import {DisplayMenuNavContext} from './contextSrc/MyContext.tsx';
@@ -8,7 +8,8 @@ import {DisplayMenuNavContext} from './contextSrc/MyContext.tsx';
 import store from './app/store.ts';
 import { Provider } from 'react-redux';
 
-let container: any = null;
+//let container: any = null;
+let container: HTMLElement | null = null;
 
 const App = () => {
   
@@ -19,7 +20,7 @@ const App = () => {
   return (
       <Provider store={store}>
       <DisplayMenuNavContext.Provider value={{displayMenu , setDisplayMenu, displayMenuCloseButton, setDisplayMenuCloseButton, displayMenuOpenButton, setDisplayMenuOpenButton}}>
-          <div>
+          <div>   
               <canvas id='dices-background'>
               </canvas>
               <DicesBackground />
