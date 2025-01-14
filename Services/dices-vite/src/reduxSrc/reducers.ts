@@ -6,7 +6,16 @@ const initialState = {
   sharedVariable: null,
 };
 
-const sharedReducer = (state = initialState, action: any) => {
+// Define the action interface
+interface UpdateVariableAction {
+  type: typeof UPDATE_VARIABLE;
+  payload: string; // Adjust this type based on the payload structure (e.g., string, number, etc.)
+}
+
+// Define the possible action types
+type Action = UpdateVariableAction;
+
+const sharedReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case UPDATE_VARIABLE:
       return {
