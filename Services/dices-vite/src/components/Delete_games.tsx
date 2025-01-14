@@ -6,7 +6,7 @@ import * as Functions from '../dices.tsx';
 
 export default class Delete extends React.Component{
   
-	constructor(props: any) {
+	constructor(props: React.PropsWithChildren) {
 		super(props);
 
 		this.handleSubmitDelete = this.handleSubmitDelete.bind(this);
@@ -14,7 +14,7 @@ export default class Delete extends React.Component{
 	}
   
   
-	handleSubmitDelete(event: any) {
+	handleSubmitDelete(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		this.playerDelete();
 	}
@@ -22,10 +22,10 @@ export default class Delete extends React.Component{
 	async playerDeleteApiCall(){
 			
 		//ToDo - Version 1 - Improve Cookies For API HTTP ONLY Cookie Setting
-		var token = Functions.getCookie('token');
-		var user_id = Functions.getCookie('userid');
-		var registerPlayerURI:string = '/api/players/' + user_id + '/games';
-		var deletePlayerEndPoint:string = Constants.dices_URL + registerPlayerURI;
+		const token = Functions.getCookie('token');
+		const user_id = Functions.getCookie('userid');
+		const registerPlayerURI:string = '/api/players/' + user_id + '/games';
+		const deletePlayerEndPoint:string = Constants.dices_URL + registerPlayerURI;
 		
 		const response = await fetch( deletePlayerEndPoint, {
 			method: 'DELETE',

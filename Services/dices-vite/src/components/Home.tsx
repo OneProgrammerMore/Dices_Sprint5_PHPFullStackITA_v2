@@ -5,18 +5,11 @@ import * as Functions from '../dices.tsx';
 
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
-interface IProps {
-	props?: any;
-}
-
-interface IState {
-
-}
 
 
-export default class Home extends React.Component<IProps, IState>{
+export default class Home extends React.Component{
 	
-	constructor(props: any) {
+	constructor(props: React.PropsWithChildren) {
 		super(props);
 
 	}
@@ -30,8 +23,8 @@ export default class Home extends React.Component<IProps, IState>{
 	
 	
 	render(){
-		var messageL1 = '';
-		var messageL2 = '';
+		let messageL1:string = '';
+		let messageL2:string = '';
 		switch(this.context.userTypeSwitch){
 			case 'Player':
 				messageL1 = 'You are logged as player!';

@@ -1,5 +1,5 @@
 import '../styles.css'
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
@@ -7,20 +7,39 @@ import {Commet} from 'react-loading-indicators';
 
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
+interface Player {
+    id: string;
+    name: string;
+    tries: number;
+    wins: number;
+    wins_perc: number;
+}
+
+interface JsonDataPlayers {
+    [key: string]: {
+        user_id: string;
+        user_name: string;
+        user_tries: number;
+        user_wins: number;
+        wins_perc: number;
+    };
+}
+type DataItemsState = ReactElement[][];
+
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 
 interface IState {
-  jsonData?: any[];
-  dataItems?: any[];
+  jsonData?: string[];
+  dataItems?: DataItemsState;
   dataFetched: boolean;
   dataExists: boolean;
 }
 
 export default class Loser extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.state = {
@@ -40,10 +59,10 @@ export default class Loser extends React.Component<IProps, IState>{
 	
 	async loserApiCall(){
 			
-		var token = Functions.getCookie('token');
+		const token = Functions.getCookie('token');
 
-		var loserURI:string = '/api/players/ranking/loser';
-		var loserEndPoint:string = Constants.dices_URL + loserURI;
+		const loserURI:string = '/api/players/ranking/loser';
+		const loserEndPoint:string = Constants.dices_URL + loserURI;
 		
 		const response = await fetch( loserEndPoint, {
 			method: 'GET',
@@ -63,8 +82,8 @@ export default class Loser extends React.Component<IProps, IState>{
 		if(response.ok){
 
 			response.json().then(
-				(jsonDataPlayers:any) => {
-					var arr: any [] = [];
+				(jsonDataPlayers:JsonDataPlayers) => {
+					const arr: Player[] = [];
 					Object.keys(jsonDataPlayers).forEach(key => arr.push({
 						id: jsonDataPlayers[key]['user_id'], 
 						name: jsonDataPlayers[key]['user_name'],

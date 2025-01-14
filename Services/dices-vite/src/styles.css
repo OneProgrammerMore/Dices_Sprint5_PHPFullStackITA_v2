@@ -321,7 +321,7 @@ main{
 	cursor: pointer;
 }
 
-.buttonLoginSelector:hover{
+.buttonLoginSelector:hover, .submitBttn:hover{
 	border-color: red;
 	font: red;
 }

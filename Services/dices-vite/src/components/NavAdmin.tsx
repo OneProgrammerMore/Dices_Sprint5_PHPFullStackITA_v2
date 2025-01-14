@@ -5,19 +5,19 @@ import {MyContext, MyContextType, DisplayMenuNavContextInterface} from '../conte
 import NavIcon from './NavIcon.tsx';
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 	displayMenuContext: DisplayMenuNavContextInterface;
 }
 interface IState {
-  jsonData?: any[];
-  dataItems?: any[];
+  jsonData?: string[];
+  dataItems?: string[];
 }
 
 //import {ShowListPlayers, ShowRanking, ShowLoser, ShowWinner} from '../main.tsx';
 
 export default class NavEmpty extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);	
 	}
 	

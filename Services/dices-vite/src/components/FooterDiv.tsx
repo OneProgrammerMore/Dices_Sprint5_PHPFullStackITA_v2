@@ -2,17 +2,9 @@ import '../styles.css'
 import React from 'react';
 
 
-interface IProps {
-	props?: any;
-}
-interface IState {
-  jsonData?: any[];
-  dataItems?: any[];
-}
-
-export default class FooterDiv extends React.Component<IProps, IState>{
+export default class FooterDiv extends React.Component{
   
-	constructor(props: any) {
+	constructor(props: React.PropsWithChildren) {
 		super(props);	
 	}
 	

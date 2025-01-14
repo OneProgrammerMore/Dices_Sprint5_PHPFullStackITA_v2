@@ -6,34 +6,38 @@ import * as Functions from '../dices.tsx';
 
 import * as Yup from 'yup';
 
+type FieldError = string[];
+type YupError = {
+	[key: string]: FieldError;
+  };
+  
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 
 interface IState {
-	jsonData?: any[];
-	dataItems?: any[];
-	error: any;
+	jsonData?: string[];
+	dataItems?: string[];
+	error: YupError;
 }
 export default class ModifyName extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.handleSubmitModifyName = this.handleSubmitModifyName.bind(this);
 		this.modifyName = this.modifyName.bind(this);
 
 		this.state = {
-			error: []
+			error: {}
 		};
 
 	}
   
  
-	handleSubmitModifyName(event: any) {
+	handleSubmitModifyName(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		//this.modifyName(event);
 		this.handleFormModifyName(event)
 	}
 
@@ -41,15 +45,17 @@ export default class ModifyName extends React.Component<IProps, IState>{
 			password: Yup.string().min(4, "Password must be at least 4 characters long").required("Password is required")
 	});
 
-	async modifyNameApiCall(event: any){
+	async modifyNameApiCall(event: React.FormEvent<HTMLFormElement>){
 
-		var token = Functions.getCookie('token');
-		var user_id = Functions.getCookie('userid');
-		var modifyNameURI:string = '/api/players/' + user_id ;
-		var modifyNameEndPoint:string = Constants.dices_URL + modifyNameURI;
+		const token = Functions.getCookie('token');
+		const user_id = Functions.getCookie('userid');
+		const modifyNameURI:string = '/api/players/' + user_id ;
+		const modifyNameEndPoint:string = Constants.dices_URL + modifyNameURI;
 		
-		var name:string = event.target.name.value;
-		var password:string = event.target.password.value;
+		const form = event.target as HTMLFormElement;
+
+		const name: string = (form.elements.namedItem('name') as HTMLInputElement).value;
+		const password: string = (form.elements.namedItem('password') as HTMLInputElement).value;
 		
 		const response = await fetch( modifyNameEndPoint, {
 			method: 'PUT',
@@ -67,14 +73,14 @@ export default class ModifyName extends React.Component<IProps, IState>{
 		return response;
 	}
 	
-	handleFormModifyName = async(e:any) => {
-		e.preventDefault()
-		let form = e.target;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		let validForm = await this.userSchema.isValid(formObj);
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+	handleFormModifyName = async(e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+		const formObj = Object.fromEntries(formData.entries());
+		const validForm = await this.userSchema.isValid(formObj);
+		const errorsInfo: YupError = {};
+		let arrayAux:string[] = [];
 
 		try{
 			if(validForm) {
@@ -83,8 +89,8 @@ export default class ModifyName extends React.Component<IProps, IState>{
 				});
 				this.modifyName(e);
 			}else{
-				let validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -101,7 +107,7 @@ export default class ModifyName extends React.Component<IProps, IState>{
 			}
 		}catch(err:any) {
 			
-			err.inner.forEach((error: any, i:number) => {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -127,11 +133,12 @@ export default class ModifyName extends React.Component<IProps, IState>{
 		});
 	}
 
-	async modifyName(event: any){
+	async modifyName(event: React.FormEvent<HTMLFormElement>){
 
 		const response = await this.modifyNameApiCall(event);
 		if(response.ok){
-			Functions.setCookie('userName', event.target.name.value , 90);
+			const form = event.target as HTMLFormElement;
+			Functions.setCookie('userName', (form.elements.namedItem('name') as HTMLInputElement).value , 90);
 			this.clearForm();
 			alert("Your name has been correclty modified");
 		}else{

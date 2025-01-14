@@ -8,6 +8,11 @@ import type { RootState } from '..//app/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { increment } from '../features/counter/counterSlice';
 
+type Orientation = {
+    x: number;
+    y: number;
+    z: number;
+}
 
 interface DicesProps {
     dice_1:number;
@@ -16,9 +21,9 @@ interface DicesProps {
 }
 
 
-var firstDisplay:boolean = true;
-var dice_1_final_orientation:any = {};
-var dice_2_final_orientation:any = {};
+let firstDisplay:boolean = true;
+let dice_1_final_orientation:Orientation = {} as Orientation;
+let dice_2_final_orientation:Orientation = {} as Orientation;
 
 dice_1_final_orientation.x = 0.0;
 dice_1_final_orientation.y = 0.0;
@@ -28,45 +33,44 @@ dice_2_final_orientation.x = 0.0;
 dice_2_final_orientation.y = 0.0;
 dice_2_final_orientation.z = 0.0;
 
-var times_called:number = 0;
+let times_called:number = 0;
 
-var lightCenter: THREE.DirectionalLight;
-var lightLeft: THREE.DirectionalLight;
-var lightRight: THREE.DirectionalLight;
-var lightUp: THREE.DirectionalLight;
-var lightDown: THREE.DirectionalLight;
-var lightFaces: THREE.DirectionalLight;
+let lightCenter: THREE.DirectionalLight;
+let lightLeft: THREE.DirectionalLight;
+let lightRight: THREE.DirectionalLight;
+let lightUp: THREE.DirectionalLight;
+let lightDown: THREE.DirectionalLight;
+let lightFaces: THREE.DirectionalLight;
 
-var textMaterial: THREE.Material; 
+let textMaterial: THREE.Material; 
 
-var wonTextGeometry: THREE.BufferGeometry;
-var lostTextGeometry: THREE.BufferGeometry;
+let wonTextGeometry: THREE.BufferGeometry;
+let lostTextGeometry: THREE.BufferGeometry;
 
-var textMesh:THREE.Mesh;
-var textMeshLost:THREE.Mesh;
+let textMesh:THREE.Mesh;
+let textMeshLost:THREE.Mesh;
 const scene = new THREE.Scene();
 
-var canvasRef:HTMLElement; 
-var renderer : THREE.WebGLRenderer;
-var height = 200;
-var width = 250;
+let canvasRef:HTMLElement; 
+let renderer : THREE.WebGLRenderer;
+const height = 200;
+const width = 250;
 
-var dice_1:any;
-var dice_2:any;
+let dice_1:THREE.Object3D;
+let dice_2:THREE.Object3D;
 
 const camera = new THREE.PerspectiveCamera( 120, width / height , 3, 7);
-var refContainer:any;
 
 
 const dices = (dices_goal:DicesProps) => {
     
     const [_dices_playing_bool, setPlayingBool] = useState(dices_goal.playing_bool);
     
-    var [firstDisplayVar, _setFirstDisplay] = useState(firstDisplay);
-    var [dice_1_final_orientationVar, _set_dice_1_final_orientation] = useState(dice_1_final_orientation);
-    var [dice_2_final_orientationVar, _set_dice_2_final_orientation] = useState(dice_2_final_orientation);
+    let [firstDisplayVar, _setFirstDisplay] = useState(firstDisplay);
+    let [dice_1_final_orientationVar, _set_dice_1_final_orientation] = useState(dice_1_final_orientation);
+    let [dice_2_final_orientationVar, _set_dice_2_final_orientation] = useState(dice_2_final_orientation);
 
-    refContainer = useRef(null);
+    const refContainer = useRef<HTMLDivElement | null>(null);
     
     const zoom:number = 4;
 
@@ -111,10 +115,10 @@ const dices = (dices_goal:DicesProps) => {
         const opacity_end:number = 1;
         const opacity_start:number = 0;
         const opacity_change_frames = 30;
-        var frame_n:number = 0;
+        let frame_n:number = 0;
 
         const loadDices = () => {
-            return new Promise((resolve, _reject) => {
+            return new Promise((resolve) => {
                 init();
                 resolve(true);
             });
@@ -317,7 +321,7 @@ const dices = (dices_goal:DicesProps) => {
                 lostTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
 
                 //Create the text mesh and add it to the scene
-                var textMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, transparent: true, opacity: 0});
+                const textMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, transparent: true, opacity: 0});
                 textMeshLost = new THREE.Mesh(lostTextGeometry, textMaterial);
 
                 //Set the y-position to -2
@@ -354,25 +358,25 @@ const dices = (dices_goal:DicesProps) => {
         }
         loadScene();
         
-        var dice_1_result = dices_goal.dice_1;
-        var dice_2_result = dices_goal.dice_2;
+        const dice_1_result = dices_goal.dice_1;
+        const dice_2_result = dices_goal.dice_2;
 
-        var start_dice_1 = 1;
-        var start_dice_2 = 1;
-        var start_end_animation = 0;
-        var end_dice_1 = 0;
-        var end_dice_2 = 0;
-        var starting_orientation_dice_1:any; 
-        var starting_orientation_dice_2:any;
-        var goal_orientation_dice_1:any  = [];
-        var goal_orientation_dice_2:any  = [];
-        var starting_rotation_speed_dice_1:any  = [];
-        var starting_rotation_speed_dice_2:any  = [];
-        var acceleration_dice_1:any  = [];
-        var acceleration_dice_2:any   = [];
-        var n_dice_1 = 0;
-        var n_dice_2 = 0;
-        var steps = 45.0;
+        let start_dice_1 = 1;
+        let start_dice_2 = 1;
+        let start_end_animation = 0;
+        let end_dice_1 = 0;
+        let end_dice_2 = 0;
+        let starting_orientation_dice_1:Orientation  = {} as Orientation; 
+        let starting_orientation_dice_2:Orientation  = {} as Orientation;
+        let goal_orientation_dice_1:Orientation  = {} as Orientation;
+        let goal_orientation_dice_2:Orientation  = {} as Orientation;
+        const starting_rotation_speed_dice_1:Orientation  = {} as Orientation;
+        const starting_rotation_speed_dice_2:Orientation  = {} as Orientation;
+        const acceleration_dice_1:Orientation  = {} as Orientation;
+        const acceleration_dice_2:Orientation  = {} as Orientation;
+        let n_dice_1 = 0;
+        let n_dice_2 = 0;
+        const steps = 45.0;
 
         if(firstDisplayVar && displayed == 0){
             loadDices();
@@ -382,7 +386,7 @@ const dices = (dices_goal:DicesProps) => {
         }
 
         function dice_orientation(face_value:number){
-            var goal_orientation:any = [];
+            const goal_orientation = {} as Orientation;
             switch(face_value){
                 case 1:
                     goal_orientation.x = 2*Math.PI/4 * 3;
@@ -420,7 +424,7 @@ const dices = (dices_goal:DicesProps) => {
         }
         
 
-        var animate = function () {
+        const animate = function () {
             if(firstDisplayVar == false){
                 requestAnimationFrame( animate );
             }

@@ -7,19 +7,19 @@ import {MyContext, MyContextType, DisplayMenuNavContextInterface} from '../conte
 import NavIcon from './NavIcon.tsx';
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 	displayMenuContext: DisplayMenuNavContextInterface;
 }
 
 interface IState {
-  jsonData?: any[];
-  dataItems?: any[];
+  jsonData?: string[];
+  dataItems?: string[];
 }
 
 
 export default class NavPlayer extends React.Component<IProps, IState>{
 
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);	
 	}
 	

@@ -10,20 +10,26 @@ import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 
+type FieldError = string[];
+
+type LoginError = {
+  [key: string]: FieldError;
+};
+
 interface IState {
-  jsonData?: any[];
-  dataItems?: any[];
-  error: any;
-  registerPlayerError: any;
-  registerAdminError: any;
+  jsonData?: string[];
+  dataItems?: string[];
+  error: LoginError;
+  registerPlayerError: LoginError;
+  registerAdminError: LoginError;
 }
 
 export default class Login extends React.Component<IProps, IState>{
 	
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.handleSubmitRegisterPlayer = this.handleSubmitRegisterPlayer.bind(this);
@@ -49,9 +55,9 @@ export default class Login extends React.Component<IProps, IState>{
 		this.state = {
 			jsonData: [],
 			dataItems: [],
-			error: [],
-			registerPlayerError: [],
-			registerAdminError: []
+			error: {},
+			registerPlayerError: {},
+			registerAdminError: {}
 		};
 
 	}
@@ -65,22 +71,22 @@ export default class Login extends React.Component<IProps, IState>{
 		password: Yup.string().min(4, "Password must be at least 4 characters long").required("Password is required")
 	});
 
-	handleFormLogin = async(e:any) => {
+	handleFormLogin = async(e:React.FormEvent<HTMLFormElement>) => {
 		this.submittedLogin = true;
 		e.preventDefault()
-		let form = e.target;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+		const formObj = Object.fromEntries(formData.entries());
+		const errorsInfo: LoginError = {};
+		let arrayAux:string[] = [];
 
 		try {
-			let validForm = await this.userSchema.isValid(formObj)
+			const validForm = await this.userSchema.isValid(formObj)
 			if(validForm) {
 				this.handleSubmitLogin(e);
 			}else{
-				let validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -97,9 +103,8 @@ export default class Login extends React.Component<IProps, IState>{
 			}
 
 		}
-		catch(err:any) {
-			
-			err.inner.forEach((error: any, i:number) => {
+		catch(err: any) {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -114,25 +119,26 @@ export default class Login extends React.Component<IProps, IState>{
 				error: errorsInfo
 			});
 		}
+		
 	}
 
 	validateLogin = async() => {
 		if(this.submittedLogin == false) return;
 		const form: HTMLFormElement =  document.getElementById("login_form") as HTMLFormElement;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+		const formData = new FormData(form)
+		const formObj = Object.fromEntries(formData.entries())
+		const errorsInfo: LoginError = {};
+		let arrayAux:string[] = [];
 
 		try {
-			let validForm = await this.userSchema.isValid(formObj)
+			const validForm = await this.userSchema.isValid(formObj)
 			if(validForm) {
 				this.setState({
 					error: {}
 				});
 			}else{
-				let validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError = await this.userSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -151,7 +157,7 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 		catch(err:any) {
 			
-			err.inner.forEach((error: any, i:number) => {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -171,20 +177,20 @@ export default class Login extends React.Component<IProps, IState>{
 	validateRegisterPlayer = async() => {
 		if(this.submittedRegisterPlayer == false) return;
 		const form: HTMLFormElement =  document.getElementById("register_player_form") as HTMLFormElement;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+		const formData = new FormData(form)
+		const formObj = Object.fromEntries(formData.entries())
+		const errorsInfo: LoginError = {};
+		let arrayAux:string[] = [];
 
 		try {
-			let validForm = await this.registerSchema.isValid(formObj)
+			const validForm = await this.registerSchema.isValid(formObj)
 			if(validForm) {
 				this.setState({
 					error: {}
 				});
 			}else{
-				let validationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -202,7 +208,7 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 		catch(err:any) {
 			
-			err.inner.forEach((error: any, i:number) => {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -222,20 +228,20 @@ export default class Login extends React.Component<IProps, IState>{
 	validateRegisterAdmin = async() => {
 		if(this.submittedRegisterAdmin == false) return;
 		const form: HTMLFormElement =  document.getElementById("register_admin_form") as HTMLFormElement;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+		const formData = new FormData(form)
+		const formObj = Object.fromEntries(formData.entries())
+		const errorsInfo: LoginError = {};
+		let arrayAux:string[] = [];
 
 		try {
-			let validForm = await this.registerSchema.isValid(formObj)
+			const validForm = await this.registerSchema.isValid(formObj)
 			if(validForm) {
 				this.setState({
 					error: {}
 				});
 			}else{
-				let validationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -254,7 +260,7 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 		catch(err:any) {
 			
-			err.inner.forEach((error: any, i:number) => {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -280,22 +286,22 @@ export default class Login extends React.Component<IProps, IState>{
 		  })
 	});
 
-	handlePlayerRegister = async(e:any) => {
+	handlePlayerRegister = async(e:React.FormEvent<HTMLFormElement>) => {
 		this.submittedRegisterPlayer = true;
-		e.preventDefault()
-		let form = e.target;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+		e.preventDefault();
+		const form = e.target as HTMLFormElement ;
+		const formData = new FormData(form);
+		const formObj = Object.fromEntries(formData.entries());
+		const errorsInfo: LoginError = {};
+		let arrayAux:string[] = [];
 
 		try {
-			let validForm = await this.registerSchema.isValid(formObj)
+			const validForm = await this.registerSchema.isValid(formObj)
 			if(validForm) {
 				this.handleSubmitRegisterPlayer(e);
 			}else{
-				let validationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError: Yup.ValidationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -313,7 +319,7 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 		catch(err:any) {
 			
-			err.inner.forEach((error: any, i:number) => {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -330,22 +336,22 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 	}
 
-	handleAdminRegister = async(e:any) => {
+	handleAdminRegister = async(e:React.FormEvent<HTMLFormElement>) => {
 		this.submittedRegisterAdmin = true;
-		e.preventDefault()
-		let form = e.target;
-		let formData = new FormData(form)
-		let formObj = Object.fromEntries(formData.entries())
-		var errorsInfo: any = {};
-		var arrayAux:string[] = [];
+		e.preventDefault();
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+		const formObj = Object.fromEntries(formData.entries());
+		const errorsInfo: LoginError = {};
+		let arrayAux:string[] = [];
 
 		try {
-			let validForm = await this.registerSchema.isValid(formObj)
+			const validForm = await this.registerSchema.isValid(formObj)
 			if(validForm) {
 				this.handleSubmitRegisterAdmin(e);
 			}else{
-				let validationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
-				validationError.inner.forEach((error: any, i:number) => {
+				const validationError: Yup.ValidationError = await this.registerSchema.validate(formObj, { strict:true, abortEarly: false });
+				validationError.inner.forEach((error: Yup.ValidationError, i:number) => {
 					if (error.path !== undefined) {
 						if(Array.isArray(errorsInfo[error.path]) == false){
 							arrayAux = [];
@@ -363,7 +369,7 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 		catch(err:any) {
 			
-			err.inner.forEach((error: any, i:number) => {
+			err.inner.forEach((error: Yup.ValidationError, i:number) => {
 				if (error.path !== undefined) {
 					if(Array.isArray(errorsInfo[error.path]) == false){
 						arrayAux = [];
@@ -389,7 +395,7 @@ export default class Login extends React.Component<IProps, IState>{
 	changeNavSection = (newType: string) => {
 		this.context.updateValueMain(newType);
 	}
-	handleSubmitRegisterPlayer(event: any) {
+	handleSubmitRegisterPlayer(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		this.registerPlayer(event);
 	}
@@ -420,16 +426,18 @@ export default class Login extends React.Component<IProps, IState>{
 	}
 
 	
-	async registerPlayerApiCall(event: any){
+	async registerPlayerApiCall(event: React.FormEvent<HTMLFormElement>){
 		
-		var registerPlayerURI:string = '/api/register';
-		var registerPlayerEndPoint:string = Constants.dices_URL + registerPlayerURI;
+		const registerPlayerURI:string = '/api/register';
+		const registerPlayerEndPoint:string = Constants.dices_URL + registerPlayerURI;
 		
-		var name:string = event.target.name.value;
-		var email:string = event.target.email.value;
-		var password:string = event.target.password.value;
-		var password_confirmation:string = event.target.password_confirmation.value;
-		
+		const form = event.target as HTMLFormElement;
+
+		const name: string = (form.elements.namedItem('name') as HTMLInputElement).value;
+		const email: string = (form.elements.namedItem('email') as HTMLInputElement).value;
+		const password: string = (form.elements.namedItem('password') as HTMLInputElement).value;
+		const password_confirmation: string = (form.elements.namedItem('password_confirmation') as HTMLInputElement).value;
+
 		const response = await fetch( registerPlayerEndPoint, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -447,15 +455,15 @@ export default class Login extends React.Component<IProps, IState>{
 	}
 	
 	
-	async registerPlayer(event: any){
+	async registerPlayer(event: React.FormEvent<HTMLFormElement>){
 	
 		
-		let response  = await this.registerPlayerApiCall(event);
+		const response  = await this.registerPlayerApiCall(event);
 		if(response.ok){
 
 
 			const result = await response.json();
-			var jsonResponseBody = result;
+			const jsonResponseBody = result;
 
 			Functions.setCookie('token', jsonResponseBody['jwtoken'], 90); 
 			Functions.setCookie('userid', jsonResponseBody['user_id'], 90); 
@@ -471,22 +479,23 @@ export default class Login extends React.Component<IProps, IState>{
 	}
   
   
-	handleSubmitRegisterAdmin(event: any) {
+	handleSubmitRegisterAdmin(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		this.registerAdmin(event);
 	}
 	
-	async registerAdminApiCall(event: any){
+	async registerAdminApiCall(event: React.FormEvent<HTMLFormElement>){
 
-		var registerAdminURI:string = '/api/registeradmin';
-		var registerAdminEndPoint:string = Constants.dices_URL + registerAdminURI;
+		const registerAdminURI:string = '/api/registeradmin';
+		const registerAdminEndPoint:string = Constants.dices_URL + registerAdminURI;
 
-		var name:string = event.target.name.value;
-		var email:string = event.target.email.value;
-		var password:string = event.target.password.value;
-		var password_confirmation:string = event.target.password_confirmation.value;
+		const form = event.target as HTMLFormElement;
 
-		
+		const name: string = (form.elements.namedItem('name') as HTMLInputElement).value;
+		const email: string = (form.elements.namedItem('email') as HTMLInputElement).value;
+		const password: string = (form.elements.namedItem('password') as HTMLInputElement).value;
+		const password_confirmation: string = (form.elements.namedItem('password_confirmation') as HTMLInputElement).value;
+
 		const response = await fetch( registerAdminEndPoint, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -504,12 +513,12 @@ export default class Login extends React.Component<IProps, IState>{
 		return response;	
 	}
 	
-	printValidationErrorsByKey(errors:any){
+	printValidationErrorsByKey(errors:Yup.ValidationError){
 		
-		var output = document.createDocumentFragment();
+		const output = document.createDocumentFragment();
 		if(Array.isArray(errors)){
 			errors.forEach((element:string) => {
-				var e = document.createElement('div');
+				const e = document.createElement('div');
 				e.innerHTML = element;
 				output.appendChild(e);
 			}
@@ -520,13 +529,13 @@ export default class Login extends React.Component<IProps, IState>{
 	}
 	
   
-	async registerAdmin(event: any){
+	async registerAdmin(event: React.FormEvent<HTMLFormElement>){
 	
-		let response =  await this.registerAdminApiCall(event);
+		const response =  await this.registerAdminApiCall(event);
 		
 		if(response.ok){
 			const result = await response.json();
-			var jsonResponseBody = result;
+			const jsonResponseBody = result;
 			
 			Functions.setCookie('token', jsonResponseBody['jwtoken'], 90); 
 			Functions.setCookie('userid', jsonResponseBody['user_id'], 90); 
@@ -540,18 +549,20 @@ export default class Login extends React.Component<IProps, IState>{
 		}
 	}
 	
-	handleSubmitLogin(event: any) {
+	handleSubmitLogin(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		this.login(event);
 	}
 	
-	async loginApiCall(event: any){
+	async loginApiCall(event: React.FormEvent<HTMLFormElement>){
 			
-		var loginURI:string = '/api/login';
-		var loginEndPoint:string = Constants.dices_URL + loginURI;
-		
-		var email:string = event.target.email.value;
-		var password:string = event.target.password.value;
+		const loginURI:string = '/api/login';
+		const loginEndPoint:string = Constants.dices_URL + loginURI;
+
+		const form = event.target as HTMLFormElement;
+    	const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+    	const password = (form.elements.namedItem('password') as HTMLInputElement).value;
+
 
 		const response = await fetch( loginEndPoint, {
 			method: 'POST',
@@ -565,15 +576,13 @@ export default class Login extends React.Component<IProps, IState>{
 			
 		});
 		
-		return response;
-		
-		
+		return response;	
 	}
 	
 	async queryOnlyAdmin(){
-		var token = Functions.getCookie('token');
-		var listPlayersURI:string = '/api/players';
-		var listPlayersEndPoint:string = Constants.dices_URL + listPlayersURI;
+		const token = Functions.getCookie('token');
+		const listPlayersURI:string = '/api/players';
+		const listPlayersEndPoint:string = Constants.dices_URL + listPlayersURI;
 		
 		const response = await fetch( listPlayersEndPoint, {
 			method: 'GET',
@@ -587,12 +596,12 @@ export default class Login extends React.Component<IProps, IState>{
 	}
 
 	async queryPlayerAndAdmin(){
-		var token = Functions.getCookie('token');
-		var playerid = Functions.getCookie('userid');
+		const token = Functions.getCookie('token');
+		const playerid = Functions.getCookie('userid');
 
-		var playerIDCookie = playerid;
-		var playerURI:string = '/api/players/'+playerIDCookie+'/games';
-		var playerEndPoint:string = Constants.dices_URL + playerURI;
+		const playerIDCookie = playerid;
+		const playerURI:string = '/api/players/'+playerIDCookie+'/games';
+		const playerEndPoint:string = Constants.dices_URL + playerURI;
 		
 		const response = await fetch( playerEndPoint, {
 			method: 'GET',
@@ -605,8 +614,8 @@ export default class Login extends React.Component<IProps, IState>{
 	}
 	
 	async getRolesWorkAround(){
-		let response = await this.queryOnlyAdmin();
-		var role = null;
+		const response = await this.queryOnlyAdmin();
+		let role = null;
 		if(response.ok){
 			role = 'Admin';
 		}else{
@@ -628,9 +637,9 @@ export default class Login extends React.Component<IProps, IState>{
 	}
 	
 	
-	async login(event: any){
+	async login(event: React.FormEvent<HTMLFormElement>){
 
-		let response = await this.loginApiCall(event);
+		const response = await this.loginApiCall(event);
 		
 		if(response.ok){
 			const jsonResponseBody = await response.json();
@@ -640,7 +649,7 @@ export default class Login extends React.Component<IProps, IState>{
 			Functions.setCookie('userName', jsonResponseBody['name'], 90); 
 			Functions.setCookie('userRole', jsonResponseBody['role'], 90); 
 			
-			let role = jsonResponseBody['role'];
+			const role = jsonResponseBody['role'];
 
 			switch(role){
 				case 'admin':
@@ -661,15 +670,15 @@ export default class Login extends React.Component<IProps, IState>{
 	//Check if user is already Logged In (Cookies Exists) and Set page:
 	async componentDidMount(){
 		//Check cookie token and userid
-		var userID = Functions.getCookie('userid');
-		var token = Functions.getCookie('token');
-		var role = Functions.getCookie('userRole');
+		const userID = Functions.getCookie('userid');
+		const token = Functions.getCookie('token');
+		const role = Functions.getCookie('userRole');
 		
 		if(userID != '' && token != ''){
 			if(role == 'admin'){
 				this.setAdmin();
 			}else if(role == 'player'){
-				var response = await this.queryPlayerAndAdmin();
+				const response = await this.queryPlayerAndAdmin();
 				if(response.ok){
 					this.setPlayer();
 				}

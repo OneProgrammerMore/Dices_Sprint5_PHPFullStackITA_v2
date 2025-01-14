@@ -8,7 +8,7 @@ const DicesPlay = lazy(() => import('../3jsComponents/dices.tsx'));
 import {Commet} from 'react-loading-indicators';
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 interface IState {
   dice_1?: string;
@@ -20,7 +20,7 @@ interface IState {
 
 export default class Play extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.handleSubmitPlay = this.handleSubmitPlay.bind(this);
@@ -36,7 +36,7 @@ export default class Play extends React.Component<IProps, IState>{
 
 	}
 	 
-	handleSubmitPlay(event: any) {
+	handleSubmitPlay(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		this.playerPlay();
 	}
@@ -81,10 +81,10 @@ export default class Play extends React.Component<IProps, IState>{
 	
 	async playerPlayApiCall(){
 
-		var token = Functions.getCookie('token');
-		var user_id = Functions.getCookie('userid');
-		var registerPlayerURI:string = '/api/players/' + user_id + '/games';
-		var registerPlayerEndPoint:string = Constants.dices_URL + registerPlayerURI;
+		const token = Functions.getCookie('token');
+		const user_id = Functions.getCookie('userid');
+		const registerPlayerURI:string = '/api/players/' + user_id + '/games';
+		const registerPlayerEndPoint:string = Constants.dices_URL + registerPlayerURI;
 		
 		const response = await fetch( registerPlayerEndPoint, {
 			method: 'POST',
@@ -105,7 +105,7 @@ export default class Play extends React.Component<IProps, IState>{
 		
 		if(response.ok){
 			const result = await response.json();
-			var throwResultStr = '';
+			let throwResultStr = '';
 			if(result['dices_sum'] == 7){
 				throwResultStr = "Congratulations!!!! You got lucky!!!";
 			}else{
@@ -123,7 +123,7 @@ export default class Play extends React.Component<IProps, IState>{
 	}
 	
 	render(){
-		let dices = {
+		const dices = {
 			dice_1: Number(this.state.dice_1),
 			dice_2: Number(this.state.dice_2),
 			playing_bool: this.state.playing_bool!

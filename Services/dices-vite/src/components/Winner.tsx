@@ -1,5 +1,5 @@
 import '../styles.css'
-import React from 'react';
+import React, {ReactElement} from 'react';
 
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
@@ -7,19 +7,39 @@ import {Commet} from 'react-loading-indicators';
 
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
+interface Player {
+	id: string;
+	name: string;
+	tries: number;
+	wins: number;
+	wins_perc: number;
+}
+
+interface JsonDataPlayers {
+	[key: string]: {
+		user_id: string;
+		user_name: string;
+		user_tries: number;
+		user_wins: number;
+		wins_perc: number;
+	};
+}
+type DataItemsState = ReactElement[][];
+
+
 interface IProps {
-	props?: any;
+	props?:  React.PropsWithChildren;
 }
 interface IState {
-	jsonData?: any[];
-	dataItems?: any[];
+	jsonData?: string[];
+	dataItems?: DataItemsState;
 	dataFetched: boolean;
 	dataExists: boolean;
 }
 
 export default class Winner extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.state = {
@@ -37,13 +57,13 @@ export default class Winner extends React.Component<IProps, IState>{
 		this.context.updateValueMainAndUserID(userID, mainType);
 	}
 	
-	async winnerApiCall(){
+	async winnerApiCall(): Promise<Response> {
 
 		return new Promise((resolve) => {
-			var token = Functions.getCookie('token');
+			const token = Functions.getCookie('token');
 
-			var winnerURI:string = '/api/players/ranking/winner';
-			var winnerEndPoint:string = Constants.dices_URL + winnerURI;
+			const winnerURI:string = '/api/players/ranking/winner';
+			const winnerEndPoint:string = Constants.dices_URL + winnerURI;
 			
 			fetch( winnerEndPoint, {
 				method: 'GET',
@@ -52,7 +72,7 @@ export default class Winner extends React.Component<IProps, IState>{
 					'Authorization': 'Bearer ' + token,
 				}
 			}).then(
-				function(response){
+				function(response: Response){
 					resolve(response);
 				}
 			);
@@ -63,13 +83,13 @@ export default class Winner extends React.Component<IProps, IState>{
 
 	async componentDidMount(){
 	
-		const response:any = await this.winnerApiCall();
+		const response: Response = await this.winnerApiCall();
 		
 		if(response.ok){
 			
 			response.json().then(
-				(jsonDataPlayers:any) => {
-					var arr: any [] = [];
+				(jsonDataPlayers:JsonDataPlayers) => {
+					const arr: Player[] = [];
 					Object.keys(jsonDataPlayers).forEach(key => arr.push({
 						id: jsonDataPlayers[key]['user_id'], 
 						name: jsonDataPlayers[key]['user_name'],

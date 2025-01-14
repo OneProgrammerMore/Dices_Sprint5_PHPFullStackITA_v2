@@ -7,17 +7,12 @@ import * as Functions from '../dices.tsx';
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx';
 
 
-interface IState {
-	jsonData?: any[];
-	dataItems?: any[];
-}
-
-export class HeaderDiv extends React.Component<{}, IState>{
+export class HeaderDiv extends React.Component{
 	
 	static contextType = MyContext;
 	declare context: MyContextType;
 	
-	constructor(props: {}) {
+	constructor(props: React.PropsWithChildren) {
 		super(props);	
 	}
 

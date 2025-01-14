@@ -1,5 +1,5 @@
 import '../styles.css'
-import React from 'react';
+import React, {ReactElement} from 'react';
 
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
@@ -7,14 +7,37 @@ import {Commet} from 'react-loading-indicators';
 
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx';
 
+
+interface Game {
+	id: string;
+	player_id: string;
+	date: string;
+	dice_1: string;
+	dice_2: string;
+	dices_sum: string;
+}
+
+interface JsonDataPlayers {
+	[key: string]: {
+		id: string;
+		user_id: string;
+		created_at: string;
+		dice_1: string;
+		dice_2: string;
+		dices_sum: string;
+	};
+}
+type DataItemsState = ReactElement[][];
+
+
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 	player_id?: number;
 }
 
 interface IState {
-	jsonData?: any;
-	dataItems?: any;
+	jsonData?: string[];
+	dataItems?: DataItemsState;
 	player_id?: number | string;
 	dataFetched: boolean;
 	dataExists: boolean;
@@ -22,7 +45,7 @@ interface IState {
 
 export default class Player extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.state = {
@@ -43,11 +66,11 @@ export default class Player extends React.Component<IProps, IState>{
 	async playerApiCall(){
 	  
 		//ToDO - Version 1 - Cookieess!!! Bake some good cookies!!!
-		var token = Functions.getCookie('token');
+		const token = Functions.getCookie('token');
 		
-		var playerIDContext = this.context.playerID;
-		var playerURI:string = '/api/players/'+playerIDContext+'/games';
-		var playerEndPoint:string = Constants.dices_URL + playerURI;
+		const playerIDContext = this.context.playerID;
+		const playerURI:string = '/api/players/'+playerIDContext+'/games';
+		const playerEndPoint:string = Constants.dices_URL + playerURI;
 		
 		const response = await fetch( playerEndPoint, {
 			method: 'GET',
@@ -68,8 +91,8 @@ export default class Player extends React.Component<IProps, IState>{
 			const response = await this.playerApiCall();
 			if(response.ok){
 				response.json().then(
-					(jsonDataPlayers: any) => {
-						var arr: any [] = [];
+					(jsonDataPlayers: JsonDataPlayers) => {
+						const arr: Game[] = [];
 			
 						Object.keys(jsonDataPlayers).forEach(key => arr.push({
 							player_id: jsonDataPlayers[key]['user_id'], 
@@ -84,7 +107,7 @@ export default class Player extends React.Component<IProps, IState>{
 							dataItems: [
 								arr.map(
 								(game)=>{
-										var date = new Date(game.date);
+										const date = new Date(game.date);
 										return(
 											<tr key={game.id}>
 												<td>

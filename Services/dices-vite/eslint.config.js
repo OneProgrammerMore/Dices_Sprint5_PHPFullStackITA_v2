@@ -26,8 +26,8 @@ export default [
     },
     rules: {
       // ... any rules you want
-      'react/jsx-uses-react': 'off',
-      'react/jsx-uses-vars': 'warn',
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error',
       "react/react-in-jsx-scope": "off", // Disable the rule here
      },
     // ... others are omitted for brevity

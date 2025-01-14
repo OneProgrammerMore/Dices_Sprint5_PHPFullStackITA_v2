@@ -15,23 +15,23 @@ import Login from './Login.tsx';
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 interface IState {
-	jsonData?: any[];
-	dataItems?: any[];
+	jsonData?: string[];
+	dataItems?: string[];
 }
 
 
 export default class MainDiv extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);	
 	}
 
 	static contextType = MyContext;
 	declare context: MyContextType;
-	randomNumber:any = Math.random();
+	randomNumber:number = Math.random();
 
 	render(){
 		

@@ -1,5 +1,5 @@
 import '../styles.css'
-import React from 'react';
+import React, {ReactElement} from 'react';
 
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
@@ -7,20 +7,42 @@ import {Commet} from 'react-loading-indicators';
 
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
+
+interface Player {
+	id: string;
+	name: string;
+	tries: string;
+	wins: string;
+	wins_perc: number;
+}
+
+interface JsonDataPlayers {
+	[key: string]: {
+		user_id: string;
+		user_name: string;
+		user_tries: string;
+		user_wins: string;
+		wins_perc: number;
+	};
+}
+
+type DataItemsState = ReactElement[][];
+
+
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 
 interface IState {
-	jsonData?: any[];
-	dataItems?: any[];
+	jsonData?: string[];
+	dataItems?: DataItemsState;
 	dataFetched: boolean;
 	dataExists: boolean;
 }
 
 export default class Ranking extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 
 		this.state = {
@@ -40,10 +62,10 @@ export default class Ranking extends React.Component<IProps, IState>{
 	
 	async rankingApiCall(){
 
-		var token = Functions.getCookie('token');
+		const token = Functions.getCookie('token');
 
-		var rankingURI:string = '/api/players/ranking';
-		var rankingEndPoint:string = Constants.dices_URL + rankingURI;
+		const rankingURI:string = '/api/players/ranking';
+		const rankingEndPoint:string = Constants.dices_URL + rankingURI;
 		
 		const response = await fetch( rankingEndPoint, {
 			method: 'GET',
@@ -67,8 +89,8 @@ export default class Ranking extends React.Component<IProps, IState>{
 		if(response.ok){
 			
 			response.json().then(
-				(jsonDataPlayers) => {
-					var arr: any [] = [];
+				(jsonDataPlayers: JsonDataPlayers) => {
+					const arr: Player [] = [];
 					Object.keys(jsonDataPlayers).forEach(key => arr.push({
 						id: jsonDataPlayers[key]['user_id'], 
 						name: jsonDataPlayers[key]['user_name'],

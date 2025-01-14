@@ -9,17 +9,17 @@ import NavAdmin from './NavAdmin.tsx';
 import {MyContext, MyContextType, DisplayMenuNavContext} from '../contextSrc/MyContext.tsx';
 
 interface IProps {
-	props?: any;
+	props?: React.PropsWithChildren;
 }
 
 interface IState {
-	jsonData?: any[];
-	dataItems?: any[];
+	jsonData?: string[];
+	dataItems?: string[];
 }
 
 export default class NavigatorDiv extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);	
 	}
 	

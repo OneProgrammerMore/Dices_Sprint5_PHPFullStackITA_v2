@@ -1,5 +1,5 @@
 import '../styles.css'
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
@@ -8,22 +8,38 @@ import {Commet} from 'react-loading-indicators';
 import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
 
 interface IProps {
-		props?: any;
+	props?: React.PropsWithChildren;
 }
 
 interface IState {
-  jsonData?: any[];
-  dataItems?: any[];
-  data: any,
-  error: any,
+  jsonData?: string[];
+  dataItems?: ReactNode;
+  data: string | null,
+  error: string | null,
   loading: boolean,
   dataFetched: boolean;
   dataExists: boolean;
 }
 
+type PlayerData = {
+	user_name: string;
+	user_tries: number;
+	user_wins: number;
+	wins_perc: number;
+};
+
+type PlayerIDData = {
+	id: string;
+	name: string;
+	tries: number;
+	wins: number;
+	wins_perc: number;
+};
+type JsonDataPlayers = Record<string, PlayerData>;
+
 export default class ListUsers extends React.Component<IProps, IState>{
   
-	constructor(props: any) {
+	constructor(props: IProps) {
 		super(props);
 		this.state = {
 			jsonData: [],
@@ -56,10 +72,10 @@ export default class ListUsers extends React.Component<IProps, IState>{
 		return new Promise((resolve) => {
 			
 			console.log("Status One");
-			var token = Functions.getCookie('token');
-			var listPlayersURI:string = '/api/players';
-			var listPlayersEndPoint:string = Constants.dices_URL + listPlayersURI;
-			var data;
+			const token = Functions.getCookie('token');
+			const listPlayersURI:string = '/api/players';
+			const listPlayersEndPoint:string = Constants.dices_URL + listPlayersURI;
+			let data;
 
 			fetch( listPlayersEndPoint, {
 				method: 'GET',
@@ -96,10 +112,10 @@ export default class ListUsers extends React.Component<IProps, IState>{
 
 	async componentDidMount(){
 	
-		var jsonDataPlayers:any = await this.listPlayersApiCall();
+		const jsonDataPlayers: JsonDataPlayers = await this.listPlayersApiCall() as JsonDataPlayers;
 		console.log(jsonDataPlayers);
 
-		var arr: any [] = [];
+		const arr: PlayerIDData [] = [];
 		
 		Object.keys(jsonDataPlayers).forEach(key => arr.push({
 			id: key, 
