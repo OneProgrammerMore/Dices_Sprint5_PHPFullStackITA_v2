@@ -21,8 +21,113 @@
 	--menu-icon: url("./imgs/menu-white.png");
 	--nav-side-color: rgba(21, 21, 21, 0.85);
 	--play-color: rgba(77, 7, 47, 0.8);
+	--hover-action-color-red:  #862A2A;
+	--hover-off-action-color:  white;
 }
 
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?i3zl6a');
+  src:  url('fonts/icomoon.eot?i3zl6a#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?i3zl6a') format('truetype'),
+    url('fonts/icomoon.woff?i3zl6a') format('woff'),
+    url('fonts/icomoon.svg?i3zl6a#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-worst:before {
+  content: "\e900";
+}
+.icon-top:before {
+  content: "\e902";
+}
+.icon-close:before {
+  content: "\e904";
+}
+.icon-admin:before {
+  content: "\e908";
+}
+.icon-player:before {
+  content: "\e909";
+}
+.icon-play:before {
+  content: "\e90a";
+}
+.icon-cup:before {
+  content: "\e90d";
+}
+.icon-trash:before {
+  content: "\e901";
+}
+.icon-contact:before {
+  content: "\e903";
+}
+.icon-home:before {
+  content: "\e905";
+}
+.icon-info:before {
+  content: "\e906";
+}
+.icon-legal:before {
+  content: "\e907";
+}
+.icon-login:before {
+  content: "\e90f";
+}
+.icon-list:before {
+  content: "\e9bb";
+}
+.icon-menu:before {
+  content: "\e9bd";
+}
+.icon-pencil:before {
+  content: "\e90c";
+}
+.icon-exit:before {
+  content: "\ea14";
+}
+.icon-dices:before {
+  content: "\e915";
+}
+
+.icon-footer{
+	font-size: 17px;
+	margin-right: 7px;
+}
+.icon-nav{
+	font-size: 22px;
+	margin-left: 4px;
+	margin-right: 8px;
+}
+
+.icon-log{
+	font-size: 24px;
+	margin-left: 4px;
+	margin-right: 8px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.closeRow .icon-close{
+	font-size: 32px;
+}
 
 input, select, textarea{
     background-color: var(--my-green);
@@ -195,6 +300,7 @@ nav{
 	background-size: contain;
 	margin: 4px;
 	position: fixed;
+	font-size: 38px;
 
 }
 
@@ -238,13 +344,29 @@ nav{
 	
 	font-size: 17px;
 	font-weight: bold;
+	margin-top: 14px;
 }
 
 .navItem{
 	margin-left: 10px;
 	margin-right: 10px;
 }
+.navItem:hover *, .LogOutDiv:hover *, .LogOutDiv:hover, .closeRow:hover *, #menu-icon:hover *, #play_form .submitBttn:hover, .icons-table.icon-info:hover{
+	color: var(--hover-action-color-red);
+}
 
+.icons-table.icon-info{
+	font-size: 21px
+}
+
+
+.navItem > a{
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
 footer{
 	display: flex;
 	flex-wrap: wrap;
@@ -269,6 +391,8 @@ footer{
 	font-weight: normal;
 	margin-left: 10px;
 	margin-right: 10px;
+	display: flex;
+	align-items: center;
 }
 
 /*MAIN AND MORE COMPONENTS*/
@@ -322,21 +446,20 @@ main{
 }
 
 .buttonLoginSelector:hover, .submitBttn:hover{
-	border-color: red;
+	border-color: var(--hover-action-color-red);
 	font: red;
 }
 
 
-.loginIcon, .registerPlayerIcon, .registerAdminIcon, .closeIcon{
+.loginIcon, .registerPlayerIcon, .registerAdminIcon, .icon-form-close{
 	display: flex;
 	height: 25px;
 	width: 25px;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
-	margin: 5px;
 }
-.closeIcon, closeRow, .submitBttn{
+.icon-close-form, closeRow, .submitBttn{
 	cursor: pointer;
 }
 .loginIcon{
@@ -352,7 +475,7 @@ main{
 	background-image: var(--registerAdmin-icon); 
 }
 
-.closeIcon{
+.icon-close-form{
 	background-image: var(--close-icon);
 	height: 15px;
 }
@@ -803,7 +926,7 @@ tr{
 		align-items: center;
 	}
 	#EmptyNav{
-		font-size:20px;
+		font-size:24px;
 	}
 	.navName{
 		font-size:24px;
@@ -850,6 +973,9 @@ tr{
 	.navName{
 		margin-top: 70px;;
 	}
+	.navItem:hover *, .LogOutDiv:hover *, .LogOutDiv:hover, .closeRow:hover *, #menu-icon:hover *, #play_form .submitBttn:hover{
+		color: var(--hover-off-action-color);
+	}
  }
 
  @media only screen and (max-width: 450px) {
@@ -889,5 +1015,16 @@ tr{
 	}
 	.navItems{
 		font-size:18px;
+	}
+	.form_section_home{
+		margin: 0px;
+		width: 300px;
+		padding: 15px 10px 15px 10px;
+	}
+	.navItem:hover *, .LogOutDiv:hover *, .LogOutDiv:hover, .closeRow:hover *, #menu-icon:hover *, #play_form .submitBttn:hover{
+		color: var(--hover-off-action-color);
+	}
+	.footerLink{
+		font-size: 10px;
 	}
  }

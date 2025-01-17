@@ -48,27 +48,31 @@ export default class NavPlayer extends React.Component<IProps, IState>{
 			<div id="UserNav" className={"navSection " + this.props.displayMenuContext.displayMenu} /*className="navSection "*/ /*className={"navSection " + this.context.displayMenu}*/ >
 				
 				<div className="navName">
-					User
+					- Player - 
 				</div>
 				
 				<div className="navItems">
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('Play')}>
+							<span className="icon icon-nav icon-dices" ></span>
 							Play
 						</a>
 					</div>
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('Delete')}>
+							<span className="icon icon-nav icon-trash" ></span>
 							Delete
 						</a>
 					</div>
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('ModifyName')} >
+							<span className="icon icon-nav icon-pencil" ></span>
 							Modify Name
 						</a>
 					</div>
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSectionAndUser(Functions.getCookie('userid'),'Player')} >
+							<span className="icon icon-nav icon-player" ></span>
 							Show Player
 						</a>
 					</div>

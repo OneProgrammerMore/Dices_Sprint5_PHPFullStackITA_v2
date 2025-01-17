@@ -66,6 +66,7 @@ export default class Logout extends React.Component<IProps, IState>{
 	render(){
 		return (
 			<div className="LogOutDiv" onClick={this.logOutFunction} style={{display:  this.context.logoutVisibity }}>
+				<span className="icon icon-nav icon-exit" ></span>
 			Log Out
 			</div>
 		)

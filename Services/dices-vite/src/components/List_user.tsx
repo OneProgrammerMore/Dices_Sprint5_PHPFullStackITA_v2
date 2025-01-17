@@ -149,7 +149,7 @@ export default class ListUsers extends React.Component<IProps, IState>{
 							</td>
 							<td>
 								<div onClick={ () => this.changeNavSectionAndUser(player.id, 'Player') } > 
-									<i className="moreInfoIcon"></i>
+									<span className="icon icons-table icon-info" ></span>
 								</div>
 							</td>
 						</tr>

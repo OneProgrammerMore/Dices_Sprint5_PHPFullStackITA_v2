@@ -613,17 +613,6 @@ export default class Login extends React.Component<IProps, IState>{
 		return response;
 	}
 	
-	async getRolesWorkAround(){
-		const response = await this.queryOnlyAdmin();
-		let role = null;
-		if(response.ok){
-			role = 'Admin';
-		}else{
-			role = 'Player';
-		}
-		return role;
-	}
-	
 	setAdmin(){
 		this.chengeUserType('Admin');
 		this.changeNavSection('Home');
@@ -695,15 +684,15 @@ export default class Login extends React.Component<IProps, IState>{
 
 				<div className="loginSelector">
 					<div className="buttonLoginSelector" onClick={this.displayLoginFunction}>
-						<i className="loginIcon"></i>
+						<span className="icon icon-log icon-login" ></span>
 						Login
 					</div>
 					<div className="buttonLoginSelector" onClick={this.displayRegisterPlayerFunction}>
-						<i className="registerPlayerIcon"></i>
+						<span className="icon icon-log icon-player" ></span>
 						Register As Player
 					</div>
 					<div className="buttonLoginSelector" onClick={this.displayRegisterAdminFunction}>
-						<i className="registerAdminIcon"></i>
+						<span className="icon icon-log icon-admin" ></span>
 						Register As Admin
 					</div>
 
@@ -713,7 +702,7 @@ export default class Login extends React.Component<IProps, IState>{
 					<div className="form_section-inner-login">
 
 						<div className="closeRow" onClick={this.hideLoginFunction}>
-							<i className="closeIcon"></i>
+							<span className="icon icon-form-close icon-close" ></span>
 						</div>
 						<h3>
 							Login
@@ -754,7 +743,7 @@ export default class Login extends React.Component<IProps, IState>{
 					<div className="form_section-inner">
 
 						<div className="closeRow" onClick={this.hideRegisterPlayerFunction}>
-							<i className="closeIcon"></i>
+							<span className="icon icon-form-close icon-close" ></span>
 						</div>
 						<h3>
 							Register as Player
@@ -806,7 +795,7 @@ export default class Login extends React.Component<IProps, IState>{
 						<div className="form_section-inner">
 					
 							<div className="closeRow" onClick={this.hideRegisterAdminFunction}>
-								<i className="closeIcon"></i>
+								<span className="icon icon-form-close icon-close" ></span>
 							</div>
 							<h3>
 								Register as Administator

@@ -35,27 +35,31 @@ export default class NavEmpty extends React.Component<IProps, IState>{
 		return (
 			<div id="AdminNav" className={"navSection " + this.props.displayMenuContext.displayMenu}>
 				<div className="navName">
-					Admin
+					- Admin - 
 				</div>
 				
 				<div className="navItems" >
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('ListPlayers')} >
+							<span className="icon icon-nav icon-list" ></span>
 							List Players
 						</a>
 					</div>
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('Ranking')} >
+							<span className="icon icon-nav icon-cup" ></span>
 							Ranking
 						</a>
 					</div>
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('Loser')} >
+							<span className="icon icon-nav icon-worst" ></span>
 							Worst
 						</a>
 					</div>
 					<div className="navItem">
 						<a href="#" onClick={() => this.changeNavSection('Winner')} >
+							<span className="icon icon-nav icon-top" ></span>
 							Best
 						</a>
 					</div>

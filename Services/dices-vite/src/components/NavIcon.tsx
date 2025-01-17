@@ -1,5 +1,4 @@
 import {useEffect, useContext} from 'react';
-
 import {DisplayMenuNavContext} from '../contextSrc/MyContext.tsx'
 
 
@@ -31,9 +30,9 @@ function NavIcon({}) {
     
     return (
         <div id="menu-icon">
-            <a className={"nav-menu-icon menu-i " + menuContext.displayMenuOpenButton } onClick={() =>  openMenu() } >		
+            <a className={"nav-menu-icon icon icon-log icon-menu " + menuContext.displayMenuOpenButton } onClick={() =>  openMenu() } >
             </a>
-            <a  className={"nav-side close-i nav-menu-icon "  + menuContext.displayMenuCloseButton} onClick={() => closeMenu()}  ></a>
+            <a  className={"nav-side nav-menu-icon icon icon-log icon-close "  + menuContext.displayMenuCloseButton} onClick={() => closeMenu()}  ></a>
 	    </div>
     );
  }

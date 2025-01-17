@@ -19,7 +19,7 @@ export default class NavEmpty extends React.Component<IProps, IState>{
 	render(){
 		return (
 			<div id="EmptyNav" className="navSection">
-				If the ruler does not know your name ... <br/>
+				If the ruler does not know your name... <br/>
 				With dices shall not you play!
 			</div>
 		)
