@@ -1,14 +1,15 @@
 function setCookie(cname: string, cvalue: string, exdays: number) {
   const d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  const expires:string = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";SameSite=Strict;" + expires + ";path=/";
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  const expires: string = 'expires=' + d.toUTCString();
+  document.cookie =
+    cname + '=' + cvalue + ';SameSite=Strict;' + expires + ';path=/';
 }
 
 function getCookie(cname: string) {
-  const name:string = cname + "=";
+  const name: string = cname + '=';
   const ca: string[] = document.cookie.split(';');
-  for(let i = 0; i < ca.length; i++) {
+  for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);
@@ -17,10 +18,7 @@ function getCookie(cname: string) {
       return c.substring(name.length, c.length);
     }
   }
-  return "";
+  return '';
 }
 
-export {
-	getCookie, 
-	setCookie,
-}
+export { getCookie, setCookie };

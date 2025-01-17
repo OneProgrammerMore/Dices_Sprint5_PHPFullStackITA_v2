@@ -1,33 +1,33 @@
-import '../styles.css'
+import '../styles.css';
 import React, { ReactElement } from 'react';
 
 import * as Constants from '../constants.tsx';
 import * as Functions from '../dices.tsx';
-import {Commet} from 'react-loading-indicators';
+import { Commet } from 'react-loading-indicators';
 
-import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
+import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
 interface Player {
-    id: string;
-    name: string;
-    tries: number;
-    wins: number;
-    wins_perc: number;
+  id: string;
+  name: string;
+  tries: number;
+  wins: number;
+  wins_perc: number;
 }
 
 interface JsonDataPlayers {
-    [key: string]: {
-        user_id: string;
-        user_name: string;
-        user_tries: number;
-        user_wins: number;
-        wins_perc: number;
-    };
+  [key: string]: {
+    user_id: string;
+    user_name: string;
+    user_tries: number;
+    user_wins: number;
+    wins_perc: number;
+  };
 }
 type DataItemsState = ReactElement[][];
 
 interface IProps {
-	props?: React.PropsWithChildren;
+  props?: React.PropsWithChildren;
 }
 
 interface IState {
@@ -37,164 +37,127 @@ interface IState {
   dataExists: boolean;
 }
 
-export default class Loser extends React.Component<IProps, IState>{
-  
-	constructor(props: IProps) {
-		super(props);
+export default class Loser extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
 
-		this.state = {
-			jsonData: [],
-			dataItems: [],
-			dataFetched: false,
-			dataExists: true,
-		};
+    this.state = {
+      jsonData: [],
+      dataItems: [],
+      dataFetched: false,
+      dataExists: true
+    };
+  }
+  static contextType = MyContext;
+  declare context: MyContextType;
 
-	}
-	static contextType = MyContext;
-	declare context: MyContextType;
-	
-	changeNavSectionAndUser = (userID: string, mainType: string) => {
-		this.context.updateValueMainAndUserID(userID, mainType);
-	}
-	
-	async loserApiCall(){
-			
-		const token = Functions.getCookie('token');
+  changeNavSectionAndUser = (userID: string, mainType: string) => {
+    this.context.updateValueMainAndUserID(userID, mainType);
+  };
 
-		const loserURI:string = '/api/players/ranking/loser';
-		const loserEndPoint:string = Constants.dices_URL + loserURI;
-		
-		const response = await fetch( loserEndPoint, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token,
-			}
-		});
-		
-		return response;
-	}
+  async loserApiCall() {
+    const token = Functions.getCookie('token');
 
-	async componentDidMount(){
-		
-		const response = await this.loserApiCall();
-		
-		if(response.ok){
+    const loserURI: string = '/api/players/ranking/loser';
+    const loserEndPoint: string = Constants.dices_URL + loserURI;
 
-			response.json().then(
-				(jsonDataPlayers:JsonDataPlayers) => {
-					const arr: Player[] = [];
-					Object.keys(jsonDataPlayers).forEach(key => arr.push({
-						id: jsonDataPlayers[key]['user_id'], 
-						name: jsonDataPlayers[key]['user_name'],
-						tries: jsonDataPlayers[key]['user_tries'],
-						wins: jsonDataPlayers[key]['user_wins'],
-						wins_perc: jsonDataPlayers[key]['wins_perc']
-						}));
+    const response = await fetch(loserEndPoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token
+      }
+    });
 
-					this.setState({
-						dataItems: [
-							arr.map(
-							(player)=>{
-								return(
-									<tr key={player.id}>
-										<td>
-											{player.id}
-										</td>
-										<td>
-											{player.name}
-										</td>
-										<td>
-											{player.tries}
-										</td>
-										<td>
-											{player.wins}
-										</td>
-										<td>
-											{player.wins_perc.toFixed(3)}
-										</td>
-										<td>
-											<div onClick={() => this.changeNavSectionAndUser(player.id, 'Player')  } > 
-												<span className="icon icons-table icon-info" ></span>
-											</div>
-										</td>
-									</tr>
-									)
-								}
-							)
-						],
-						dataFetched: true
-					});
+    return response;
+  }
 
-				}
-			)
-			.catch(() =>{
-				this.setState({
-					dataFetched: true,
-					dataExists: false,
-				});
-			});
-		}
-		
-	}
-  
-  render(){
+  async componentDidMount() {
+    const response = await this.loserApiCall();
 
-	if(this.state.dataFetched == false){
-		return(	
-			<div className="main_container">
-				<Commet color="#32cd32" size="medium" text="" textColor="" />
-			</div>
-		);
-	}else if(this.state.dataExists == true){
+    if (response.ok) {
+      response
+        .json()
+        .then((jsonDataPlayers: JsonDataPlayers) => {
+          const arr: Player[] = [];
+          Object.keys(jsonDataPlayers).forEach((key) =>
+            arr.push({
+              id: jsonDataPlayers[key]['user_id'],
+              name: jsonDataPlayers[key]['user_name'],
+              tries: jsonDataPlayers[key]['user_tries'],
+              wins: jsonDataPlayers[key]['user_wins'],
+              wins_perc: jsonDataPlayers[key]['wins_perc']
+            })
+          );
 
-	  return (
-	  <div className="main_container">
-		<h3>
-			Loser...
-		</h3>
-		<table id="user_table">
-				<thead>
-					<tr>
-						<th>
-							User ID
-						</th>
-						<th>
-							User Name
-						</th>
-						<th>
-							Tries
-						</th>
-						<th>
-							Wins
-						</th>
-						<th>
-							Wins Percentage
-						</th>
-						<th>
-							More Info
-						</th>
-					</tr>
-				</thead>
-				
-				
-				<tbody>
-					{this.state.dataItems}
-				</tbody>
-				
-			
-			</table>
-			
-		</div>
+          this.setState({
+            dataItems: [
+              arr.map((player) => {
+                return (
+                  <tr key={player.id}>
+                    <td>{player.id}</td>
+                    <td>{player.name}</td>
+                    <td>{player.tries}</td>
+                    <td>{player.wins}</td>
+                    <td>{player.wins_perc.toFixed(3)}</td>
+                    <td>
+                      <div
+                        onClick={() =>
+                          this.changeNavSectionAndUser(player.id, 'Player')
+                        }
+                      >
+                        <span className="icon icons-table icon-info"></span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ],
+            dataFetched: true
+          });
+        })
+        .catch(() => {
+          this.setState({
+            dataFetched: true,
+            dataExists: false
+          });
+        });
+    }
+  }
 
-	  )
-	}else{
-		return (
-			<div className="main_container">
-				No games played... Someone must turn the dices...
-			</div>
-		);
-	}
+  render() {
+    if (this.state.dataFetched == false) {
+      return (
+        <div className="main_container">
+          <Commet color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+      );
+    } else if (this.state.dataExists == true) {
+      return (
+        <div className="main_container">
+          <h3>Loser...</h3>
+          <table id="user_table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>Tries</th>
+                <th>Wins</th>
+                <th>Wins Percentage</th>
+                <th>More Info</th>
+              </tr>
+            </thead>
+
+            <tbody>{this.state.dataItems}</tbody>
+          </table>
+        </div>
+      );
+    } else {
+      return (
+        <div className="main_container">
+          No games played... Someone must turn the dices...
+        </div>
+      );
+    }
   }
 }
-

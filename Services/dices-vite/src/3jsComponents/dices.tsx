@@ -1,29 +1,28 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { useRef, useEffect, useState} from "react";
+import { useRef, useEffect, useState } from 'react';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import type { RootState } from '..//app/store'
+import type { RootState } from '..//app/store';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { increment } from '../features/counter/counterSlice';
 
 type Orientation = {
-    x: number;
-    y: number;
-    z: number;
-}
+  x: number;
+  y: number;
+  z: number;
+};
 
 interface DicesProps {
-    dice_1:number;
-    dice_2:number;
-    playing_bool: boolean;
+  dice_1: number;
+  dice_2: number;
+  playing_bool: boolean;
 }
 
-
-let firstDisplay:boolean = true;
-let dice_1_final_orientation:Orientation = {} as Orientation;
-let dice_2_final_orientation:Orientation = {} as Orientation;
+let firstDisplay: boolean = true;
+let dice_1_final_orientation: Orientation = {} as Orientation;
+let dice_2_final_orientation: Orientation = {} as Orientation;
 
 dice_1_final_orientation.x = 0.0;
 dice_1_final_orientation.y = 0.0;
@@ -33,7 +32,7 @@ dice_2_final_orientation.x = 0.0;
 dice_2_final_orientation.y = 0.0;
 dice_2_final_orientation.z = 0.0;
 
-let times_called:number = 0;
+let times_called: number = 0;
 
 let lightCenter: THREE.DirectionalLight;
 let lightLeft: THREE.DirectionalLight;
@@ -42,531 +41,611 @@ let lightUp: THREE.DirectionalLight;
 let lightDown: THREE.DirectionalLight;
 let lightFaces: THREE.DirectionalLight;
 
-let textMaterial: THREE.Material; 
+let textMaterial: THREE.Material;
 
 let wonTextGeometry: THREE.BufferGeometry;
 let lostTextGeometry: THREE.BufferGeometry;
 
-let textMesh:THREE.Mesh;
-let textMeshLost:THREE.Mesh;
+let textMesh: THREE.Mesh;
+let textMeshLost: THREE.Mesh;
 const scene = new THREE.Scene();
 
-let canvasRef:HTMLElement; 
-let renderer : THREE.WebGLRenderer;
+let canvasRef: HTMLElement;
+let renderer: THREE.WebGLRenderer;
 const height = 200;
 const width = 250;
 
-let dice_1:THREE.Object3D;
-let dice_2:THREE.Object3D;
+let dice_1: THREE.Object3D;
+let dice_2: THREE.Object3D;
 
-const camera = new THREE.PerspectiveCamera( 120, width / height , 3, 7);
+const camera = new THREE.PerspectiveCamera(120, width / height, 3, 7);
 
+const dices = (dices_goal: DicesProps) => {
+  const [_dices_playing_bool, setPlayingBool] = useState(
+    dices_goal.playing_bool
+  );
 
-const dices = (dices_goal:DicesProps) => {
-    
-    const [_dices_playing_bool, setPlayingBool] = useState(dices_goal.playing_bool);
-    
-    let [firstDisplayVar, _setFirstDisplay] = useState(firstDisplay);
-    let [dice_1_final_orientationVar, _set_dice_1_final_orientation] = useState(dice_1_final_orientation);
-    let [dice_2_final_orientationVar, _set_dice_2_final_orientation] = useState(dice_2_final_orientation);
+  let [firstDisplayVar, _setFirstDisplay] = useState(firstDisplay);
+  let [dice_1_final_orientationVar, _set_dice_1_final_orientation] = useState(
+    dice_1_final_orientation
+  );
+  let [dice_2_final_orientationVar, _set_dice_2_final_orientation] = useState(
+    dice_2_final_orientation
+  );
 
-    const refContainer = useRef<HTMLDivElement | null>(null);
-    
-    const zoom:number = 4;
+  const refContainer = useRef<HTMLDivElement | null>(null);
 
-    function sleep(ms:number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+  const zoom: number = 4;
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  const displayed = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    times_called++;
+
+    canvasRef = document.getElementById('3js-comp-dices')!;
+    renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      canvas: canvasRef
+    });
+
+    function changeOpacityMesh(mesh: THREE.Mesh, opacity_n: number) {
+      if (mesh != null) {
+        if (mesh.material instanceof THREE.Material) {
+          mesh.material.opacity = opacity_n;
+        } else if (Array.isArray(mesh.material)) {
+          for (const material of mesh.material) {
+            material.opacity = opacity_n;
+          }
+        }
+      }
     }
 
-    const displayed = useSelector((state:RootState) => state.counter.value);
-    const dispatch = useDispatch();
+    const opacity_end: number = 1;
+    const opacity_start: number = 0;
+    const opacity_change_frames = 30;
+    let frame_n: number = 0;
 
-    useEffect(() => {
+    const loadDices = () => {
+      return new Promise((resolve) => {
+        init();
+        resolve(true);
+      });
+    };
 
-        
-        
-        times_called++;
-        
-        canvasRef = document.getElementById('3js-comp-dices')!;
-        renderer = new THREE.WebGLRenderer({
-            antialias:true,
-            canvas: canvasRef
+    function init() {
+      camera.zoom = zoom;
+      renderer.setSize(width, height);
+
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      //Create a DirectionalLight and turn on shadows for the light
+      lightCenter = new THREE.DirectionalLight(0xebdd63, 5);
+      lightCenter.position.set(0, 0, 20);
+      lightCenter.castShadow = true;
+      scene.add(lightCenter);
+
+      lightCenter.shadow.mapSize.width = 512;
+      lightCenter.shadow.mapSize.height = 512;
+      lightCenter.shadow.camera.near = 0.5;
+      lightCenter.shadow.camera.far = 50;
+
+      lightLeft = new THREE.DirectionalLight(0xebdd63, 5);
+      lightLeft.position.set(-5, 0, 20);
+      lightLeft.castShadow = true;
+      scene.add(lightLeft);
+
+      lightLeft.shadow.mapSize.width = 512;
+      lightLeft.shadow.mapSize.height = 512;
+      lightLeft.shadow.camera.near = 0.5;
+      lightLeft.shadow.camera.far = 500;
+
+      lightRight = new THREE.DirectionalLight(0xebdd63, 5);
+      lightRight.position.set(5, 0, 20);
+      lightRight.castShadow = true;
+      scene.add(lightRight);
+
+      lightRight.shadow.mapSize.width = 512;
+      lightRight.shadow.mapSize.height = 512;
+      lightRight.shadow.camera.near = 0.5;
+      lightRight.shadow.camera.far = 500;
+
+      lightUp = new THREE.DirectionalLight(0xebdd63, 5);
+      lightUp.position.set(0, 20, 10);
+      lightUp.castShadow = true;
+      scene.add(lightUp);
+
+      lightUp.shadow.mapSize.width = 512;
+      lightUp.shadow.mapSize.height = 512;
+      lightUp.shadow.camera.near = 0.5;
+      lightUp.shadow.camera.far = 500;
+
+      lightDown = new THREE.DirectionalLight(0xebdd63, 5);
+      lightDown.position.set(0, -20, 10);
+      lightDown.castShadow = true;
+      scene.add(lightDown);
+
+      lightDown.shadow.mapSize.width = 512;
+      lightDown.shadow.mapSize.height = 512;
+      lightDown.shadow.camera.near = 0.5;
+      lightDown.shadow.camera.far = 500;
+
+      lightFaces = new THREE.DirectionalLight(0xebdd63, 1000);
+      lightFaces.position.set(0, 2, 5);
+      lightFaces.castShadow = true;
+      scene.add(lightFaces);
+
+      lightFaces.shadow.mapSize.width = 512;
+      lightFaces.shadow.mapSize.height = 512;
+      lightFaces.shadow.camera.near = 0.5;
+      lightFaces.shadow.camera.far = 500;
+
+      const loader = new GLTFLoader();
+
+      loader.load(
+        '/DiceRoundColouredGray.gltf',
+        function (gltf) {
+          gltf.scene.scale.set(60, 60, 60);
+
+          dice_1 = gltf.scene;
+          dice_1.castShadow = true;
+          dice_1.receiveShadow = true;
+
+          dice_1.position.set(1.4, 0, 0);
+          if (!firstDisplayVar) {
+            dice_1.rotation.set(
+              dice_1_final_orientationVar.x,
+              dice_1_final_orientationVar.y,
+              dice_1_final_orientationVar.z
+            );
+          }
+
+          scene.add(dice_1);
+        },
+        undefined,
+        function (error) {
+          console.error(error);
+        }
+      );
+
+      loader.load(
+        '/DiceRoundColouredGray.gltf',
+        function (gltf) {
+          gltf.scene.scale.set(60, 60, 60);
+
+          dice_2 = gltf.scene;
+          dice_2.castShadow = true;
+          dice_2.receiveShadow = true;
+
+          dice_2.position.set(-1.4, 0, 0);
+
+          if (!firstDisplayVar) {
+            dice_2.rotation.set(
+              dice_2_final_orientationVar.x,
+              dice_2_final_orientationVar.y,
+              dice_2_final_orientationVar.z
+            );
+          } else {
+            dice_2.rotation.set(0, 0, 0);
+          }
+
+          scene.add(dice_2);
+        },
+        undefined,
+        function (error) {
+          console.error(error);
+        }
+      );
+
+      const fontLoader = new FontLoader();
+
+      camera.rotation.x = (-2 * Math.PI) / 16;
+      camera.position.z = 5;
+      camera.position.y = 2;
+      camera.position.x = 0;
+
+      fontLoader.load('/fonts/OpenSans_Regular.typeface.json', function (font) {
+        wonTextGeometry = new TextGeometry('You won!', {
+          font: font,
+          size: 1.5,
+          depth: 1.5,
+          curveSegments: 16,
+          bevelEnabled: false,
+          bevelThickness: 10,
+          bevelSize: 8,
+          bevelOffset: 0,
+          bevelSegments: 5
         });
-        
-        function changeOpacityMesh(mesh: THREE.Mesh, opacity_n:number) {
-            if(mesh != null){
 
-                if (mesh.material instanceof THREE.Material) {
+        //Compute the bounding box of the text
+        wonTextGeometry.computeBoundingBox();
+        const boundingBox = wonTextGeometry.boundingBox!;
+        const textWidth = boundingBox.max.x - boundingBox.min.x;
+        const textHeight = boundingBox.max.y - boundingBox.min.y;
 
-                    mesh.material.opacity = opacity_n;
-                    
-                } else if (Array.isArray(mesh.material)) {
-                    for (const material of mesh.material) {
-                        material.opacity = opacity_n;
-                    }
-                }
+        //Center the text
+        wonTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
 
-            }
+        //Create the text mesh and add it to the scene
+        textMaterial = new THREE.MeshLambertMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0
+        });
+        textMesh = new THREE.Mesh(wonTextGeometry, textMaterial);
 
-            
+        //Set the y-position to -2
+        textMesh.position.y = -2.5;
+
+        //Adjust the scale to fit the canvas
+        const canvasWidth = width;
+        const canvasHeight = height;
+
+        const scale = Math.min(
+          canvasWidth / textWidth,
+          canvasHeight / textHeight
+        );
+        textMesh.scale.set(scale / 100, scale / 100, scale / 100);
+
+        textMesh.quaternion.copy(camera.quaternion);
+        textMesh.rotation.x -= 0.4;
+
+        scene.add(textMesh);
+      });
+
+      fontLoader.load('/fonts/OpenSans_Regular.typeface.json', function (font) {
+        lostTextGeometry = new TextGeometry('You lost!', {
+          font: font,
+          size: 1.5,
+          depth: 1.5,
+          curveSegments: 16,
+          bevelEnabled: false,
+          bevelThickness: 10,
+          bevelSize: 8,
+          bevelOffset: 0,
+          bevelSegments: 5
+        });
+
+        //Compute the bounding box of the text
+        lostTextGeometry.computeBoundingBox();
+        const boundingBox = lostTextGeometry.boundingBox!;
+        const textWidth = boundingBox.max.x - boundingBox.min.x;
+        const textHeight = boundingBox.max.y - boundingBox.min.y;
+
+        //Center the text
+        lostTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
+
+        //Create the text mesh and add it to the scene
+        const textMaterial = new THREE.MeshLambertMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0
+        });
+        textMeshLost = new THREE.Mesh(lostTextGeometry, textMaterial);
+
+        //Set the y-position to -2
+        textMeshLost.position.y = -2.5;
+
+        //Adjust the scale to fit the canvas
+        const canvasWidth = width;
+        const canvasHeight = height;
+
+        const scale = Math.min(
+          canvasWidth / textWidth,
+          canvasHeight / textHeight
+        );
+        textMeshLost.scale.set(scale / 100, scale / 100, scale / 100);
+
+        textMeshLost.quaternion.copy(camera.quaternion);
+        textMeshLost.rotation.x -= 0.4;
+
+        scene.add(textMeshLost);
+      });
+    }
+
+    function loadScene() {
+      THREE.DefaultLoadingManager.onProgress = function (_item, loaded, total) {
+        // All textures are finished loading when loaded === total
+        if (loaded < total) {
+          sleep(2000).then(() => {
+            loadScene();
+          });
+        } else {
+          renderer.render(scene, camera);
         }
-        
-                
-        const opacity_end:number = 1;
-        const opacity_start:number = 0;
-        const opacity_change_frames = 30;
-        let frame_n:number = 0;
+      };
+    }
+    loadScene();
 
-        const loadDices = () => {
-            return new Promise((resolve) => {
-                init();
-                resolve(true);
-            });
-        };
-        
+    const dice_1_result = dices_goal.dice_1;
+    const dice_2_result = dices_goal.dice_2;
 
+    let start_dice_1 = 1;
+    let start_dice_2 = 1;
+    let start_end_animation = 0;
+    let end_dice_1 = 0;
+    let end_dice_2 = 0;
+    let starting_orientation_dice_1: Orientation = {} as Orientation;
+    let starting_orientation_dice_2: Orientation = {} as Orientation;
+    let goal_orientation_dice_1: Orientation = {} as Orientation;
+    let goal_orientation_dice_2: Orientation = {} as Orientation;
+    const starting_rotation_speed_dice_1: Orientation = {} as Orientation;
+    const starting_rotation_speed_dice_2: Orientation = {} as Orientation;
+    const acceleration_dice_1: Orientation = {} as Orientation;
+    const acceleration_dice_2: Orientation = {} as Orientation;
+    let n_dice_1 = 0;
+    let n_dice_2 = 0;
+    const steps = 45.0;
 
-        function init(){
-           
-            camera.zoom = zoom;
-            renderer.setSize( width ,  height );
+    if (firstDisplayVar && displayed == 0) {
+      loadDices();
+    } else if (n_dice_1 == 0 && displayed >= 1) {
+      changeOpacityMesh(textMesh, opacity_start);
+      changeOpacityMesh(textMeshLost, opacity_start);
+    }
 
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    function dice_orientation(face_value: number) {
+      const goal_orientation = {} as Orientation;
+      switch (face_value) {
+        case 1:
+          goal_orientation.x = ((2 * Math.PI) / 4) * 3;
+          goal_orientation.y = ((2 * Math.PI) / 4) * 2;
+          goal_orientation.z = ((2 * Math.PI) / 4) * 2;
+          break;
+        case 2:
+          goal_orientation.x = ((2 * Math.PI) / 4) * 2;
+          goal_orientation.y = ((2 * Math.PI) / 4) * 0;
+          goal_orientation.z = ((2 * Math.PI) / 4) * 0;
+          break;
+        case 3:
+          goal_orientation.x = ((2 * Math.PI) / 4) * 3;
+          goal_orientation.y = ((2 * Math.PI) / 4) * 3;
+          goal_orientation.z = ((2 * Math.PI) / 4) * 3;
+          break;
+        case 4:
+          goal_orientation.x = ((2 * Math.PI) / 4) * 2;
+          goal_orientation.y = ((2 * Math.PI) / 4) * 1;
+          goal_orientation.z = ((2 * Math.PI) / 4) * 2;
+          break;
+        case 5:
+          goal_orientation.x = ((2 * Math.PI) / 4) * 0;
+          goal_orientation.y = ((2 * Math.PI) / 4) * 0;
+          goal_orientation.z = ((2 * Math.PI) / 4) * 0;
+          break;
+        case 6:
+          goal_orientation.x = ((2 * Math.PI) / 4) * 1;
+          goal_orientation.y = ((2 * Math.PI) / 4) * 2;
+          goal_orientation.z = ((2 * Math.PI) / 4) * 2;
+          break;
+      }
+      return goal_orientation;
+    }
 
-            //Create a DirectionalLight and turn on shadows for the light
-            lightCenter = new THREE.DirectionalLight( 0xEBDD63, 5 );
-            lightCenter.position.set( 0, 0, 20 );
-            lightCenter.castShadow = true;
-            scene.add( lightCenter );
+    const animate = function () {
+      if (firstDisplayVar == false) {
+        requestAnimationFrame(animate);
+      }
 
-            lightCenter.shadow.mapSize.width = 512; 
-            lightCenter.shadow.mapSize.height = 512;
-            lightCenter.shadow.camera.near = 0.5; 
-            lightCenter.shadow.camera.far = 50;
+      if (dice_1) {
+        if (start_dice_1 == 1) {
+          start_dice_1 = 0;
+          n_dice_1 = 0;
+          starting_orientation_dice_1 = dice_1.rotation;
 
-            lightLeft = new THREE.DirectionalLight( 0xEBDD63, 5 );
-            lightLeft.position.set( -5, 0, 20 ); 
-            lightLeft.castShadow = true;
-            scene.add( lightLeft );
+          goal_orientation_dice_1 = dice_orientation(dice_1_result);
 
-            lightLeft.shadow.mapSize.width = 512; 
-            lightLeft.shadow.mapSize.height = 512; 
-            lightLeft.shadow.camera.near = 0.5; 
-            lightLeft.shadow.camera.far = 500; 
+          goal_orientation_dice_1.x += 2 * Math.PI;
+          goal_orientation_dice_1.y += 2 * Math.PI;
+          goal_orientation_dice_1.z += 2 * Math.PI;
 
-            lightRight = new THREE.DirectionalLight( 0xEBDD63, 5 );
-            lightRight.position.set( 5, 0, 20 );
-            lightRight.castShadow = true;
-            scene.add( lightRight );
+          starting_rotation_speed_dice_1.x =
+            Math.floor(Math.random() * 10) / 100.0 + 0.02;
+          starting_rotation_speed_dice_1.y =
+            Math.floor(Math.random() * 10) / 100.0 + 0.02;
+          starting_rotation_speed_dice_1.z =
+            Math.floor(Math.random() * 10) / 100.0 + 0.02;
 
-            lightRight.shadow.mapSize.width = 512;
-            lightRight.shadow.mapSize.height = 512;
-            lightRight.shadow.camera.near = 0.5;
-            lightRight.shadow.camera.far = 500;
-
-            lightUp= new THREE.DirectionalLight( 0xEBDD63, 5 );
-            lightUp.position.set( 0, 20, 10 );
-            lightUp.castShadow = true;
-            scene.add( lightUp );
-
-            lightUp.shadow.mapSize.width = 512; 
-            lightUp.shadow.mapSize.height = 512;
-            lightUp.shadow.camera.near = 0.5;
-            lightUp.shadow.camera.far = 500;
-
-            lightDown = new THREE.DirectionalLight( 0xEBDD63, 5 );
-            lightDown.position.set( 0, -20, 10 );
-            lightDown.castShadow = true;
-            scene.add( lightDown );
-
-            lightDown.shadow.mapSize.width = 512;
-            lightDown.shadow.mapSize.height = 512;
-            lightDown.shadow.camera.near = 0.5;
-            lightDown.shadow.camera.far = 500;
-
-            lightFaces = new THREE.DirectionalLight( 0xEBDD63, 1000 );
-            lightFaces.position.set( 0, 2, 5 );
-            lightFaces.castShadow = true;
-            scene.add( lightFaces );
-
-            lightFaces.shadow.mapSize.width = 512;
-            lightFaces.shadow.mapSize.height = 512;
-            lightFaces.shadow.camera.near = 0.5;
-            lightFaces.shadow.camera.far = 500;
-            
-            const loader = new GLTFLoader();
-
-            
-
-            loader.load( '/DiceRoundColouredGray.gltf', function ( gltf ) {
-
-                gltf.scene.scale.set(60, 60, 60);
-
-                dice_1 = gltf.scene;
-                dice_1.castShadow = true;
-                dice_1.receiveShadow = true;
-
-                dice_1.position.set( 1.4, 0 , 0 );
-                if(!firstDisplayVar){
-                    dice_1.rotation.set(dice_1_final_orientationVar.x, dice_1_final_orientationVar.y, dice_1_final_orientationVar.z);
-                }
-                
-                scene.add(dice_1);
-
-            }, undefined, function ( error ) {
-
-                console.error( error );
-
-            } );
-
-            loader.load( '/DiceRoundColouredGray.gltf', function ( gltf ) {
-
-                gltf.scene.scale.set(60, 60, 60);
-
-                dice_2 = gltf.scene;
-                dice_2.castShadow = true;
-                dice_2.receiveShadow = true;
-
-                dice_2.position.set( -1.4, 0 , 0 );
-
-                if(!firstDisplayVar){
-                    dice_2.rotation.set(dice_2_final_orientationVar.x, dice_2_final_orientationVar.y, dice_2_final_orientationVar.z);
-                }else{
-                    dice_2.rotation.set(0,0,0);
-                }
-
-                scene.add(dice_2);
-
-            }, undefined, function ( error ) {
-
-                console.error( error );
-
-            } );
-
-            const fontLoader = new FontLoader();
-            
-            camera.rotation.x = - 2 * Math.PI / 16;
-            camera.position.z = 5;
-            camera.position.y = 2;
-            camera.position.x = 0;
-            
-            fontLoader.load( '/fonts/OpenSans_Regular.typeface.json', function ( font ) {
-        
-                wonTextGeometry = new TextGeometry( 'You won!', {
-                    font: font,
-                    size: 1.5,
-                    depth: 1.5,
-                    curveSegments: 16,
-                    bevelEnabled: false,
-                    bevelThickness: 10,
-                    bevelSize: 8,
-                    bevelOffset: 0,
-                    bevelSegments: 5
-                } );
-                
-
-                //Compute the bounding box of the text
-                wonTextGeometry.computeBoundingBox();
-                const boundingBox = wonTextGeometry.boundingBox!;
-                const textWidth = boundingBox.max.x - boundingBox.min.x;
-                const textHeight = boundingBox.max.y - boundingBox.min.y;
-
-                //Center the text
-                wonTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
-
-                //Create the text mesh and add it to the scene
-                textMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, transparent: true, opacity: 0});
-                textMesh = new THREE.Mesh(wonTextGeometry, textMaterial);
-
-                //Set the y-position to -2
-                textMesh.position.y = -2.5;
-
-                //Adjust the scale to fit the canvas
-                const canvasWidth = width;
-                const canvasHeight = height;
-
-                const scale = Math.min(canvasWidth / textWidth, canvasHeight / textHeight);
-                textMesh.scale.set(scale/(100), scale/(100), scale/(100));
-
-                textMesh.quaternion.copy( camera.quaternion );
-                textMesh.rotation.x -= 0.4;
-
-                scene.add(textMesh);
-
-            },);
-
-            fontLoader.load( '/fonts/OpenSans_Regular.typeface.json', function ( font ) {
-        
-                lostTextGeometry = new TextGeometry( 'You lost!', {
-                    font: font,
-                    size: 1.5,
-                    depth: 1.5,
-                    curveSegments: 16,
-                    bevelEnabled: false,
-                    bevelThickness: 10,
-                    bevelSize: 8,
-                    bevelOffset: 0,
-                    bevelSegments: 5
-                } );
-                
-
-                //Compute the bounding box of the text
-                lostTextGeometry.computeBoundingBox();
-                const boundingBox = lostTextGeometry.boundingBox!;
-                const textWidth = boundingBox.max.x - boundingBox.min.x;
-                const textHeight = boundingBox.max.y - boundingBox.min.y;
-
-                //Center the text
-                lostTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
-
-                //Create the text mesh and add it to the scene
-                const textMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, transparent: true, opacity: 0});
-                textMeshLost = new THREE.Mesh(lostTextGeometry, textMaterial);
-
-                //Set the y-position to -2
-                textMeshLost.position.y = -2.5;
-
-                //Adjust the scale to fit the canvas
-                const canvasWidth = width;
-                const canvasHeight = height;
-
-                const scale = Math.min(canvasWidth / textWidth, canvasHeight / textHeight);
-                textMeshLost.scale.set(scale/(100), scale/(100), scale/(100));
-
-                textMeshLost.quaternion.copy( camera.quaternion );
-                textMeshLost.rotation.x -= 0.4;
-
-                scene.add(textMeshLost);
-
-            },);
-            
+          acceleration_dice_1.x =
+            ((goal_orientation_dice_1.x -
+              starting_orientation_dice_1.x -
+              starting_rotation_speed_dice_1.x * steps) *
+              2) /
+            (steps * steps);
+          acceleration_dice_1.y =
+            ((goal_orientation_dice_1.y -
+              starting_orientation_dice_1.y -
+              starting_rotation_speed_dice_1.y * steps) *
+              2) /
+            (steps * steps);
+          acceleration_dice_1.z =
+            ((goal_orientation_dice_1.z -
+              starting_orientation_dice_1.z -
+              starting_rotation_speed_dice_1.z * steps) *
+              2) /
+            (steps * steps);
         }
 
-        
-        function loadScene(){
-            THREE.DefaultLoadingManager.onProgress = function ( _item, loaded, total ) {
-                // All textures are finished loading when loaded === total
-                if(loaded<total){
-                    sleep(2000).then(() => { loadScene() });
-                }else{
-                    
-                    renderer.render( scene, camera );
-                }
-            };
+        if (n_dice_1 <= steps) {
+          dice_1.rotation.x =
+            starting_orientation_dice_1.x +
+            starting_rotation_speed_dice_1.x * n_dice_1 +
+            (1.0 / 2.0) *
+              (((goal_orientation_dice_1.x -
+                starting_orientation_dice_1.x -
+                starting_rotation_speed_dice_1.x * steps) *
+                2) /
+                (steps * steps)) *
+              n_dice_1 *
+              n_dice_1;
+          dice_1.rotation.y =
+            starting_orientation_dice_1.y +
+            starting_rotation_speed_dice_1.y * n_dice_1 +
+            (1.0 / 2.0) *
+              (((goal_orientation_dice_1.y -
+                starting_orientation_dice_1.y -
+                starting_rotation_speed_dice_1.y * steps) *
+                2) /
+                (steps * steps)) *
+              n_dice_1 *
+              n_dice_1;
+          dice_1.rotation.z =
+            starting_orientation_dice_1.z +
+            starting_rotation_speed_dice_1.z * n_dice_1 +
+            (1.0 / 2.0) *
+              (((goal_orientation_dice_1.z -
+                starting_orientation_dice_1.z -
+                starting_rotation_speed_dice_1.z * steps) *
+                2) /
+                (steps * steps)) *
+              n_dice_1 *
+              n_dice_1;
 
+          n_dice_1 += 1;
+        } else if (end_dice_1 == 0) {
+          dice_1.rotation.x = goal_orientation_dice_1.x;
+          dice_1.rotation.y = goal_orientation_dice_1.y;
+          dice_1.rotation.z = goal_orientation_dice_1.z;
+          end_dice_1 = 1;
+
+          dice_1_final_orientationVar = dice_1.rotation;
+          _set_dice_1_final_orientation(dice_1.rotation);
         }
-        loadScene();
-        
-        const dice_1_result = dices_goal.dice_1;
-        const dice_2_result = dices_goal.dice_2;
+      }
 
-        let start_dice_1 = 1;
-        let start_dice_2 = 1;
-        let start_end_animation = 0;
-        let end_dice_1 = 0;
-        let end_dice_2 = 0;
-        let starting_orientation_dice_1:Orientation  = {} as Orientation; 
-        let starting_orientation_dice_2:Orientation  = {} as Orientation;
-        let goal_orientation_dice_1:Orientation  = {} as Orientation;
-        let goal_orientation_dice_2:Orientation  = {} as Orientation;
-        const starting_rotation_speed_dice_1:Orientation  = {} as Orientation;
-        const starting_rotation_speed_dice_2:Orientation  = {} as Orientation;
-        const acceleration_dice_1:Orientation  = {} as Orientation;
-        const acceleration_dice_2:Orientation  = {} as Orientation;
-        let n_dice_1 = 0;
-        let n_dice_2 = 0;
-        const steps = 45.0;
+      if (dice_2) {
+        if (start_dice_2 == 1) {
+          start_dice_2 = 0;
+          n_dice_2 = 0;
 
-        if(firstDisplayVar && displayed == 0){
-            loadDices();
-        }else if(n_dice_1 == 0 && displayed >= 1){
-            changeOpacityMesh(textMesh, opacity_start );
-            changeOpacityMesh(textMeshLost, opacity_start );
-        }
+          starting_orientation_dice_2 = dice_2.rotation;
 
-        function dice_orientation(face_value:number){
-            const goal_orientation = {} as Orientation;
-            switch(face_value){
-                case 1:
-                    goal_orientation.x = 2*Math.PI/4 * 3;
-                    goal_orientation.y = 2*Math.PI/4 * 2;
-                    goal_orientation.z = 2*Math.PI/4 * 2;
-                    break;
-                case 2:
-                    goal_orientation.x = 2*Math.PI/4 * 2;
-                    goal_orientation.y = 2*Math.PI/4 * 0;
-                    goal_orientation.z = 2*Math.PI/4 * 0;
-                    break;
-                case 3:
-                    goal_orientation.x = 2*Math.PI/4 * 3;
-                    goal_orientation.y = 2*Math.PI/4 * 3;
-                    goal_orientation.z = 2*Math.PI/4 * 3;
-                    break;
-                case 4:
-                    goal_orientation.x = 2*Math.PI/4 * 2;
-                    goal_orientation.y = 2*Math.PI/4 * 1;
-                    goal_orientation.z = 2*Math.PI/4 * 2;
-                    break;
-                case 5:
-                    goal_orientation.x = 2*Math.PI/4 * 0;
-                    goal_orientation.y = 2*Math.PI/4 * 0;
-                    goal_orientation.z = 2*Math.PI/4 * 0;
-                    break;
-                case 6:
-                    goal_orientation.x = 2*Math.PI/4 * 1;
-                    goal_orientation.y = 2*Math.PI/4 * 2;
-                    goal_orientation.z = 2*Math.PI/4 * 2;
-                    break;  
-            }
-            return goal_orientation;
+          goal_orientation_dice_2 = dice_orientation(dice_2_result);
 
-        }
-        
+          goal_orientation_dice_2.x += 2 * Math.PI;
+          goal_orientation_dice_2.y += 2 * Math.PI;
+          goal_orientation_dice_2.z += 2 * Math.PI;
 
-        const animate = function () {
-            if(firstDisplayVar == false){
-                requestAnimationFrame( animate );
-            }
-                    
-            if(dice_1){
+          starting_rotation_speed_dice_2.x =
+            Math.floor(Math.random() * 10) / 100.0 + 0.02;
+          starting_rotation_speed_dice_2.y =
+            Math.floor(Math.random() * 10) / 100.0 + 0.02;
+          starting_rotation_speed_dice_2.z =
+            Math.floor(Math.random() * 10) / 100.0 + 0.02;
 
-                if(start_dice_1 == 1){
-
-                    start_dice_1 = 0;
-                    n_dice_1 = 0;
-                    starting_orientation_dice_1 = dice_1.rotation;
-                    
-                    goal_orientation_dice_1 = dice_orientation(dice_1_result);
-                    
-                    goal_orientation_dice_1.x += 2*Math.PI;
-                    goal_orientation_dice_1.y += 2*Math.PI;
-                    goal_orientation_dice_1.z += 2*Math.PI;
-
-                    
-                    starting_rotation_speed_dice_1.x = Math.floor(Math.random() * 10)/100.0 + 0.02;
-                    starting_rotation_speed_dice_1.y = Math.floor(Math.random() * 10)/100.0 + 0.02;
-                    starting_rotation_speed_dice_1.z = Math.floor(Math.random() * 10)/100.0 + 0.02;
-                    
-                    acceleration_dice_1.x = ((goal_orientation_dice_1.x - starting_orientation_dice_1.x - starting_rotation_speed_dice_1.x * steps )*2) / (steps*steps);
-                    acceleration_dice_1.y = ((goal_orientation_dice_1.y - starting_orientation_dice_1.y - starting_rotation_speed_dice_1.y * steps )*2) / (steps*steps);
-                    acceleration_dice_1.z = ((goal_orientation_dice_1.z - starting_orientation_dice_1.z - starting_rotation_speed_dice_1.z * steps )*2) / (steps*steps);
-
-                }
-
-                if( n_dice_1 <= steps){
-
-                    dice_1.rotation.x = starting_orientation_dice_1.x + starting_rotation_speed_dice_1.x * n_dice_1 + 1.0/2.0 *  (((goal_orientation_dice_1.x - starting_orientation_dice_1.x - starting_rotation_speed_dice_1.x * steps )*2) / (steps*steps)) * n_dice_1*n_dice_1;
-                    dice_1.rotation.y = starting_orientation_dice_1.y + starting_rotation_speed_dice_1.y * n_dice_1 + 1.0/2.0 *  (((goal_orientation_dice_1.y - starting_orientation_dice_1.y - starting_rotation_speed_dice_1.y * steps )*2) / (steps*steps)) * n_dice_1*n_dice_1;
-                    dice_1.rotation.z = starting_orientation_dice_1.z + starting_rotation_speed_dice_1.z * n_dice_1 + 1.0/2.0 *  (((goal_orientation_dice_1.z - starting_orientation_dice_1.z - starting_rotation_speed_dice_1.z * steps )*2) / (steps*steps)) * n_dice_1*n_dice_1;
-
-                    n_dice_1 += 1;
-
-                }else if (end_dice_1 == 0){
-                    
-                    dice_1.rotation.x = goal_orientation_dice_1.x;
-                    dice_1.rotation.y = goal_orientation_dice_1.y;
-                    dice_1.rotation.z = goal_orientation_dice_1.z; 
-                    end_dice_1 = 1;
-                    
-                    dice_1_final_orientationVar = dice_1.rotation;
-                    _set_dice_1_final_orientation(dice_1.rotation);
-        
-                }     
-            }
-            
-            if(dice_2){
-
-                if(start_dice_2 == 1){
-                    start_dice_2 = 0;
-                    n_dice_2 = 0;
-                    
-                    starting_orientation_dice_2 = dice_2.rotation;
-
-                    goal_orientation_dice_2 = dice_orientation(dice_2_result);
-                    
-                    goal_orientation_dice_2.x += 2*Math.PI;
-                    goal_orientation_dice_2.y += 2*Math.PI;
-                    goal_orientation_dice_2.z += 2*Math.PI;
-
-                    starting_rotation_speed_dice_2.x = Math.floor(Math.random() * 10)/100.0 + 0.02;
-                    starting_rotation_speed_dice_2.y = Math.floor(Math.random() * 10)/100.0 + 0.02;
-                    starting_rotation_speed_dice_2.z = Math.floor(Math.random() * 10)/100.0 + 0.02;
-
-
-                    acceleration_dice_2.x = ((goal_orientation_dice_2.x - starting_orientation_dice_2.x - starting_rotation_speed_dice_2.x * steps )*2) / (steps*steps);
-                    acceleration_dice_2.y = ((goal_orientation_dice_2.y - starting_orientation_dice_2.y - starting_rotation_speed_dice_2.y * steps )*2) / (steps*steps);
-                    acceleration_dice_2.z = ((goal_orientation_dice_2.z - starting_orientation_dice_2.z - starting_rotation_speed_dice_2.z * steps )*2) / (steps*steps);
-
-                }
-
-                if( n_dice_2 <= steps ){
-                    
-                    dice_2.rotation.x = starting_orientation_dice_2.x + starting_rotation_speed_dice_2.x * n_dice_2 + 1.0/2.0 *  (((goal_orientation_dice_2.x - starting_orientation_dice_2.x - starting_rotation_speed_dice_2.x * steps )*2) / (steps*steps)) * n_dice_2*n_dice_2;
-                    dice_2.rotation.y = starting_orientation_dice_2.y + starting_rotation_speed_dice_2.y * n_dice_2 + 1.0/2.0 *  (((goal_orientation_dice_2.y - starting_orientation_dice_2.y - starting_rotation_speed_dice_2.y * steps )*2) / (steps*steps)) * n_dice_2*n_dice_2;
-                    dice_2.rotation.z = starting_orientation_dice_2.z + starting_rotation_speed_dice_2.z * n_dice_2 + 1.0/2.0 *  (((goal_orientation_dice_2.z - starting_orientation_dice_2.z - starting_rotation_speed_dice_2.z * steps )*2) / (steps*steps)) * n_dice_2*n_dice_2;
-
-                    n_dice_2 += 1;
-
-                }else if (end_dice_2 == 0){
-                    
-                    dice_2.rotation.x = goal_orientation_dice_2.x;
-                    dice_2.rotation.y = goal_orientation_dice_2.y;
-                    dice_2.rotation.z = goal_orientation_dice_2.z; 
-                    end_dice_2 = 1;
-
-                    dice_2_final_orientationVar = dice_2.rotation;
-                    _set_dice_2_final_orientation(dice_2.rotation);
-                    start_end_animation = 1;
-                    
-                }     
-            }
-
-            if(start_end_animation){
-
-                if(dice_1_result + dice_2_result == 7){
-                    changeOpacityMesh(textMesh, (opacity_end-opacity_start)/opacity_change_frames * frame_n );
-                    changeOpacityMesh(textMeshLost, opacity_start );
-
-                }else{
-                    changeOpacityMesh(textMeshLost, (opacity_end-opacity_start)/opacity_change_frames * frame_n );
-                    changeOpacityMesh(textMesh, opacity_start );
-                }
-                
-                frame_n ++;
-                if(frame_n == opacity_change_frames){
-                    start_end_animation = 0; 
-                }
-
-            }
-
-            renderer.render( scene, camera );
+          acceleration_dice_2.x =
+            ((goal_orientation_dice_2.x -
+              starting_orientation_dice_2.x -
+              starting_rotation_speed_dice_2.x * steps) *
+              2) /
+            (steps * steps);
+          acceleration_dice_2.y =
+            ((goal_orientation_dice_2.y -
+              starting_orientation_dice_2.y -
+              starting_rotation_speed_dice_2.y * steps) *
+              2) /
+            (steps * steps);
+          acceleration_dice_2.z =
+            ((goal_orientation_dice_2.z -
+              starting_orientation_dice_2.z -
+              starting_rotation_speed_dice_2.z * steps) *
+              2) /
+            (steps * steps);
         }
 
-        renderer.shadowMap.enabled = true
-        renderer.setSize( width, height );
-        renderer.setClearColor( 0xffffff, 0);
-        
-        camera.updateProjectionMatrix();
-        if(firstDisplayVar){
-            renderer.render( scene, camera );
-            firstDisplayVar = false;
-            _setFirstDisplay(false);
-            dispatch(increment());
-        }else if(dices_goal.playing_bool == true){
-            
-            animate();
-            setPlayingBool(false);
+        if (n_dice_2 <= steps) {
+          dice_2.rotation.x =
+            starting_orientation_dice_2.x +
+            starting_rotation_speed_dice_2.x * n_dice_2 +
+            (1.0 / 2.0) *
+              (((goal_orientation_dice_2.x -
+                starting_orientation_dice_2.x -
+                starting_rotation_speed_dice_2.x * steps) *
+                2) /
+                (steps * steps)) *
+              n_dice_2 *
+              n_dice_2;
+          dice_2.rotation.y =
+            starting_orientation_dice_2.y +
+            starting_rotation_speed_dice_2.y * n_dice_2 +
+            (1.0 / 2.0) *
+              (((goal_orientation_dice_2.y -
+                starting_orientation_dice_2.y -
+                starting_rotation_speed_dice_2.y * steps) *
+                2) /
+                (steps * steps)) *
+              n_dice_2 *
+              n_dice_2;
+          dice_2.rotation.z =
+            starting_orientation_dice_2.z +
+            starting_rotation_speed_dice_2.z * n_dice_2 +
+            (1.0 / 2.0) *
+              (((goal_orientation_dice_2.z -
+                starting_orientation_dice_2.z -
+                starting_rotation_speed_dice_2.z * steps) *
+                2) /
+                (steps * steps)) *
+              n_dice_2 *
+              n_dice_2;
+
+          n_dice_2 += 1;
+        } else if (end_dice_2 == 0) {
+          dice_2.rotation.x = goal_orientation_dice_2.x;
+          dice_2.rotation.y = goal_orientation_dice_2.y;
+          dice_2.rotation.z = goal_orientation_dice_2.z;
+          end_dice_2 = 1;
+
+          dice_2_final_orientationVar = dice_2.rotation;
+          _set_dice_2_final_orientation(dice_2.rotation);
+          start_end_animation = 1;
+        }
+      }
+
+      if (start_end_animation) {
+        if (dice_1_result + dice_2_result == 7) {
+          changeOpacityMesh(
+            textMesh,
+            ((opacity_end - opacity_start) / opacity_change_frames) * frame_n
+          );
+          changeOpacityMesh(textMeshLost, opacity_start);
+        } else {
+          changeOpacityMesh(
+            textMeshLost,
+            ((opacity_end - opacity_start) / opacity_change_frames) * frame_n
+          );
+          changeOpacityMesh(textMesh, opacity_start);
         }
 
+        frame_n++;
+        if (frame_n == opacity_change_frames) {
+          start_end_animation = 0;
+        }
+      }
 
-    }, [dices_goal.dice_1, dices_goal.dice_2]);
+      renderer.render(scene, camera);
+    };
 
-    return (
-        <div ref={refContainer}></div>
+    renderer.shadowMap.enabled = true;
+    renderer.setSize(width, height);
+    renderer.setClearColor(0xffffff, 0);
 
-    );
+    camera.updateProjectionMatrix();
+    if (firstDisplayVar) {
+      renderer.render(scene, camera);
+      firstDisplayVar = false;
+      _setFirstDisplay(false);
+      dispatch(increment());
+    } else if (dices_goal.playing_bool == true) {
+      animate();
+      setPlayingBool(false);
+    }
+  }, [dices_goal.dice_1, dices_goal.dice_2]);
 
-}
+  return <div ref={refContainer}></div>;
+};
 
-export default dices
+export default dices;

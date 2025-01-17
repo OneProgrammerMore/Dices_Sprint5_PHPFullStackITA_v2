@@ -1,12 +1,12 @@
-import '../styles.css'
+import '../styles.css';
 import React from 'react';
 
 import * as Functions from '../dices.tsx';
 
-import {MyContext, MyContextType} from '../contextSrc/MyContext.tsx'
+import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
 interface IProps {
-	props?: React.PropsWithChildren;
+  props?: React.PropsWithChildren;
 }
 
 interface IState {
@@ -14,62 +14,63 @@ interface IState {
   dataItems?: string[];
 }
 
-export default class Logout extends React.Component<IProps, IState>{
-  
-	constructor(props: IProps) {
-		super(props);
+export default class Logout extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
 
-		this.state = {
-			jsonData: [],
-			dataItems: []
-		};
-		this.logOutFunction = this.logOutFunction.bind(this);
-		this.hideLoginFunction = this.hideLoginFunction.bind(this);
-		this.hideRegisterPlayerFunction = this.hideRegisterPlayerFunction.bind(this);
-		this.hideRegisterAdminFunction = this.hideRegisterAdminFunction.bind(this);
+    this.state = {
+      jsonData: [],
+      dataItems: []
+    };
+    this.logOutFunction = this.logOutFunction.bind(this);
+    this.hideLoginFunction = this.hideLoginFunction.bind(this);
+    this.hideRegisterPlayerFunction =
+      this.hideRegisterPlayerFunction.bind(this);
+    this.hideRegisterAdminFunction = this.hideRegisterAdminFunction.bind(this);
+  }
 
-	}
-		
-	static contextType = MyContext;
-	declare context: MyContextType;
-	
-	changeNavSectionAndUser = (userID: string, mainType: string) => {
-		this.context.updateValueMainAndUserID(userID, mainType);
-	}
-	hideLoginFunction(){
-		this.context.updateLoginFormDisplayStyle('none');
-	}
-	hideRegisterPlayerFunction(){
-		this.context.updateRegisterPlayerFormDisplayStyle('none');
-	}
-	hideRegisterAdminFunction(){
-		this.context.updateRegisterAdminFormDisplayStyle('none');
-	}
-	
-	updateLogoutVisibility = (newVisibility:string) => {
-		this.context.updateLogoutVisibilitySetter(newVisibility);
-	}
+  static contextType = MyContext;
+  declare context: MyContextType;
 
+  changeNavSectionAndUser = (userID: string, mainType: string) => {
+    this.context.updateValueMainAndUserID(userID, mainType);
+  };
+  hideLoginFunction() {
+    this.context.updateLoginFormDisplayStyle('none');
+  }
+  hideRegisterPlayerFunction() {
+    this.context.updateRegisterPlayerFormDisplayStyle('none');
+  }
+  hideRegisterAdminFunction() {
+    this.context.updateRegisterAdminFormDisplayStyle('none');
+  }
 
-	logOutFunction(){
-		console.log('logOutFunctionStart');
-		Functions.setCookie('token','',1);
-		Functions.setCookie('userid','',1);
-		this.context.updateValueUserTypeAndMain('None', 'Login');
-		console.log('logOutFunctionEnded');
-		this.hideLoginFunction();
-		this.hideRegisterPlayerFunction();
-		this.hideRegisterAdminFunction();
-		this.updateLogoutVisibility('none');
-	}
-  
-	render(){
-		return (
-			<div className="LogOutDiv" onClick={this.logOutFunction} style={{display:  this.context.logoutVisibity }}>
-				<span className="icon icon-nav icon-exit" ></span>
-			Log Out
-			</div>
-		)
-	}
+  updateLogoutVisibility = (newVisibility: string) => {
+    this.context.updateLogoutVisibilitySetter(newVisibility);
+  };
+
+  logOutFunction() {
+    console.log('logOutFunctionStart');
+    Functions.setCookie('token', '', 1);
+    Functions.setCookie('userid', '', 1);
+    this.context.updateValueUserTypeAndMain('None', 'Login');
+    console.log('logOutFunctionEnded');
+    this.hideLoginFunction();
+    this.hideRegisterPlayerFunction();
+    this.hideRegisterAdminFunction();
+    this.updateLogoutVisibility('none');
+  }
+
+  render() {
+    return (
+      <div
+        className="LogOutDiv"
+        onClick={this.logOutFunction}
+        style={{ display: this.context.logoutVisibity }}
+      >
+        <span className="icon icon-nav icon-exit"></span>
+        Log Out
+      </div>
+    );
+  }
 }
-

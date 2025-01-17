@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { UPDATE_VARIABLE } from './actions';
 
 const initialState = {
-  sharedVariable: null,
+  sharedVariable: null
 };
 
 // Define the action interface
@@ -20,7 +20,7 @@ const sharedReducer = (state = initialState, action: Action) => {
     case UPDATE_VARIABLE:
       return {
         ...state,
-        sharedVariable: action.payload,
+        sharedVariable: action.payload
       };
     default:
       return state;
@@ -28,7 +28,7 @@ const sharedReducer = (state = initialState, action: Action) => {
 };
 
 const rootReducer = combineReducers({
-  shared: sharedReducer,
+  shared: sharedReducer
 });
 
 export default rootReducer;

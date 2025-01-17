@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.{ts,tsx}' --write"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -39,6 +40,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "globals": "^15.14.0",
+    "prettier": "^3.4.2",
     "typescript": "^5.4.2",
     "typescript-eslint": "^8.19.1",
     "vite": "^5.1.4"
