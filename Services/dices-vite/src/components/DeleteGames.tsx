@@ -40,7 +40,9 @@ export default class Delete extends React.Component {
   async playerDelete() {
     const response = await this.playerDeleteApiCall();
 
-    if (!response.ok) {
+    if (response.ok) {
+      alert('The deletion of the games was successful');
+    }else{
       alert('Something went wrong');
     }
   }
