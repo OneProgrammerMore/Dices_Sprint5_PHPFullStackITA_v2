@@ -13,7 +13,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["react"], // Optional: Includes React typings
+    "types": [
+		"react",
+		"vitest/globals", 
+		"@testing-library/jest-dom"
+	], // Optional: Includes React typings
 
     /* Linting */
     "strict": true,
@@ -21,6 +25,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src",],
+  "include": [
+	"src",
+	"./vitest.setup.ts",
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
