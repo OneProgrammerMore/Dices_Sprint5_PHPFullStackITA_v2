@@ -109,21 +109,23 @@ export default class ModifyName extends React.Component<IProps, IState> {
           error: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        error: errorsInfo
-      });
+        });
+        this.setState({
+          error: errorsInfo
+        });
+      }
     }
   };
 

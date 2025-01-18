@@ -10,7 +10,13 @@ export default [
   ...tseslint.configs.recommended,
   react.configs.flat.recommended,
   {
-    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    ignores: ["dist/**/*"],
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
     plugins: {
       react,
     },
@@ -26,10 +32,12 @@ export default [
     },
     rules: {
       // ... any rules you want
-      'react/jsx-uses-react': 'error',
-      'react/jsx-uses-vars': 'error',
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
       "react/react-in-jsx-scope": "off", // Disable the rule here
-     },
+      "@typescript-eslint/use-unknown-in-catch-callback-variable": "off"
+    },
     // ... others are omitted for brevity
   },
 ];
+

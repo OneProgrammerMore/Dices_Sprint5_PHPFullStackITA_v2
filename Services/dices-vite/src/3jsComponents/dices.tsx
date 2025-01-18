@@ -14,26 +14,6 @@ type Orientation = {
   z: number;
 };
 
-interface DicesProps {
-  dice_1: number;
-  dice_2: number;
-  playing_bool: boolean;
-}
-
-let firstDisplay: boolean = true;
-let dice_1_final_orientation: Orientation = {} as Orientation;
-let dice_2_final_orientation: Orientation = {} as Orientation;
-
-dice_1_final_orientation.x = 0.0;
-dice_1_final_orientation.y = 0.0;
-dice_1_final_orientation.z = 0.0;
-
-dice_2_final_orientation.x = 0.0;
-dice_2_final_orientation.y = 0.0;
-dice_2_final_orientation.z = 0.0;
-
-let times_called: number = 0;
-
 let lightCenter: THREE.DirectionalLight;
 let lightLeft: THREE.DirectionalLight;
 let lightRight: THREE.DirectionalLight;
@@ -60,18 +40,27 @@ let dice_2: THREE.Object3D;
 
 const camera = new THREE.PerspectiveCamera(120, width / height, 3, 7);
 
+interface DicesProps {
+  dice_1: number;
+  dice_2: number;
+  playing_bool: boolean;
+}
 const dices = (dices_goal: DicesProps) => {
-  const [_dices_playing_bool, setPlayingBool] = useState(
-    dices_goal.playing_bool
-  );
+  const [firstDisplayVar, _setFirstDisplay] = useState<boolean>(true);
 
-  let [firstDisplayVar, _setFirstDisplay] = useState(firstDisplay);
-  let [dice_1_final_orientationVar, _set_dice_1_final_orientation] = useState(
-    dice_1_final_orientation
-  );
-  let [dice_2_final_orientationVar, _set_dice_2_final_orientation] = useState(
-    dice_2_final_orientation
-  );
+  const [dice_1_final_orientationVar, _set_dice_1_final_orientation] =
+    useState<Orientation>({
+      x: 0.0,
+      y: 0.0,
+      z: 0.0
+    });
+
+  const [dice_2_final_orientationVar, _set_dice_2_final_orientation] =
+    useState<Orientation>({
+      x: 0.0,
+      y: 0.0,
+      z: 0.0
+    });
 
   const refContainer = useRef<HTMLDivElement | null>(null);
 
@@ -85,7 +74,7 @@ const dices = (dices_goal: DicesProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    times_called++;
+    //times_called++;
 
     canvasRef = document.getElementById('3js-comp-dices')!;
     renderer = new THREE.WebGLRenderer({
@@ -512,7 +501,6 @@ const dices = (dices_goal: DicesProps) => {
           dice_1.rotation.z = goal_orientation_dice_1.z;
           end_dice_1 = 1;
 
-          dice_1_final_orientationVar = dice_1.rotation;
           _set_dice_1_final_orientation(dice_1.rotation);
         }
       }
@@ -599,7 +587,6 @@ const dices = (dices_goal: DicesProps) => {
           dice_2.rotation.z = goal_orientation_dice_2.z;
           end_dice_2 = 1;
 
-          dice_2_final_orientationVar = dice_2.rotation;
           _set_dice_2_final_orientation(dice_2.rotation);
           start_end_animation = 1;
         }
@@ -636,12 +623,10 @@ const dices = (dices_goal: DicesProps) => {
     camera.updateProjectionMatrix();
     if (firstDisplayVar) {
       renderer.render(scene, camera);
-      firstDisplayVar = false;
       _setFirstDisplay(false);
       dispatch(increment());
-    } else if (dices_goal.playing_bool == true) {
+    } else {
       animate();
-      setPlayingBool(false);
     }
   }, [dices_goal.dice_1, dices_goal.dice_2]);
 

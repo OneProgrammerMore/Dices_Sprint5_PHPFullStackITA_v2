@@ -109,21 +109,23 @@ export default class Login extends React.Component<IProps, IState> {
           error: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err: unknown) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        error: errorsInfo
-      });
+        });
+        this.setState({
+          error: errorsInfo
+        });
+      }
     }
   };
 
@@ -165,21 +167,23 @@ export default class Login extends React.Component<IProps, IState> {
           error: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err: unknown) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        error: errorsInfo
-      });
+        });
+        this.setState({
+          error: errorsInfo
+        });
+      }
     }
   };
 
@@ -221,21 +225,23 @@ export default class Login extends React.Component<IProps, IState> {
           registerPlayerError: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err: unknown) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        registerPlayerError: errorsInfo
-      });
+        });
+        this.setState({
+          registerPlayerError: errorsInfo
+        });
+      }
     }
   };
 
@@ -277,21 +283,23 @@ export default class Login extends React.Component<IProps, IState> {
           registerAdminError: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err: unknown) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        registerAdminError: errorsInfo
-      });
+        });
+        this.setState({
+          registerAdminError: errorsInfo
+        });
+      }
     }
   };
 
@@ -348,21 +356,23 @@ export default class Login extends React.Component<IProps, IState> {
           registerPlayerError: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err: unknown) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        registerPlayerError: errorsInfo
-      });
+        });
+        this.setState({
+          registerPlayerError: errorsInfo
+        });
+      }
     }
   };
 
@@ -402,21 +412,23 @@ export default class Login extends React.Component<IProps, IState> {
           registerAdminError: errorsInfo
         });
       }
-    } catch (err: any) {
-      err.inner.forEach((error: Yup.ValidationError, i: number) => {
-        if (error.path !== undefined) {
-          if (Array.isArray(errorsInfo[error.path]) == false) {
-            arrayAux = [];
-            errorsInfo[error.path] = arrayAux;
+    } catch (err: unknown) {
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error: Yup.ValidationError, i: number) => {
+          if (error.path !== undefined) {
+            if (Array.isArray(errorsInfo[error.path]) == false) {
+              arrayAux = [];
+              errorsInfo[error.path] = arrayAux;
+            }
+            if (errorsInfo[error.path]) {
+              errorsInfo[error.path].push(err.errors[i]);
+            }
           }
-          if (errorsInfo[error.path]) {
-            errorsInfo[error.path].push(err.errors[i]);
-          }
-        }
-      });
-      this.setState({
-        registerAdminError: errorsInfo
-      });
+        });
+        this.setState({
+          registerAdminError: errorsInfo
+        });
+      }
     }
   };
 
