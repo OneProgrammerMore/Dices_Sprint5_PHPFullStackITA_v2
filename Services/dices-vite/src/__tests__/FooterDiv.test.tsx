@@ -4,9 +4,9 @@ import { describe, it, expect, afterEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 
 describe('FooterDiv (Class Component)', () => {
-    afterEach(() => {
-        cleanup();
-      });
+  afterEach(() => {
+    cleanup();
+  });
 
   it('renders component', () => {
     render(<FooterDiv />);

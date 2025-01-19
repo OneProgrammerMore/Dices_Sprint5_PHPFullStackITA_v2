@@ -37,7 +37,6 @@ test('should add content before the text', async ({ page }) => {
   expect(beforeContent).toBe(`"${expectedUnicodeChar}"`);
 });*/
 
-
 import { test, expect } from '@playwright/test';
 
 test('should add content before the text', async ({ page }) => {
@@ -45,8 +44,10 @@ test('should add content before the text', async ({ page }) => {
 
   // Navigate to the page containing the component
   await page.goto('http://localhost:80/'); // Replace with the actual URL
-  await expect(page.getByText('If the ruler does not know your name...')).toBeVisible();
-  
+  await expect(
+    page.getByText('If the ruler does not know your name...')
+  ).toBeVisible();
+
   /*
   // Injecting CSS directly into the test
   await page.addStyleTag({
@@ -70,6 +71,6 @@ test('should add content before the text', async ({ page }) => {
   });
 
   // Ensure that the content is the Unicode character represented by \e9bd
-  const expectedUnicodeChar = '\uE905';  // The actual character from Unicode escape sequence
+  const expectedUnicodeChar = '\uE905'; // The actual character from Unicode escape sequence
   expect(beforeContent).toBe(`"${expectedUnicodeChar}"`);
 });

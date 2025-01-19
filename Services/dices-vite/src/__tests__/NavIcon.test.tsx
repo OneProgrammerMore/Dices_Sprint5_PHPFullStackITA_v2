@@ -4,10 +4,9 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 
 describe('FooterDiv (Class Component)', () => {
-
-    afterEach(() => {
-        cleanup();
-      });
+  afterEach(() => {
+    cleanup();
+  });
 
   it('renders menu icon', () => {
     // Mocking window.innerWidth for a wide screen
@@ -55,6 +54,4 @@ describe('FooterDiv (Class Component)', () => {
     const expectedUnicodeChar = '\uE9BD';  // The actual character from Unicode escape sequence
     expect(beforeContent).toBe(`"${expectedUnicodeChar}"`);
   });*/
-
-
 });

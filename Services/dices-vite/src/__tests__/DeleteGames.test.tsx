@@ -1,4 +1,10 @@
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  cleanup
+} from '@testing-library/react';
 import DeleteGames from '../components/DeleteGames';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
