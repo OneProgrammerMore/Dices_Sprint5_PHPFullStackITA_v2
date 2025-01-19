@@ -34,12 +34,12 @@ docker-compose up
   - http://127.0.0.1:83
   - http://localhost:83
 4. The documentation can be seen in the following link:
-  - localhost:82/api/documentation
-  - 127.0.0.1:82/api/documentation
+  - localhost:82
+  - 127.0.0.1:82
 
   Or the next URLs
-  - http://127.0.0.1:82/api/documentation
-  - http://localhost:82/api/documentation
+  - http://127.0.0.1:82
+  - http://localhost:82
 
   *Assure that the browser is not redirecting you to the httpS url, some browsers do this nowadays for user's security, quite annoying stuff for hackers who sniff the traffic. (HTTPS not supported with current docker configuration)
 
