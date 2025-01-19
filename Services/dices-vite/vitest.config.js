@@ -1,30 +1,18 @@
-export default {
-  test: {
-    environment: 'jsdom',
-    globals: true, // Enable global hooks
-  },
-}
-/*
-export default {
-  test: {
-    environment: 'jsdom',
-  },
-}*/
-/*
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [react()],
   test: {
+	include: [
+		'./src/__tests__/**/*.{test,spec}.?(c|m)[jt]s?(x)'
+	],
     environment: 'jsdom',
+    globals: true,
+	css: true,
     coverage: {
-      provider: 'istanbul',
-      lines: 90,
-      functions: 90,
-      branches: 90,
-      statements: 90,
+	  enabled: false,
+      reporter: ['text', 'json', 'html'],
     },
-    dir: 'src/__tests__',
-    globals: true, // Enable global hooks
   },
-  exclude: ['src/__tests__'],
-} as VitestConfigExport);
-*/
+});

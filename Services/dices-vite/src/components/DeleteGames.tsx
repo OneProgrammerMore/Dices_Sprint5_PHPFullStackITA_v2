@@ -42,7 +42,7 @@ export default class Delete extends React.Component {
 
     if (response.ok) {
       alert('The deletion of the games was successful');
-    }else{
+    } else {
       alert('Something went wrong');
     }
   }

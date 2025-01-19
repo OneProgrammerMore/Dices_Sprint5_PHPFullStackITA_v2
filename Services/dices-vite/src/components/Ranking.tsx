@@ -75,8 +75,6 @@ export default class Ranking extends React.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    console.log('The Ranking component did mount started');
-
     const response = await this.rankingApiCall();
 
     if (response.ok) {

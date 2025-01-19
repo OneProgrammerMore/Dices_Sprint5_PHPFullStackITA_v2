@@ -35,4 +35,11 @@ REACT APP:
     Add Valitaion To Component Modify_Name
     Clean & Refactor Redux Context - Forgot completely about it ^^'
     Free Resources When Browser Or Tab Closing - ThreeJS Components
+    
+COMMANDS:
+
+- In order to run e2e tests:
+xvfb-run npm run testb
+xvfb-run npm run test-browser-headed
+xvfb-run -a npx playwright test
 
