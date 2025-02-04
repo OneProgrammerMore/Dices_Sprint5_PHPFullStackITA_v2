@@ -10,9 +10,11 @@ import {
 } from '../contextSrc/MyContext.tsx';
 import NavIcon from './NavIcon.tsx';
 
+import { withNavigation } from '../functions/withRouter.tsx';
 interface IProps {
   props?: React.PropsWithChildren;
   displayMenuContext: DisplayMenuNavContextInterface;
+  navigate: (path: string) => void;
 }
 
 interface IState {
@@ -20,7 +22,7 @@ interface IState {
   dataItems?: string[];
 }
 
-export default class NavPlayer extends React.Component<IProps, IState> {
+class NavPlayer extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -30,6 +32,7 @@ export default class NavPlayer extends React.Component<IProps, IState> {
 
   changeNavSection = (newType: string) => {
     this.context.updateValueMain(newType);
+    this.props.navigate(newType);
     this.props.displayMenuContext.setDisplayMenuCloseButton('hiddenClass');
     this.props.displayMenuContext.setDisplayMenuOpenButton('visibleClass');
     this.props.displayMenuContext.setDisplayMenu('navClosed');
@@ -37,6 +40,7 @@ export default class NavPlayer extends React.Component<IProps, IState> {
 
   changeNavSectionAndUser = (userID: string, mainType: string) => {
     this.context.updateValueMainAndUserID(userID, mainType);
+    this.props.navigate(mainType);
     this.props.displayMenuContext.setDisplayMenuCloseButton('hiddenClass');
     this.props.displayMenuContext.setDisplayMenuOpenButton('visibleClass');
     this.props.displayMenuContext.setDisplayMenu('navClosed');
@@ -46,34 +50,31 @@ export default class NavPlayer extends React.Component<IProps, IState> {
     return (
       <div
         id="UserNav"
-        className={
-          'navSection ' + this.props.displayMenuContext.displayMenu
-        } /*className="navSection "*/ /*className={"navSection " + this.context.displayMenu}*/
+        className={'navSection ' + this.props.displayMenuContext.displayMenu}
       >
         <div className="navName">- Player -</div>
 
         <div className="navItems">
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('Play')}>
+            <div onClick={() => this.changeNavSection('Play')}>
               <span className="icon icon-nav icon-dices"></span>
               Play
-            </a>
+            </div>
           </div>
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('Delete')}>
+            <div onClick={() => this.changeNavSection('Delete')}>
               <span className="icon icon-nav icon-trash"></span>
               Delete
-            </a>
+            </div>
           </div>
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('ModifyName')}>
+            <div onClick={() => this.changeNavSection('ModifyName')}>
               <span className="icon icon-nav icon-pencil"></span>
               Modify Name
-            </a>
+            </div>
           </div>
           <div className="navItem">
-            <a
-              href="#"
+            <div
               onClick={() =>
                 this.changeNavSectionAndUser(
                   Functions.getCookie('userid'),
@@ -83,7 +84,7 @@ export default class NavPlayer extends React.Component<IProps, IState> {
             >
               <span className="icon icon-nav icon-player"></span>
               Show Player
-            </a>
+            </div>
           </div>
         </div>
 
@@ -92,3 +93,5 @@ export default class NavPlayer extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withNavigation(NavPlayer);

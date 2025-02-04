@@ -8,18 +8,19 @@ import {
 } from '../contextSrc/MyContext.tsx';
 import NavIcon from './NavIcon.tsx';
 
+import { withNavigation } from '../functions/withRouter.tsx';
 interface IProps {
   props?: React.PropsWithChildren;
   displayMenuContext: DisplayMenuNavContextInterface;
+  navigate: (path: string) => void;
 }
 interface IState {
   jsonData?: string[];
   dataItems?: string[];
 }
 
-//import {ShowListPlayers, ShowRanking, ShowLoser, ShowWinner} from '../main.tsx';
 
-export default class NavEmpty extends React.Component<IProps, IState> {
+class NavAdmin extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -29,6 +30,7 @@ export default class NavEmpty extends React.Component<IProps, IState> {
 
   changeNavSection = (newType: string) => {
     this.context.updateValueMain(newType);
+    this.props.navigate(newType);
     this.props.displayMenuContext.setDisplayMenuCloseButton('hiddenClass');
     this.props.displayMenuContext.setDisplayMenuOpenButton('visibleClass');
     this.props.displayMenuContext.setDisplayMenu('navClosed');
@@ -44,28 +46,28 @@ export default class NavEmpty extends React.Component<IProps, IState> {
 
         <div className="navItems">
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('ListPlayers')}>
+            <div onClick={() => this.changeNavSection('ListPlayers')}>
               <span className="icon icon-nav icon-list"></span>
               List Players
-            </a>
+            </div>
           </div>
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('Ranking')}>
+            <div onClick={() => this.changeNavSection('Ranking')}>
               <span className="icon icon-nav icon-cup"></span>
               Ranking
-            </a>
+            </div>
           </div>
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('Loser')}>
+            <div onClick={() => this.changeNavSection('Loser')}>
               <span className="icon icon-nav icon-worst"></span>
               Worst
-            </a>
+            </div>
           </div>
           <div className="navItem">
-            <a href="#" onClick={() => this.changeNavSection('Winner')}>
+            <div onClick={() => this.changeNavSection('Winner')}>
               <span className="icon icon-nav icon-top"></span>
               Best
-            </a>
+            </div>
           </div>
         </div>
         <NavIcon />
@@ -73,3 +75,4 @@ export default class NavEmpty extends React.Component<IProps, IState> {
     );
   }
 }
+export default withNavigation(NavAdmin);

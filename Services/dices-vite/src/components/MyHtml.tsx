@@ -1,7 +1,7 @@
 import '../styles.css';
 import React from 'react';
 
-import { HeaderDiv as HeaderDiv } from './HeaderDiv.tsx';
+import HeaderDiv from './HeaderDiv.tsx';
 import NavigatorDiv from './NavigatorDiv.tsx';
 import MainDiv from './MainDiv.tsx';
 import FooterDiv from './FooterDiv.tsx';

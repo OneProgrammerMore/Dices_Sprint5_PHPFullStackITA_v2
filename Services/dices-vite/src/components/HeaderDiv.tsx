@@ -5,18 +5,30 @@ import Logout from './Logout.tsx';
 import * as Functions from '../dices.tsx';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
+import { withNavigation } from '../functions/withRouter.tsx';
 
-export class HeaderDiv extends React.Component {
+interface IProps {
+  props?: React.PropsWithChildren;
+  navigate: (path: string) => void;
+}
+
+interface IState {
+  jsonData?: string[];
+  dataItems?: string[];
+}
+
+class HeaderDiv extends React.Component<IProps, IState> {
   static contextType = MyContext;
   declare context: MyContextType;
 
-  constructor(props: React.PropsWithChildren) {
+  constructor(props: IProps) {
     super(props);
   }
 
   changeNavSection = (newType: string) => {
     if (Functions.getCookie('userid') != '') {
       this.context.updateValueMain(newType);
+      this.props.navigate(newType);
     } else {
       alert('It is necessary to be logged in in order to go to home page');
     }
@@ -38,3 +50,5 @@ export class HeaderDiv extends React.Component {
     );
   }
 }
+
+export default withNavigation(HeaderDiv);

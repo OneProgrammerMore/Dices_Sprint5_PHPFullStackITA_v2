@@ -4,7 +4,7 @@ import './dices.tsx';
 import MyHTMLDiv from './components/MyHtml.tsx';
 import DicesBackground from './3jsComponents/dices-background.tsx';
 import { DisplayMenuNavContext } from './contextSrc/MyContext.tsx';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 import store from './app/store.ts';
 import { Provider } from 'react-redux';
 
@@ -20,22 +20,24 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <DisplayMenuNavContext.Provider
-        value={{
-          displayMenu,
-          setDisplayMenu,
-          displayMenuCloseButton,
-          setDisplayMenuCloseButton,
-          displayMenuOpenButton,
-          setDisplayMenuOpenButton
-        }}
-      >
-        <div>
-          <canvas id="dices-background"></canvas>
-          <DicesBackground />
-          <MyHTMLDiv />
-        </div>
-      </DisplayMenuNavContext.Provider>
+      <Router>
+        <DisplayMenuNavContext.Provider
+          value={{
+            displayMenu,
+            setDisplayMenu,
+            displayMenuCloseButton,
+            setDisplayMenuCloseButton,
+            displayMenuOpenButton,
+            setDisplayMenuOpenButton
+          }}
+        >
+          <div>
+            <canvas id="dices-background"></canvas>
+            <DicesBackground />
+            <MyHTMLDiv />
+          </div>
+        </DisplayMenuNavContext.Provider>
+      </Router>
     </Provider>
   );
 };

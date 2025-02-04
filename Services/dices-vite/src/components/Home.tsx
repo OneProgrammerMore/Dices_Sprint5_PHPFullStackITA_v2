@@ -2,11 +2,31 @@ import '../styles.css';
 import React from 'react';
 
 import * as Functions from '../dices.tsx';
+import { withNavigation } from '../functions/withRouter.tsx';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
-export default class Home extends React.Component {
-  constructor(props: React.PropsWithChildren) {
+/*
+interface IProps {
+  props?: React.PropsWithChildren;
+}
+interface IState {
+  jsonData?: string[];
+  dataItems?: string[];
+}*/
+import { useNavigate } from 'react-router-dom';
+interface IProps {
+  history: ReturnType<typeof useNavigate>;
+}
+interface IState {
+  jsonData?: string[];
+  dataItems?: string[];
+}
+
+//export default class Home extends React.Component {
+class Home extends React.Component<IProps, IState> {
+  //constructor(props: React.PropsWithChildren) {
+  constructor(props: IProps) {
     super(props);
   }
 
@@ -44,3 +64,4 @@ export default class Home extends React.Component {
     );
   }
 }
+export default withNavigation(Home);

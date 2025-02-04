@@ -1,5 +1,6 @@
 import '../styles.css';
 import React from 'react';
+import { withNavigation } from '../functions/withRouter.tsx';
 
 import * as Functions from '../dices.tsx';
 
@@ -7,6 +8,7 @@ import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
 interface IProps {
   props?: React.PropsWithChildren;
+  navigate: (path: string) => void;
 }
 
 interface IState {
@@ -14,7 +16,7 @@ interface IState {
   dataItems?: string[];
 }
 
-export default class Logout extends React.Component<IProps, IState> {
+class Logout extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -32,8 +34,8 @@ export default class Logout extends React.Component<IProps, IState> {
   static contextType = MyContext;
   declare context: MyContextType;
 
-  changeNavSectionAndUser = (userID: string, mainType: string) => {
-    this.context.updateValueMainAndUserID(userID, mainType);
+  changeNavSectionAndUser = (mainType: string) => {
+    this.props.navigate(mainType);
   };
   hideLoginFunction() {
     this.context.updateLoginFormDisplayStyle('none');
@@ -59,6 +61,7 @@ export default class Logout extends React.Component<IProps, IState> {
     this.hideRegisterPlayerFunction();
     this.hideRegisterAdminFunction();
     this.updateLogoutVisibility('none');
+    this.changeNavSectionAndUser('/');
   }
 
   render() {
@@ -74,3 +77,5 @@ export default class Logout extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withNavigation(Logout);

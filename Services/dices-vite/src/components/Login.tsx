@@ -6,9 +6,11 @@ import * as Functions from '../dices.tsx';
 import * as Yup from 'yup';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
-
+import { withNavigation } from '../functions/withRouter.tsx';
+//import { useNavigate } from 'react-router-dom';
 interface IProps {
   props?: React.PropsWithChildren;
+  navigate: (path: string) => void;
 }
 
 type FieldError = string[];
@@ -25,7 +27,7 @@ interface IState {
   registerAdminError: LoginError;
 }
 
-export default class Login extends React.Component<IProps, IState> {
+class Login extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -439,7 +441,10 @@ export default class Login extends React.Component<IProps, IState> {
     this.context.updateValue(newType);
   };
   changeNavSection = (newType: string) => {
+    console.log(newType);
     this.context.updateValueMain(newType);
+    this.props.navigate('/home');
+    console.log(newType);
   };
   handleSubmitRegisterPlayer(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -1067,3 +1072,5 @@ export default class Login extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withNavigation(Login);
