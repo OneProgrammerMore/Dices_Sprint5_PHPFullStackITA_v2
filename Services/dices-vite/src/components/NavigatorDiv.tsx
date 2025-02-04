@@ -6,7 +6,7 @@ import NavPlayer from './NavPlayer.tsx';
 import NavAdmin from './NavAdmin.tsx';
 import * as Functions from '../dices.tsx';
 import * as Constants from '../constants.tsx';
-
+import { withNavigation } from '../functions/withRouter.tsx';
 import {
   MyContext,
   MyContextType,
@@ -15,7 +15,7 @@ import {
 
 interface IProps {
   props?: React.PropsWithChildren;
-  //userTypeSwitch: string;
+  navigate: (path: string) => void;
 }
 
 interface IState {
@@ -23,7 +23,7 @@ interface IState {
   dataItems?: string[];
 }
 
-export default class NavigatorDiv extends React.Component<IProps, IState> {
+class NavigatorDiv extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -99,7 +99,7 @@ export default class NavigatorDiv extends React.Component<IProps, IState> {
               return (
                 <DisplayMenuNavContext.Consumer>
                   {(displayMenuNavContext) => (
-                    <NavPlayer displayMenuContext={displayMenuNavContext} />
+                    <NavPlayer displayMenuContext={displayMenuNavContext} navigate={this.props.navigate}/>
                   )}
                 </DisplayMenuNavContext.Consumer>
               );
@@ -107,7 +107,7 @@ export default class NavigatorDiv extends React.Component<IProps, IState> {
               return (
                 <DisplayMenuNavContext.Consumer>
                   {(displayMenuNavContext) => (
-                    <NavAdmin displayMenuContext={displayMenuNavContext} />
+                    <NavAdmin displayMenuContext={displayMenuNavContext} navigate={this.props.navigate} />
                   )}
                 </DisplayMenuNavContext.Consumer>
               );
@@ -120,3 +120,5 @@ export default class NavigatorDiv extends React.Component<IProps, IState> {
   }
 
 }
+
+export default withNavigation(NavigatorDiv);

@@ -44,7 +44,8 @@ class HeaderDiv extends React.Component<IProps, IState> {
           </div>
         </div>
         <div id="HeaderRight">
-          <Logout />
+
+          <Logout navigate={this.props.navigate} />
         </div>
       </header>
     );

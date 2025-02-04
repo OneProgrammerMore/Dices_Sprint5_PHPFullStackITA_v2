@@ -4,7 +4,7 @@ import './dices.tsx';
 import MyHTMLDiv from './components/MyHtml.tsx';
 import DicesBackground from './3jsComponents/dices-background.tsx';
 import { DisplayMenuNavContext } from './contextSrc/MyContext.tsx';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
 import store from './app/store.ts';
 import { Provider } from 'react-redux';
 
@@ -34,7 +34,7 @@ const App = () => {
           <div>
             <canvas id="dices-background"></canvas>
             <DicesBackground />
-            <MyHTMLDiv />
+            <MyHTMLDiv navigate={useNavigate} />
           </div>
         </DisplayMenuNavContext.Provider>
       </Router>

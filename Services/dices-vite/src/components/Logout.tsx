@@ -53,6 +53,7 @@ class Logout extends React.Component<IProps, IState> {
 
   logOutFunction() {
     console.log('logOutFunctionStart');
+    console.log("Logout props:", this.props);
     Functions.setCookie('token', '', 1);
     Functions.setCookie('userid', '', 1);
     this.context.updateValueUserTypeAndMain('None', 'Login');

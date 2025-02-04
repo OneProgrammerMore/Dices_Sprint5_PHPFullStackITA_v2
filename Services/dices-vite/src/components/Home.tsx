@@ -6,17 +6,9 @@ import { withNavigation } from '../functions/withRouter.tsx';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
-/*
+
 interface IProps {
   props?: React.PropsWithChildren;
-}
-interface IState {
-  jsonData?: string[];
-  dataItems?: string[];
-}*/
-import { useNavigate } from 'react-router-dom';
-interface IProps {
-  history: ReturnType<typeof useNavigate>;
 }
 interface IState {
   jsonData?: string[];

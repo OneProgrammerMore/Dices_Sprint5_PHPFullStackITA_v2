@@ -100,7 +100,7 @@ class MainDiv extends React.Component<IProps, IState> {
   render() {
     return (
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login navigate={this.props.navigate} />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/Play" element={<Play />} />
         <Route path="/Delete" element={<Delete />} />

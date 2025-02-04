@@ -7,16 +7,18 @@ import MainDiv from './MainDiv.tsx';
 import FooterDiv from './FooterDiv.tsx';
 
 import { MyContextProvider } from '../contextSrc/MyContext.tsx';
+import { withNavigation } from '../functions/withRouter.tsx';
 
 interface IProps {
   props?: React.PropsWithChildren;
+  navigate: (path: string) => void;
 }
 interface IState {
   jsonData?: string[];
   dataItems?: string[];
 }
 
-export default class MyHTMLDiv extends React.Component<IProps, IState> {
+class MyHTMLDiv extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -25,14 +27,14 @@ export default class MyHTMLDiv extends React.Component<IProps, IState> {
     return (
       <div id="mainContainer">
         <MyContextProvider>
-          <HeaderDiv />
+          <HeaderDiv navigate={this.props.navigate} />
 
           <nav id="nav">
-            <NavigatorDiv />
+            <NavigatorDiv  navigate={this.props.navigate} />
           </nav>
 
           <main id="root">
-            <MainDiv />
+            <MainDiv navigate={this.props.navigate}  />
           </main>
 
           <FooterDiv />
@@ -41,3 +43,5 @@ export default class MyHTMLDiv extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withNavigation(MyHTMLDiv);
