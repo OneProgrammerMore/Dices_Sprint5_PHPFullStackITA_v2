@@ -441,10 +441,8 @@ class Login extends React.Component<IProps, IState> {
     this.context.updateValue(newType);
   };
   changeNavSection = (newType: string) => {
-    console.log(newType);
     this.context.updateValueMain(newType);
     this.props.navigate('/home');
-    console.log(newType);
   };
   handleSubmitRegisterPlayer(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

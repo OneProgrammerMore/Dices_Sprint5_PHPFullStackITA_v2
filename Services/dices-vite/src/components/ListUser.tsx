@@ -6,9 +6,11 @@ import * as Functions from '../dices.tsx';
 import { Commet } from 'react-loading-indicators';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
+import { withNavigation } from '../functions/withRouter.tsx';
 
 interface IProps {
   props?: React.PropsWithChildren;
+  navigate: (path: string) => void;
 }
 
 interface IState {
@@ -37,7 +39,7 @@ type PlayerIDData = {
 };
 type JsonDataPlayers = Record<string, PlayerData>;
 
-export default class ListUsers extends React.Component<IProps, IState> {
+class ListUsers extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -56,6 +58,8 @@ export default class ListUsers extends React.Component<IProps, IState> {
 
   changeNavSectionAndUser = (userID: string, mainType: string) => {
     this.context.updateValueMainAndUserID(userID, mainType);
+    const newPath = '/'+mainType;
+    this.props.navigate(newPath);
   };
 
   async listPlayersApiCall() {
@@ -69,7 +73,6 @@ export default class ListUsers extends React.Component<IProps, IState> {
     //Status 401 -> Show error message
 
     return new Promise((resolve) => {
-      console.log('Status One');
       const token = Functions.getCookie('token');
       const listPlayersURI: string = '/api/players';
       const listPlayersEndPoint: string = Constants.dices_URL + listPlayersURI;
@@ -101,7 +104,6 @@ export default class ListUsers extends React.Component<IProps, IState> {
   async componentDidMount() {
     const jsonDataPlayers: JsonDataPlayers =
       (await this.listPlayersApiCall()) as JsonDataPlayers;
-    console.log(jsonDataPlayers);
 
     const arr: PlayerIDData[] = [];
 
@@ -178,3 +180,5 @@ export default class ListUsers extends React.Component<IProps, IState> {
     }
   }
 }
+
+export default  withNavigation(ListUsers);

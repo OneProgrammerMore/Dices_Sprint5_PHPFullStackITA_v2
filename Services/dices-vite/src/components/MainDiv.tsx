@@ -39,10 +39,8 @@ class MainDiv extends React.Component<IProps, IState> {
     this.context.updateValue(newType);
   };
   changeNavSection = (newType: string) => {
-    console.log(newType);
     this.context.updateValueMain(newType);
     this.props.navigate(newType);
-    console.log(newType);
   };
   logoutVisibilitySet: string = 'flex';
   updateLogoutVisibility = (newVisibility: string) => {
@@ -105,11 +103,11 @@ class MainDiv extends React.Component<IProps, IState> {
         <Route path="/Play" element={<Play />} />
         <Route path="/Delete" element={<Delete />} />
         <Route path="/ModifyName" element={<ModifyName />} />
-        <Route path="/Player" element={<Player />} />
-        <Route path="/ListPlayers" element={<ListUsers />} />
-        <Route path="/Ranking" element={<Ranking />} />
-        <Route path="/Winner" element={<Winner />} />
-        <Route path="/Loser" element={<Loser />} />
+        <Route path="/Player" element={<Player  />} />
+        <Route path="/ListPlayers" element={<ListUsers navigate={this.props.navigate} />} />
+        <Route path="/Ranking" element={<Ranking navigate={this.props.navigate} />} />
+        <Route path="/Winner" element={<Winner navigate={this.props.navigate}/>} />
+        <Route path="/Loser" element={<Loser navigate={this.props.navigate}/>} />
       </Routes>
     );
   }

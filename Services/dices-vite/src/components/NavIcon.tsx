@@ -5,20 +5,15 @@ function NavIcon({}) {
   const menuContext = useContext(DisplayMenuNavContext);
 
   const openMenu = () => {
-    console.log('openeing');
     menuContext.setDisplayMenu('navOpen');
     menuContext.setDisplayMenuCloseButton('visibleClass');
     menuContext.setDisplayMenuOpenButton('hiddenClass');
-    console.log('opened');
-    console.log(menuContext.displayMenu);
   };
 
   const closeMenu = () => {
     menuContext.setDisplayMenu('navClosed');
     menuContext.setDisplayMenuCloseButton('hiddenClass');
     menuContext.setDisplayMenuOpenButton('visibleClass');
-    console.log('closed');
-    console.log(menuContext.displayMenu);
   };
 
   useEffect(() => {}, []);

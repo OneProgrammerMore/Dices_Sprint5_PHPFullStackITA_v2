@@ -2,6 +2,7 @@ import { render, screen, waitFor, cleanup } from '@testing-library/react';
 import Ranking from '../components/Ranking';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
+import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
 
 const rankingApiEx = [
   {
@@ -31,6 +32,7 @@ const rankingApiEx = [
 ];
 
 describe('Ranking (Class Component)', () => {
+
   afterEach(() => {
     vi.clearAllMocks();
     cleanup();
@@ -51,7 +53,11 @@ describe('Ranking (Class Component)', () => {
       )
     );
 
-    render(<Ranking />);
+    render(
+      <Router>
+        <Ranking  navigate={useNavigate} />
+      </Router>
+    );
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
 
     expect(screen.getByText('User ID')).toBeInTheDocument();
@@ -92,7 +98,11 @@ describe('Ranking (Class Component)', () => {
       )
     );
 
-    render(<Ranking />);
+    render(
+      <Router>
+        <Ranking  navigate={useNavigate} />
+      </Router>
+    );
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
 
     expect(

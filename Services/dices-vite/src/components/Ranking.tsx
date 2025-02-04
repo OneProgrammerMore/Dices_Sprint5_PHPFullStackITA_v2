@@ -6,6 +6,7 @@ import * as Functions from '../dices.tsx';
 import { Commet } from 'react-loading-indicators';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
+import { withNavigation } from '../functions/withRouter.tsx';
 
 interface Player {
   id: string;
@@ -29,6 +30,7 @@ type DataItemsState = ReactElement[][];
 
 interface IProps {
   props?: React.PropsWithChildren;
+  navigate: (path: string) => void;
 }
 
 interface IState {
@@ -38,7 +40,7 @@ interface IState {
   dataExists: boolean;
 }
 
-export default class Ranking extends React.Component<IProps, IState> {
+class Ranking extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -55,6 +57,8 @@ export default class Ranking extends React.Component<IProps, IState> {
 
   changeNavSectionAndUser = (userID: string, mainType: string) => {
     this.context.updateValueMainAndUserID(userID, mainType);
+    const newPath = '/'+mainType;
+    this.props.navigate(newPath);
   };
 
   async rankingApiCall() {
@@ -168,3 +172,4 @@ export default class Ranking extends React.Component<IProps, IState> {
     }
   }
 }
+export default withNavigation(Ranking);
