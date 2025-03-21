@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { useEffect, useRef } from 'react';
 
+import * as Constants from '../constants.tsx';
+
 type Dice = {
   x_rotation: number;
   y_rotation: number;
@@ -80,7 +82,7 @@ function dices_background() {
 
     for (let i = 0; i < amount_dices; i++) {
       loader.load(
-        '/DiceRoundColouredGray.gltf',
+        Constants.dices_React_URL +'/DiceRoundColouredGray.gltf',
         function (gltf) {
           gltf.scene.scale.set(30, 30, 30);
 
