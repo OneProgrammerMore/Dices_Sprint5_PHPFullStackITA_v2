@@ -7,6 +7,7 @@ import { DisplayMenuNavContext } from './contextSrc/MyContext.tsx';
 import { BrowserRouter as Router, useNavigate } from 'react-router-dom';
 import store from './app/store.ts';
 import { Provider } from 'react-redux';
+import * as Constants from './constants.tsx';
 
 //let container: any = null;
 let container: HTMLElement | null = null;
@@ -19,8 +20,9 @@ const App = () => {
     useState('visibleClass');
 
   return (
+    
     <Provider store={store}>
-      <Router>
+      <Router basename={Constants.dices_Router_Prefix} >
         <DisplayMenuNavContext.Provider
           value={{
             displayMenu,
