@@ -5,6 +5,8 @@ import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import type { RootState } from '..//app/store';
 
+import * as Constants from '../constants.tsx';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { increment } from '../features/counter/counterSlice';
 
@@ -177,7 +179,8 @@ const dices = (dices_goal: DicesProps) => {
       const loader = new GLTFLoader();
 
       loader.load(
-        '/DiceRoundColouredGray.gltf',
+        //'/DiceRoundColouredGray.gltf',
+        Constants.dices_React_URL + '/DiceRoundColouredGray.gltf',
         function (gltf) {
           gltf.scene.scale.set(60, 60, 60);
 
@@ -203,7 +206,7 @@ const dices = (dices_goal: DicesProps) => {
       );
 
       loader.load(
-        '/DiceRoundColouredGray.gltf',
+        Constants.dices_React_URL +'/DiceRoundColouredGray.gltf',
         function (gltf) {
           gltf.scene.scale.set(60, 60, 60);
 
@@ -238,7 +241,7 @@ const dices = (dices_goal: DicesProps) => {
       camera.position.y = 2;
       camera.position.x = 0;
 
-      fontLoader.load('/fonts/OpenSans_Regular.typeface.json', function (font) {
+      fontLoader.load(Constants.dices_React_URL + '/fonts/OpenSans_Regular.typeface.json', function (font) {
         wonTextGeometry = new TextGeometry('You won!', {
           font: font,
           size: 1.5,
@@ -287,7 +290,7 @@ const dices = (dices_goal: DicesProps) => {
         scene.add(textMesh);
       });
 
-      fontLoader.load('/fonts/OpenSans_Regular.typeface.json', function (font) {
+      fontLoader.load(Constants.dices_React_URL + '/fonts/OpenSans_Regular.typeface.json', function (font) {
         lostTextGeometry = new TextGeometry('You lost!', {
           font: font,
           size: 1.5,
