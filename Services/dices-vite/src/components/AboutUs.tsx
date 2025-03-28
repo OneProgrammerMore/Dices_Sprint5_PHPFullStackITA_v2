@@ -1,4 +1,3 @@
-import '../styles.css';
 import React from 'react';
 
 import * as Functions from '../dices.tsx';
@@ -16,7 +15,7 @@ interface IState {
 }
 
 //export default class Home extends React.Component {
-class Home extends React.Component<IProps, IState> {
+class AboutUs extends React.Component<IProps, IState> {
   //constructor(props: React.PropsWithChildren) {
   constructor(props: IProps) {
     super(props);
@@ -30,30 +29,11 @@ class Home extends React.Component<IProps, IState> {
   };
 
   render() {
-    let messageL1: string = '';
-    let messageL2: string = '';
-    switch (this.context.userTypeSwitch) {
-      case 'Player':
-        messageL1 = 'You are logged as player!';
-        messageL2 = 'Time to roll the dices!';
-        break;
-      case 'Admin':
-        messageL1 = 'You are logged as admin!';
-        messageL2 = 'Quite boring but at least can you see...';
-        break;
-      default:
-        break;
-    }
-
     return (
-      <div className="home">
-        Welcome to dices {Functions.getCookie('userName')}!
-        <br />
-        {messageL1}
-        <br />
-        {messageL2}
+      <div className="about-us">
+        This is the final sprint of th Bootcamp Full Stack Development by IT Academy in Barcelona made by Mario Gómez Garcia
       </div>
     );
   }
 }
-export default withNavigation(Home);
+export default withNavigation(AboutUs);

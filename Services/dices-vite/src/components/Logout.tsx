@@ -68,6 +68,12 @@ class Logout extends React.Component<IProps, IState> {
         className="LogOutDiv"
         onClick={this.logOutFunction}
         style={{ display: this.context.logoutVisibity }}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            this.logOutFunction
+          }
+        }}
       >
         <span className="icon icon-nav icon-exit"></span>
         Log Out

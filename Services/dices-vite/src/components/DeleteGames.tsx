@@ -57,7 +57,7 @@ export default class Delete extends React.Component {
             className="form_user"
             onSubmit={this.handleSubmitDelete}
           >
-            <input type="submit" className="submitBttn" value="Submit" />
+            <input type="submit" className="submitBttn" value="Delete!" />
           </form>
         </div>
       </div>

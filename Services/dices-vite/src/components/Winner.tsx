@@ -109,8 +109,15 @@ class Winner extends React.Component<IProps, IState> {
                     <td>
                       <div
                         onClick={() =>
-                          this.changeNavSectionAndUser(player.id, 'Player')
+                          this.changeNavSectionAndUser(player.id, 'player')
                         }
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            this.changeNavSectionAndUser(player.id, 'player')
+                          }
+                        }}
+                        className="info-button"
                       >
                         <span className="icon icons-table icon-info"></span>
                       </div>

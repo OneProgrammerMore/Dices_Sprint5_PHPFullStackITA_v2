@@ -56,19 +56,40 @@ class NavPlayer extends React.Component<IProps, IState> {
 
         <div className="navItems">
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('Play')}>
+            <div onClick={() => this.changeNavSection('play')}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.changeNavSection('play')
+                }
+              }}
+              >
               <span className="icon icon-nav icon-dices"></span>
               Play
             </div>
           </div>
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('Delete')}>
+            <div onClick={() => this.changeNavSection('delete')}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.changeNavSection('delete')
+                }
+              }}
+              >
               <span className="icon icon-nav icon-trash"></span>
               Delete
             </div>
           </div>
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('ModifyName')}>
+            <div onClick={() => this.changeNavSection('modify-name')}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.changeNavSection('modify-name')
+                }
+              }}
+              >
               <span className="icon icon-nav icon-pencil"></span>
               Modify Name
             </div>
@@ -78,9 +99,19 @@ class NavPlayer extends React.Component<IProps, IState> {
               onClick={() =>
                 this.changeNavSectionAndUser(
                   Functions.getCookie('userid'),
-                  'Player'
+                  'player'
                 )
               }
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.changeNavSectionAndUser(
+                    Functions.getCookie('userid'),
+                    'player'
+                  )
+                }
+              }}
+
             >
               <span className="icon icon-nav icon-player"></span>
               Show Player

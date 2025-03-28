@@ -39,7 +39,15 @@ class HeaderDiv extends React.Component<IProps, IState> {
       <header>
         <div id="HeaderLeft">
           <div id="WebLogo"></div>
-          <div id="WebName" onClick={() => this.changeNavSection('Home')}>
+          <div id="WebName" onClick={() => this.changeNavSection('home')}
+            tabIndex={0}
+            onKeyDown={(e) => { 
+              if (e.key === "Enter") {
+                this.changeNavSection('home')
+              }
+            }}
+            className="info-button"
+            >
             Dices
           </div>
         </div>

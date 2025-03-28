@@ -26,6 +26,12 @@ function NavIcon({}) {
           menuContext.displayMenuOpenButton
         }
         onClick={() => openMenu()}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            () => openMenu()
+          }
+        }}
       ></a>
       <a
         className={
@@ -33,6 +39,12 @@ function NavIcon({}) {
           menuContext.displayMenuCloseButton
         }
         onClick={() => closeMenu()}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            () => closeMenu()
+          }
+        }}
       ></a>
     </div>
   );

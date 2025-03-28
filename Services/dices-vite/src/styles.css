@@ -134,6 +134,10 @@ input, select, textarea{
     background-image: var(--my-green-img);
 }
 
+html *:focus{
+	outline: none;  
+}
+
 input {
 	all: unset;
 }
@@ -350,8 +354,23 @@ nav{
 .navItem{
 	margin-left: 10px;
 	margin-right: 10px;
+	margin-top: 10px
 }
-.navItem:hover *, .LogOutDiv:hover *, .LogOutDiv:hover, .closeRow:hover *, #menu-icon:hover *, #play_form .submitBttn:hover, .icons-table.icon-info:hover{
+
+.navItem > * {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.navItem:hover *, .LogOutDiv:hover *, .LogOutDiv:hover, .closeRow:hover *, #menu-icon:hover *, #play_form .submitBttn:hover, .icons-table.icon-info:hover,
+.navItem:focus *, .LogOutDiv:focus *, .LogOutDiv:focus, .closeRow:focus *, #menu-icon:focus *, #play_form .submitBttn:focus, .icons-table.icon-info:focus,
+.navItem > div:focus, .navItem > div:focus *,
+.info-button:focus *, .info-button:hover *,
+#WebName:focus, #WebName:hover,
+.footerLink:focus, .footerLink:hover, .footerLink:focus *, .footerLink:hover *{
 	color: var(--hover-action-color-red);
 }
 
@@ -445,11 +464,11 @@ main{
 	cursor: pointer;
 }
 
-.buttonLoginSelector:hover, .submitBttn:hover{
+.buttonLoginSelector:hover, .submitBttn:hover,
+.buttonLoginSelector:focus, .submitBttn:focus{
 	border-color: var(--hover-action-color-red);
 	font: red;
 }
-
 
 .loginIcon, .registerPlayerIcon, .registerAdminIcon, .icon-form-close{
 	display: flex;

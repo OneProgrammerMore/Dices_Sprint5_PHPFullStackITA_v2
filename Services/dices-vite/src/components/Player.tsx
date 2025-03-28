@@ -160,7 +160,7 @@ export default class Player extends React.Component<IProps, IState> {
               <tr>
                 <th>Player ID</th>
                 <th>Game ID</th>
-                <th>Creaated At</th>
+                <th>Played At</th>
                 <th>Dice 1</th>
                 <th>Dice 2</th>
                 <th>Result</th>

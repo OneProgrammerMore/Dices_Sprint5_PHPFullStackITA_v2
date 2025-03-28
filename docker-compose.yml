@@ -51,7 +51,7 @@ services:
         command: >
             bash -c "cd /usr/share/nginx/html/
             && npm install 
-            && npm run build
+            && npm run dev
             && nginx -g 'daemon off;'"
         networks:
             - sprint05_network

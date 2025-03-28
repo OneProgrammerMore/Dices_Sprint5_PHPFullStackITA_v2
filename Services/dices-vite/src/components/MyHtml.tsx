@@ -37,7 +37,7 @@ class MyHTMLDiv extends React.Component<IProps, IState> {
             <MainDiv navigate={this.props.navigate}  />
           </main>
 
-          <FooterDiv />
+          <FooterDiv navigate={this.props.navigate}  />
         </MyContextProvider>
       </div>
     );

@@ -663,13 +663,13 @@ class Login extends React.Component<IProps, IState> {
 
   setAdmin() {
     this.chengeUserType('Admin');
-    this.changeNavSection('Home');
+    this.changeNavSection('home');
     this.updateLogoutVisibility(this.logoutVisibilitySet);
   }
 
   setPlayer() {
     this.chengeUserType('Player');
-    this.changeNavSection('Home');
+    this.changeNavSection('home');
     this.updateLogoutVisibility(this.logoutVisibilitySet);
   }
 
@@ -730,25 +730,46 @@ class Login extends React.Component<IProps, IState> {
       <div className="main_container">
         <div className="loginSelector">
           <div
+            tabIndex={0}
             className="buttonLoginSelector"
             onClick={this.displayLoginFunction}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                this.displayLoginFunction()
+              }
+            }}
           >
             <span className="icon icon-log icon-login"></span>
             Login
           </div>
           <div
+            tabIndex={0}
             className="buttonLoginSelector"
             onClick={this.displayRegisterPlayerFunction}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                this.displayRegisterPlayerFunction()
+              }
+            }}
           >
             <span className="icon icon-log icon-player"></span>
             Register As Player
           </div>
           <div
+            tabIndex={0}
             className="buttonLoginSelector"
             onClick={this.displayRegisterAdminFunction}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                this.displayRegisterAdminFunction()
+              }
+            }}
           >
             <span className="icon icon-log icon-admin"></span>
             Register As Admin
+          </div>
+          <div>
+            DO NOT USE REAL DATA!
           </div>
         </div>
 
@@ -758,7 +779,16 @@ class Login extends React.Component<IProps, IState> {
           style={{ display: contextValues.loginFormDisplayStyle }}
         >
           <div className="form_section-inner-login">
-            <div className="closeRow" onClick={this.hideLoginFunction}>
+            <div
+              className="closeRow" 
+              onClick={this.hideLoginFunction}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.hideLoginFunction()
+                }
+              }}
+            >
               <span className="icon icon-form-close icon-close"></span>
             </div>
             <h3>Login</h3>
@@ -820,7 +850,7 @@ class Login extends React.Component<IProps, IState> {
                 </div>
               )}
 
-              <input type="submit" className="submitBttn" value="Submit" />
+              <input type="submit" className="submitBttn" value="Login" />
             </form>
           </div>
           <div className="background-form"></div>
@@ -832,7 +862,14 @@ class Login extends React.Component<IProps, IState> {
           style={{ display: contextValues.registerPlayerFormDisplayStyle }}
         >
           <div className="form_section-inner">
-            <div className="closeRow" onClick={this.hideRegisterPlayerFunction}>
+            <div className="closeRow" onClick={this.hideRegisterPlayerFunction}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.hideRegisterPlayerFunction()
+                }
+              }}
+            >
               <span className="icon icon-form-close icon-close"></span>
             </div>
             <h3>Register as Player</h3>
@@ -940,7 +977,7 @@ class Login extends React.Component<IProps, IState> {
                 </div>
               )}
 
-              <input type="submit" className="submitBttn" value="Submit" />
+              <input type="submit" className="submitBttn" value="Register" />
             </form>
           </div>
           <div className="background-form"></div>
@@ -952,7 +989,14 @@ class Login extends React.Component<IProps, IState> {
           style={{ display: contextValues.registerAdminFormDisplayStyle }}
         >
           <div className="form_section-inner">
-            <div className="closeRow" onClick={this.hideRegisterAdminFunction}>
+            <div className="closeRow" onClick={this.hideRegisterAdminFunction}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  this.hideRegisterAdminFunction()
+                }
+              }}
+            >
               <span className="icon icon-form-close icon-close"></span>
             </div>
             <h3>Register as Administator</h3>
@@ -1060,7 +1104,7 @@ class Login extends React.Component<IProps, IState> {
                   <h3></h3>
                 </div>
               )}
-              <input type="submit" className="submitBttn" value="Submit" />
+              <input type="submit" className="submitBttn" value="Register" />
             </form>
           </div>
 

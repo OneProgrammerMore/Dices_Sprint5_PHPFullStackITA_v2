@@ -12,6 +12,11 @@ import Winner from './Winner.tsx';
 import Loser from './Loser.tsx';
 import Player from './Player.tsx';
 import Home from './Home.tsx';
+
+import AboutUs from './AboutUs.tsx';
+import Contact from './Contact.tsx';
+import Legal from './Legal.tsx';
+
 import * as Functions from '../dices.tsx';
 import * as Constants from '../constants.tsx';
 
@@ -48,13 +53,13 @@ class MainDiv extends React.Component<IProps, IState> {
   };
   setAdmin() {
     this.chengeUserType('Admin');
-    this.changeNavSection('Home');
+    this.changeNavSection('home');
     this.updateLogoutVisibility(this.logoutVisibilitySet);
   }
 
   setPlayer() {
     this.chengeUserType('Player');
-    this.changeNavSection('Home');
+    this.changeNavSection('home');
     this.updateLogoutVisibility(this.logoutVisibilitySet);
   }
 
@@ -96,20 +101,76 @@ class MainDiv extends React.Component<IProps, IState> {
   }
 
   render() {
+    const userID = Functions.getCookie('userid');
+    const token = Functions.getCookie('token');
+    const role = Functions.getCookie('userRole');
+
+    if(userID == ""){
+      return (
+        <Routes>
+          <Route path="/" element={<Login navigate={this.props.navigate} />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="*" element={<Login navigate={this.props.navigate} />} />
+        </Routes>
+      );
+    }else if(role == 'admin'){
+      return (
+        <Routes>
+          <Route path="/" element={<Login navigate={this.props.navigate} />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/player" element={<Player  />} />
+          <Route path="/list-players" element={<ListUsers navigate={this.props.navigate} />} />
+          <Route path="/ranking" element={<Ranking navigate={this.props.navigate} />} />
+          <Route path="/winner" element={<Winner navigate={this.props.navigate}/>} />
+          <Route path="/loser" element={<Loser navigate={this.props.navigate}/>} />
+  
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      );
+    }else if(role == 'player'){
+      return (
+        <Routes>
+          <Route path="/" element={<Login navigate={this.props.navigate} />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/play" element={<Play />} />
+          <Route path="/delete" element={<Delete />} />
+          <Route path="/modify-name" element={<ModifyName />} />
+          <Route path="/player" element={<Player  />} />
+
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      );
+    }else{
+      console.log("What are you doing?")
+    }
+
+    /*
     return (
       <Routes>
         <Route path="/" element={<Login navigate={this.props.navigate} />} />
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Play" element={<Play />} />
-        <Route path="/Delete" element={<Delete />} />
-        <Route path="/ModifyName" element={<ModifyName />} />
-        <Route path="/Player" element={<Player  />} />
-        <Route path="/ListPlayers" element={<ListUsers navigate={this.props.navigate} />} />
-        <Route path="/Ranking" element={<Ranking navigate={this.props.navigate} />} />
-        <Route path="/Winner" element={<Winner navigate={this.props.navigate}/>} />
-        <Route path="/Loser" element={<Loser navigate={this.props.navigate}/>} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/play" element={<Play />} />
+        <Route path="/delete" element={<Delete />} />
+        <Route path="/modify-name" element={<ModifyName />} />
+        <Route path="/player" element={<Player  />} />
+        <Route path="/list-players" element={<ListUsers navigate={this.props.navigate} />} />
+        <Route path="/ranking" element={<Ranking navigate={this.props.navigate} />} />
+        <Route path="/winner" element={<Winner navigate={this.props.navigate}/>} />
+        <Route path="/loser" element={<Loser navigate={this.props.navigate}/>} />
+
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/legal" element={<Legal />} />
       </Routes>
-    );
+    );*/
   }
 }
 
