@@ -55,7 +55,7 @@ class Loser extends React.Component<IProps, IState> {
 
   changeNavSectionAndUser = (userID: string, mainType: string) => {
     this.context.updateValueMainAndUserID(userID, mainType);
-    const newPath = '/'+mainType;
+    const newPath = '/' + mainType;
     this.props.navigate(newPath);
   };
 
@@ -111,8 +111,8 @@ class Loser extends React.Component<IProps, IState> {
                         }
                         tabIndex={0}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            this.changeNavSectionAndUser(player.id, 'player')
+                          if (e.key === 'Enter') {
+                            this.changeNavSectionAndUser(player.id, 'player');
                           }
                         }}
                         className="info-button"

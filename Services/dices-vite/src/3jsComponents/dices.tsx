@@ -206,7 +206,7 @@ const dices = (dices_goal: DicesProps) => {
       );
 
       loader.load(
-        Constants.dices_React_URL +'/DiceRoundColouredGray.gltf',
+        Constants.dices_React_URL + '/DiceRoundColouredGray.gltf',
         function (gltf) {
           gltf.scene.scale.set(60, 60, 60);
 
@@ -241,103 +241,109 @@ const dices = (dices_goal: DicesProps) => {
       camera.position.y = 2;
       camera.position.x = 0;
 
-      fontLoader.load(Constants.dices_React_URL + '/fonts/OpenSans_Regular.typeface.json', function (font) {
-        wonTextGeometry = new TextGeometry('You won!', {
-          font: font,
-          size: 1.5,
-          depth: 1.5,
-          curveSegments: 16,
-          bevelEnabled: false,
-          bevelThickness: 10,
-          bevelSize: 8,
-          bevelOffset: 0,
-          bevelSegments: 5
-        });
+      fontLoader.load(
+        Constants.dices_React_URL + '/fonts/OpenSans_Regular.typeface.json',
+        function (font) {
+          wonTextGeometry = new TextGeometry('You won!', {
+            font: font,
+            size: 1.5,
+            depth: 1.5,
+            curveSegments: 16,
+            bevelEnabled: false,
+            bevelThickness: 10,
+            bevelSize: 8,
+            bevelOffset: 0,
+            bevelSegments: 5
+          });
 
-        //Compute the bounding box of the text
-        wonTextGeometry.computeBoundingBox();
-        const boundingBox = wonTextGeometry.boundingBox!;
-        const textWidth = boundingBox.max.x - boundingBox.min.x;
-        const textHeight = boundingBox.max.y - boundingBox.min.y;
+          //Compute the bounding box of the text
+          wonTextGeometry.computeBoundingBox();
+          const boundingBox = wonTextGeometry.boundingBox!;
+          const textWidth = boundingBox.max.x - boundingBox.min.x;
+          const textHeight = boundingBox.max.y - boundingBox.min.y;
 
-        //Center the text
-        wonTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
+          //Center the text
+          wonTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
 
-        //Create the text mesh and add it to the scene
-        textMaterial = new THREE.MeshLambertMaterial({
-          color: 0xffffff,
-          transparent: true,
-          opacity: 0
-        });
-        textMesh = new THREE.Mesh(wonTextGeometry, textMaterial);
+          //Create the text mesh and add it to the scene
+          textMaterial = new THREE.MeshLambertMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0
+          });
+          textMesh = new THREE.Mesh(wonTextGeometry, textMaterial);
 
-        //Set the y-position to -2
-        textMesh.position.y = -2.5;
+          //Set the y-position to -2
+          textMesh.position.y = -2.5;
 
-        //Adjust the scale to fit the canvas
-        const canvasWidth = width;
-        const canvasHeight = height;
+          //Adjust the scale to fit the canvas
+          const canvasWidth = width;
+          const canvasHeight = height;
 
-        const scale = Math.min(
-          canvasWidth / textWidth,
-          canvasHeight / textHeight
-        );
-        textMesh.scale.set(scale / 100, scale / 100, scale / 100);
+          const scale = Math.min(
+            canvasWidth / textWidth,
+            canvasHeight / textHeight
+          );
+          textMesh.scale.set(scale / 100, scale / 100, scale / 100);
 
-        textMesh.quaternion.copy(camera.quaternion);
-        textMesh.rotation.x -= 0.4;
+          textMesh.quaternion.copy(camera.quaternion);
+          textMesh.rotation.x -= 0.4;
 
-        scene.add(textMesh);
-      });
+          scene.add(textMesh);
+        }
+      );
 
-      fontLoader.load(Constants.dices_React_URL + '/fonts/OpenSans_Regular.typeface.json', function (font) {
-        lostTextGeometry = new TextGeometry('You lost!', {
-          font: font,
-          size: 1.5,
-          depth: 1.5,
-          curveSegments: 16,
-          bevelEnabled: false,
-          bevelThickness: 10,
-          bevelSize: 8,
-          bevelOffset: 0,
-          bevelSegments: 5
-        });
+      fontLoader.load(
+        Constants.dices_React_URL + '/fonts/OpenSans_Regular.typeface.json',
+        function (font) {
+          lostTextGeometry = new TextGeometry('You lost!', {
+            font: font,
+            size: 1.5,
+            depth: 1.5,
+            curveSegments: 16,
+            bevelEnabled: false,
+            bevelThickness: 10,
+            bevelSize: 8,
+            bevelOffset: 0,
+            bevelSegments: 5
+          });
 
-        //Compute the bounding box of the text
-        lostTextGeometry.computeBoundingBox();
-        const boundingBox = lostTextGeometry.boundingBox!;
-        const textWidth = boundingBox.max.x - boundingBox.min.x;
-        const textHeight = boundingBox.max.y - boundingBox.min.y;
+          //Compute the bounding box of the text
+          lostTextGeometry.computeBoundingBox();
+          const boundingBox = lostTextGeometry.boundingBox!;
+          const textWidth = boundingBox.max.x - boundingBox.min.x;
+          const textHeight = boundingBox.max.y - boundingBox.min.y;
 
-        //Center the text
-        lostTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
+          //Center the text
+          lostTextGeometry.translate(-textWidth / 2, -textHeight / 2, 0);
 
-        //Create the text mesh and add it to the scene
-        const textMaterial = new THREE.MeshLambertMaterial({
-          color: 0xffffff,
-          transparent: true,
-          opacity: 0
-        });
-        textMeshLost = new THREE.Mesh(lostTextGeometry, textMaterial);
+          //Create the text mesh and add it to the scene
+          const textMaterial = new THREE.MeshLambertMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0
+          });
+          textMeshLost = new THREE.Mesh(lostTextGeometry, textMaterial);
 
-        //Set the y-position to -2
-        textMeshLost.position.y = -2.5;
+          //Set the y-position to -2
+          textMeshLost.position.y = -2.5;
 
-        //Adjust the scale to fit the canvas
-        const canvasWidth = width;
-        const canvasHeight = height;
+          //Adjust the scale to fit the canvas
+          const canvasWidth = width;
+          const canvasHeight = height;
 
-        const scale = Math.min(
-          canvasWidth / textWidth,
-          canvasHeight / textHeight
-        );
-        textMeshLost.scale.set(scale / 100, scale / 100, scale / 100);
+          const scale = Math.min(
+            canvasWidth / textWidth,
+            canvasHeight / textHeight
+          );
+          textMeshLost.scale.set(scale / 100, scale / 100, scale / 100);
 
-        textMeshLost.quaternion.copy(camera.quaternion);
-        textMeshLost.rotation.x -= 0.4;
+          textMeshLost.quaternion.copy(camera.quaternion);
+          textMeshLost.rotation.x -= 0.4;
 
-        scene.add(textMeshLost);
-      });
+          scene.add(textMeshLost);
+        }
+      );
     }
 
     function loadScene() {

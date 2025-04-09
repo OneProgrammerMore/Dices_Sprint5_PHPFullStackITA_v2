@@ -28,8 +28,8 @@ function NavIcon({}) {
         onClick={() => openMenu()}
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            () => openMenu()
+          if (e.key === 'Enter') {
+            openMenu();
           }
         }}
       ></a>
@@ -41,8 +41,8 @@ function NavIcon({}) {
         onClick={() => closeMenu()}
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            () => closeMenu()
+          if (e.key === 'Enter') {
+            closeMenu();
           }
         }}
       ></a>

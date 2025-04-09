@@ -51,7 +51,7 @@ class Logout extends React.Component<IProps, IState> {
     this.context.updateLogoutVisibilitySetter(newVisibility);
   };
 
-  logOutFunction() {
+  logOutFunction = () => {
     Functions.setCookie('token', '', 1);
     Functions.setCookie('userid', '', 1);
     this.context.updateValueUserTypeAndMain('None', 'Login');
@@ -60,7 +60,7 @@ class Logout extends React.Component<IProps, IState> {
     this.hideRegisterAdminFunction();
     this.updateLogoutVisibility('none');
     this.changeNavSectionAndUser('/');
-  }
+  };
 
   render() {
     return (
@@ -70,8 +70,8 @@ class Logout extends React.Component<IProps, IState> {
         style={{ display: this.context.logoutVisibity }}
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            this.logOutFunction
+          if (e.key === 'Enter') {
+            this.logOutFunction();
           }
         }}
       >

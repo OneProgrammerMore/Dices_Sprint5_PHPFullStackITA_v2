@@ -6,7 +6,6 @@ import { withNavigation } from '../functions/withRouter.tsx';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
-
 interface IProps {
   props?: React.PropsWithChildren;
 }

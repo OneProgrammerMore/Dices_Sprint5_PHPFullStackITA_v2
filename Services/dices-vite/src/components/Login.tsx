@@ -734,8 +734,8 @@ class Login extends React.Component<IProps, IState> {
             className="buttonLoginSelector"
             onClick={this.displayLoginFunction}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                this.displayLoginFunction()
+              if (e.key === 'Enter') {
+                this.displayLoginFunction();
               }
             }}
           >
@@ -747,8 +747,8 @@ class Login extends React.Component<IProps, IState> {
             className="buttonLoginSelector"
             onClick={this.displayRegisterPlayerFunction}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                this.displayRegisterPlayerFunction()
+              if (e.key === 'Enter') {
+                this.displayRegisterPlayerFunction();
               }
             }}
           >
@@ -760,17 +760,15 @@ class Login extends React.Component<IProps, IState> {
             className="buttonLoginSelector"
             onClick={this.displayRegisterAdminFunction}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                this.displayRegisterAdminFunction()
+              if (e.key === 'Enter') {
+                this.displayRegisterAdminFunction();
               }
             }}
           >
             <span className="icon icon-log icon-admin"></span>
             Register As Admin
           </div>
-          <div>
-            DO NOT USE REAL DATA!
-          </div>
+          <div>DO NOT USE REAL DATA!</div>
         </div>
 
         <div
@@ -780,12 +778,12 @@ class Login extends React.Component<IProps, IState> {
         >
           <div className="form_section-inner-login">
             <div
-              className="closeRow" 
+              className="closeRow"
               onClick={this.hideLoginFunction}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.hideLoginFunction()
+                if (e.key === 'Enter') {
+                  this.hideLoginFunction();
                 }
               }}
             >
@@ -862,11 +860,13 @@ class Login extends React.Component<IProps, IState> {
           style={{ display: contextValues.registerPlayerFormDisplayStyle }}
         >
           <div className="form_section-inner">
-            <div className="closeRow" onClick={this.hideRegisterPlayerFunction}
+            <div
+              className="closeRow"
+              onClick={this.hideRegisterPlayerFunction}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.hideRegisterPlayerFunction()
+                if (e.key === 'Enter') {
+                  this.hideRegisterPlayerFunction();
                 }
               }}
             >
@@ -989,11 +989,13 @@ class Login extends React.Component<IProps, IState> {
           style={{ display: contextValues.registerAdminFormDisplayStyle }}
         >
           <div className="form_section-inner">
-            <div className="closeRow" onClick={this.hideRegisterAdminFunction}
+            <div
+              className="closeRow"
+              onClick={this.hideRegisterAdminFunction}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.hideRegisterAdminFunction()
+                if (e.key === 'Enter') {
+                  this.hideRegisterAdminFunction();
                 }
               }}
             >

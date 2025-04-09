@@ -19,7 +19,6 @@ interface IState {
   dataItems?: string[];
 }
 
-
 class NavAdmin extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
@@ -46,53 +45,57 @@ class NavAdmin extends React.Component<IProps, IState> {
 
         <div className="navItems">
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('list-players')}
+            <div
+              onClick={() => this.changeNavSection('list-players')}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.changeNavSection('list-players')
+                if (e.key === 'Enter') {
+                  this.changeNavSection('list-players');
                 }
               }}
-              >
+            >
               <span className="icon icon-nav icon-list"></span>
               List Players
             </div>
           </div>
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('ranking')}
+            <div
+              onClick={() => this.changeNavSection('ranking')}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.changeNavSection('ranking')
+                if (e.key === 'Enter') {
+                  this.changeNavSection('ranking');
                 }
               }}
-              >
+            >
               <span className="icon icon-nav icon-cup"></span>
               Ranking
             </div>
           </div>
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('loser')}
+            <div
+              onClick={() => this.changeNavSection('loser')}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.changeNavSection('loser')
+                if (e.key === 'Enter') {
+                  this.changeNavSection('loser');
                 }
               }}
-              >
+            >
               <span className="icon icon-nav icon-worst"></span>
               Worst
             </div>
           </div>
           <div className="navItem">
-            <div onClick={() => this.changeNavSection('winner')}
+            <div
+              onClick={() => this.changeNavSection('winner')}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  this.changeNavSection('winner')
+                if (e.key === 'Enter') {
+                  this.changeNavSection('winner');
                 }
               }}
-              >
+            >
               <span className="icon icon-nav icon-top"></span>
               Best
             </div>

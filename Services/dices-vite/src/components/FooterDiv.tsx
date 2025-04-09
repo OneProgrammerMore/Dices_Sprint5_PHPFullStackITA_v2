@@ -1,11 +1,7 @@
 import '../styles.css';
 import React from 'react';
 
-import {
-  MyContext,
-  MyContextType,
-} from '../contextSrc/MyContext.tsx';
-
+import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
 
 interface IProps {
   props?: React.PropsWithChildren;
@@ -17,9 +13,7 @@ interface IState {
   dataItems?: string[];
 }
 
-
-
-export default class FooterDiv extends React.Component<IProps, IState>  {
+export default class FooterDiv extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -36,14 +30,13 @@ export default class FooterDiv extends React.Component<IProps, IState>  {
   render() {
     return (
       <footer>
-        <div className="footerLink"
+        <div
+          className="footerLink"
           tabIndex={0}
-          onClick={() => 
-            this.changeNavSection('home')
-          }
+          onClick={() => this.changeNavSection('home')}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              this.changeNavSection('home')
+            if (e.key === 'Enter') {
+              this.changeNavSection('home');
             }
           }}
         >
@@ -51,43 +44,40 @@ export default class FooterDiv extends React.Component<IProps, IState>  {
           Home
         </div>
 
-        <div className="footerLink"
+        <div
+          className="footerLink"
           tabIndex={0}
-          onClick={() => 
-            this.changeNavSection('about-us')
-          }
+          onClick={() => this.changeNavSection('about-us')}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              this.changeNavSection('about-us')
+            if (e.key === 'Enter') {
+              this.changeNavSection('about-us');
             }
           }}
         >
           <span className="icon icon-footer icon-info"></span>
           About Us
         </div>
-        
-        <div className="footerLink"
+
+        <div
+          className="footerLink"
           tabIndex={0}
-          onClick={() => 
-            this.changeNavSection('contact')
-          }
+          onClick={() => this.changeNavSection('contact')}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              this.changeNavSection('contact')
+            if (e.key === 'Enter') {
+              this.changeNavSection('contact');
             }
           }}
         >
           <span className="icon icon-footer icon-contact"></span>
           Contact
         </div>
-        <div className="footerLink"
+        <div
+          className="footerLink"
           tabIndex={0}
-          onClick={() => 
-            this.changeNavSection('legal')
-          }
+          onClick={() => this.changeNavSection('legal')}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              this.changeNavSection('legal')
+            if (e.key === 'Enter') {
+              this.changeNavSection('legal');
             }
           }}
         >

@@ -58,7 +58,7 @@ class ListUsers extends React.Component<IProps, IState> {
 
   changeNavSectionAndUser = (userID: string, mainType: string) => {
     this.context.updateValueMainAndUserID(userID, mainType);
-    const newPath = '/'+mainType;
+    const newPath = '/' + mainType;
     this.props.navigate(newPath);
   };
 
@@ -133,9 +133,9 @@ class ListUsers extends React.Component<IProps, IState> {
                     this.changeNavSectionAndUser(player.id, 'player')
                   }
                   tabIndex={0}
-                  onKeyDown={(e) => { 
-                    if (e.key === "Enter") {
-                      this.changeNavSectionAndUser(player.id, 'player')
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      this.changeNavSectionAndUser(player.id, 'player');
                     }
                   }}
                   className="info-button"
@@ -188,4 +188,4 @@ class ListUsers extends React.Component<IProps, IState> {
   }
 }
 
-export default  withNavigation(ListUsers);
+export default withNavigation(ListUsers);

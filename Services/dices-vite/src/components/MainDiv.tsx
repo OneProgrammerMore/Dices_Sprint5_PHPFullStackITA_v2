@@ -102,10 +102,9 @@ class MainDiv extends React.Component<IProps, IState> {
 
   render() {
     const userID = Functions.getCookie('userid');
-    const token = Functions.getCookie('token');
     const role = Functions.getCookie('userRole');
 
-    if(userID == ""){
+    if (userID == '') {
       return (
         <Routes>
           <Route path="/" element={<Login navigate={this.props.navigate} />} />
@@ -115,32 +114,28 @@ class MainDiv extends React.Component<IProps, IState> {
           <Route path="*" element={<Login navigate={this.props.navigate} />} />
         </Routes>
       );
-    }else if(role == 'admin'){
+    } else if (role == 'admin') {
       return (
         <Routes>
           <Route path="/" element={<Login navigate={this.props.navigate} />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/player" element={<Player  />} />
-          <Route path="/list-players" element={<ListUsers navigate={this.props.navigate} />} />
-          <Route path="/ranking" element={<Ranking navigate={this.props.navigate} />} />
-          <Route path="/winner" element={<Winner navigate={this.props.navigate}/>} />
-          <Route path="/loser" element={<Loser navigate={this.props.navigate}/>} />
-  
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
-      );
-    }else if(role == 'player'){
-      return (
-        <Routes>
-          <Route path="/" element={<Login navigate={this.props.navigate} />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/play" element={<Play />} />
-          <Route path="/delete" element={<Delete />} />
-          <Route path="/modify-name" element={<ModifyName />} />
-          <Route path="/player" element={<Player  />} />
+          <Route path="/player" element={<Player />} />
+          <Route
+            path="/list-players"
+            element={<ListUsers navigate={this.props.navigate} />}
+          />
+          <Route
+            path="/ranking"
+            element={<Ranking navigate={this.props.navigate} />}
+          />
+          <Route
+            path="/winner"
+            element={<Winner navigate={this.props.navigate} />}
+          />
+          <Route
+            path="/loser"
+            element={<Loser navigate={this.props.navigate} />}
+          />
 
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
@@ -148,8 +143,24 @@ class MainDiv extends React.Component<IProps, IState> {
           <Route path="*" element={<Home />} />
         </Routes>
       );
-    }else{
-      console.log("What are you doing?")
+    } else if (role == 'player') {
+      return (
+        <Routes>
+          <Route path="/" element={<Login navigate={this.props.navigate} />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/play" element={<Play />} />
+          <Route path="/delete" element={<Delete />} />
+          <Route path="/modify-name" element={<ModifyName />} />
+          <Route path="/player" element={<Player />} />
+
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/legal" element={<Legal />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      );
+    } else {
+      console.log('What are you doing?');
     }
 
     /*

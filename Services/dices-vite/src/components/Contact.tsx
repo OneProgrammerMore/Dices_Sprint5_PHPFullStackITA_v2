@@ -1,10 +1,7 @@
 import React from 'react';
-
-import * as Functions from '../dices.tsx';
 import { withNavigation } from '../functions/withRouter.tsx';
 
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
-
 
 interface IProps {
   props?: React.PropsWithChildren;
@@ -31,7 +28,9 @@ class Contact extends React.Component<IProps, IState> {
   render() {
     return (
       <div className="contact">
-        It is possible to contact me by the links provided in my portfolio landing... <br/>or by github under @oneprogrammermore.
+        It is possible to contact me by the links provided in my portfolio
+        landing... <br />
+        or by github under @oneprogrammermore.
       </div>
     );
   }

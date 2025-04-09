@@ -133,7 +133,7 @@ export default class ModifyName extends React.Component<IProps, IState> {
     const form = document.getElementById('change_name_form')!;
     const inputs = form.querySelectorAll('input');
     inputs.forEach((input) => {
-      if(input.type != "submit"){
+      if (input.type != 'submit') {
         input.value = ''; // Clear the value of each input
       }
     });

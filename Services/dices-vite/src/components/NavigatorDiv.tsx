@@ -99,7 +99,10 @@ class NavigatorDiv extends React.Component<IProps, IState> {
               return (
                 <DisplayMenuNavContext.Consumer>
                   {(displayMenuNavContext) => (
-                    <NavPlayer displayMenuContext={displayMenuNavContext} navigate={this.props.navigate}/>
+                    <NavPlayer
+                      displayMenuContext={displayMenuNavContext}
+                      navigate={this.props.navigate}
+                    />
                   )}
                 </DisplayMenuNavContext.Consumer>
               );
@@ -107,7 +110,10 @@ class NavigatorDiv extends React.Component<IProps, IState> {
               return (
                 <DisplayMenuNavContext.Consumer>
                   {(displayMenuNavContext) => (
-                    <NavAdmin displayMenuContext={displayMenuNavContext} navigate={this.props.navigate} />
+                    <NavAdmin
+                      displayMenuContext={displayMenuNavContext}
+                      navigate={this.props.navigate}
+                    />
                   )}
                 </DisplayMenuNavContext.Consumer>
               );
@@ -118,7 +124,6 @@ class NavigatorDiv extends React.Component<IProps, IState> {
       </MyContext.Consumer>
     );
   }
-
 }
 
 export default withNavigation(NavigatorDiv);

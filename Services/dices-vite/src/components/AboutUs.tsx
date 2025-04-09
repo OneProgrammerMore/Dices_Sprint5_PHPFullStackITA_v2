@@ -1,10 +1,6 @@
 import React from 'react';
-
-import * as Functions from '../dices.tsx';
 import { withNavigation } from '../functions/withRouter.tsx';
-
 import { MyContext, MyContextType } from '../contextSrc/MyContext.tsx';
-
 
 interface IProps {
   props?: React.PropsWithChildren;
@@ -31,7 +27,8 @@ class AboutUs extends React.Component<IProps, IState> {
   render() {
     return (
       <div className="about-us">
-        This is the final sprint of th Bootcamp Full Stack Development by IT Academy in Barcelona made by Mario Gómez Garcia
+        This is the final sprint of th Bootcamp Full Stack Development by IT
+        Academy in Barcelona made by Mario Gómez Garcia
       </div>
     );
   }

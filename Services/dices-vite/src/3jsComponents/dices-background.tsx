@@ -82,7 +82,7 @@ function dices_background() {
 
     for (let i = 0; i < amount_dices; i++) {
       loader.load(
-        Constants.dices_React_URL +'/DiceRoundColouredGray.gltf',
+        Constants.dices_React_URL + '/DiceRoundColouredGray.gltf',
         function (gltf) {
           gltf.scene.scale.set(30, 30, 30);
 

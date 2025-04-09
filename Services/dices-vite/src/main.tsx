@@ -20,9 +20,8 @@ const App = () => {
     useState('visibleClass');
 
   return (
-    
     <Provider store={store}>
-      <Router basename={Constants.dices_Router_Prefix} >
+      <Router basename={Constants.dices_Router_Prefix}>
         <DisplayMenuNavContext.Provider
           value={{
             displayMenu,

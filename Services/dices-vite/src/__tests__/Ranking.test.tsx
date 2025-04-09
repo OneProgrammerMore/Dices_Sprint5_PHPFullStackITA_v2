@@ -32,7 +32,6 @@ const rankingApiEx = [
 ];
 
 describe('Ranking (Class Component)', () => {
-
   afterEach(() => {
     vi.clearAllMocks();
     cleanup();
@@ -55,7 +54,7 @@ describe('Ranking (Class Component)', () => {
 
     render(
       <Router>
-        <Ranking  navigate={useNavigate} />
+        <Ranking navigate={useNavigate} />
       </Router>
     );
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
@@ -100,7 +99,7 @@ describe('Ranking (Class Component)', () => {
 
     render(
       <Router>
-        <Ranking  navigate={useNavigate} />
+        <Ranking navigate={useNavigate} />
       </Router>
     );
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
