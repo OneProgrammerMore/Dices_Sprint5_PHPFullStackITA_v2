@@ -39,6 +39,7 @@ services:
           - DISPLAY=0
         ports:
             - "83:80"
+            - "4173:4173"
             - "5173:5173"
             - "8080:8080" # For random use
             - "9323:9323" # For Playwright Report
@@ -51,8 +52,8 @@ services:
         command: >
             bash -c "cd /usr/share/nginx/html/
             && npm install 
-            && npm run dev
-            && nginx -g 'daemon off;'"
+            && npm run build
+            && npm run preview"
         networks:
             - sprint05_network
 

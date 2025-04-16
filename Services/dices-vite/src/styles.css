@@ -134,7 +134,7 @@ input, select, textarea{
     background-image: var(--my-green-img);
 }
 
-html *:focus{
+html *:focus-visible{
 	outline: none;  
 }
 
@@ -366,11 +366,11 @@ nav{
 }
 
 .navItem:hover *, .LogOutDiv:hover *, .LogOutDiv:hover, .closeRow:hover *, #menu-icon:hover *, #play_form .submitBttn:hover, .icons-table.icon-info:hover,
-.navItem:focus *, .LogOutDiv:focus *, .LogOutDiv:focus, .closeRow:focus *, #menu-icon:focus *, #play_form .submitBttn:focus, .icons-table.icon-info:focus,
-.navItem > div:focus, .navItem > div:focus *,
-.info-button:focus *, .info-button:hover *,
-#WebName:focus, #WebName:hover,
-.footerLink:focus, .footerLink:hover, .footerLink:focus *, .footerLink:hover *{
+.navItem:focus-visible *, .LogOutDiv:focus-visible *, .LogOutDiv:focus-visible, .closeRow:focus-visible *, #menu-icon:focus-visible *, #play_form .submitBttn:focus-visible, .icons-table.icon-info:focus-visible,
+.navItem > div:focus-visible, .navItem > div:focus-visible *,
+.info-button:focus-visible *, .info-button:hover *,
+#WebName:focus-visible, #WebName:hover,
+.footerLink:focus-visible, .footerLink:hover, .footerLink:focus-visible *, .footerLink:hover *{
 	color: var(--hover-action-color-red);
 }
 
@@ -413,6 +413,7 @@ footer{
 	display: flex;
 	align-items: center;
 }
+
 
 /*MAIN AND MORE COMPONENTS*/
 main{
@@ -465,7 +466,7 @@ main{
 }
 
 .buttonLoginSelector:hover, .submitBttn:hover,
-.buttonLoginSelector:focus, .submitBttn:focus{
+.buttonLoginSelector:focus-visible, .submitBttn:focus-visible{
 	border-color: var(--hover-action-color-red);
 	font: red;
 }
@@ -900,6 +901,10 @@ tr{
 
 #menu-icon{
 	display: none;
+}
+
+.contact, .legal, .about-us{
+	max-width: 650px;
 }
 
 

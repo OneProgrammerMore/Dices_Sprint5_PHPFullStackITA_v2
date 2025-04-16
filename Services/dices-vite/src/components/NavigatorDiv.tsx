@@ -37,14 +37,10 @@ class NavigatorDiv extends React.Component<IProps, IState> {
 
   setAdmin() {
     this.chengeUserType('Admin');
-    //this.changeNavSection('Home');
-    //this.updateLogoutVisibility(this.logoutVisibilitySet);
   }
 
   setPlayer() {
     this.chengeUserType('Player');
-    //this.changeNavSection('Home');
-    //this.updateLogoutVisibility(this.logoutVisibilitySet);
   }
 
   //Check if user is already Logged In (Cookies Exists) and Set page:
