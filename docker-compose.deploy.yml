@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+    dice-nginx:
+        container_name: dice-nginx
+        image: nginx:stable-alpine-perl
+        volumes:
+          - ./docker/nginx/logs:/var/log/nginx
+          - ./docker/nginx/conf.d:/etc/nginx/conf.d
+          - ./dice-react/dist:/var/www/html/react
+          - ./dice-laravel:/var/www/html/backend
+        restart: always
+        ports:
+          - 80:80
+        networks:
+          - dice-nginx-network
+
+    dice-laravel:
+        depends_on:
+            dice-db:
+              condition: service_healthy
+        container_name: dice-laravel
+        build:
+            context: .
+            dockerfile: DockerfileBackendDeploy
+        volumes:
+          - ./dice-laravel/:/var/www/html/backend
+        command: >
+            /bin/sh -c "
+            cd /var/www/html/backend && 
+            chmod u+x entrypointDeploy.sh && 
+            ./entrypointDeploy.sh"
+        networks:
+            - dice-db-network
+            - dice-nginx-network
+
+    dice-db:
+        container_name: dice-db
+        image: mariadb:lts-noble
+        environment:
+           MYSQL_DATABASE: ${MYSQL_DATABASE}
+           MYSQL_USER: ${MYSQL_USER}
+           MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+           MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ./docker/dice-mariadb:/var/lib/mysql
+        healthcheck:
+          interval: 10s
+          retries: 5
+          test:
+            [
+              "CMD",
+              "healthcheck.sh",
+              "--su-mysql",
+              "--connect",
+              "--innodb_initialized"
+            ]
+          timeout: 30s
+        networks:
+            - dice-db-network
+
+networks:
+    dice-db-network:
+    dice-nginx-network:

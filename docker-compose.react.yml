@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  dice-react:
+      container_name: dice-react
+      build:
+          context: .
+          dockerfile: DockerfileReact
+      environment:
+        - DISPLAY=0
+        - VITE_APP_API_URL=http://192.168.1.130
+        - VITE_APP_URL=http://192.168.1.130
+        - VITE_APP_PREFIX=
+      volumes:
+          - ./dice-react/:/usr/share/nginx/html
+      command: >
+          bash -c "cd /usr/share/nginx/html/
+          && npm install 
+          && npm run build"

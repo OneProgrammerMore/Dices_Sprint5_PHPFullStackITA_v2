@@ -1,0 +1,7 @@
+FROM php:8.3.17RC1-fpm-alpine3.20
+
+RUN docker-php-ext-install pdo pdo_mysql
+
+WORKDIR /var/www/html/backend
+
+CMD ["php-fpm"]

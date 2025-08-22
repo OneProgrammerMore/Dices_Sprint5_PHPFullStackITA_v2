@@ -1,42 +1,38 @@
 version: "3"
 
 services:
-    dices_sprint05:
+    dice-laravel-dev:
         depends_on:
-            mariadb_dices:
+            dice-db:
               condition: service_healthy
-        container_name: dices-backend
+        container_name: dice-laravel-dev
         build:
             context: .
             dockerfile: Dockerfile_backend
         ports:
             - "82:80"
         volumes:
-          - ./Services/dices/:/var/www/html
+          - ./dice-laravel/:/var/www/html
         command: >
-            bash -c "cd /var/www/html/ 
-            && a2enmod rewrite
-            && composer update && composer install 
-            && php artisan migrate 
-            && php artisan db:seed 
-            && php artisan key:generate
-            && php artisan passport:install --uuids
-            && php artisan migrate --env=testing --force
-            && php artisan passport:install --env=testing --force
-            && chmod -R a+w /var/www/html/storage/
-            && /usr/sbin/apachectl -D FOREGROUND"
+            /bin/sh -c "
+            cd /var/www/html/ && 
+            chmod u+x entrypoint.sh && 
+            ./entrypoint.sh"
         networks:
-            - sprint05_network
+            - dice-db-network
 
-    dices-react_sprint05:
+    dice-react-dev:
         depends_on:
-          - dices_sprint05
-        container_name: dices-frontend
+          - dice-laravel
+        container_name: dice-react-dev
         build:
             context: .
-            dockerfile: Dockerfile_react
+            dockerfile: DockerfileReact
         environment:
           - DISPLAY=0
+          - VITE_APP_API_URL=http://192.168.1.130:82
+          - VITE_APP_URL=http://192.168.1.130:4173
+          - VITE_APP_PREFIX=
         ports:
             - "83:80"
             - "4173:4173"
@@ -45,7 +41,7 @@ services:
             - "9323:9323" # For Playwright Report
             - "63315:63315" # For vitest browser support
         volumes:
-            - ./Services/dices-vite/:/usr/share/nginx/html
+            - ./dice-react/:/usr/share/nginx/html
             - ./docker/config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
             # For playwright e2e testing:
             - /tmp/.X11-unix:/tmp/.X11-unix
@@ -54,19 +50,17 @@ services:
             && npm install 
             && npm run build
             && npm run preview"
-        networks:
-            - sprint05_network
 
-    mariadb_dices:
-        container_name: sprint05-mariadb
+    dice-db:
+        container_name: dice-db
         image: mariadb:lts-noble
         environment:
-           MYSQL_DATABASE: dices_database
-           MYSQL_USER: user
-           MYSQL_PASSWORD: password
-           MYSQL_ROOT_PASSWORD: root_password
+           MYSQL_DATABASE: ${MYSQL_DATABASE}
+           MYSQL_USER: ${MYSQL_USER}
+           MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+           MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         volumes:
-            - ./docker/mysql-data:/var/lib/mysql
+            - ./docker/dice-mariadb:/var/lib/mysql
         healthcheck:
           interval: 10s
           retries: 5
@@ -80,7 +74,7 @@ services:
             ]
           timeout: 30s
         networks:
-            - sprint05_network
+            - dice-db-network
 
 networks:
-    sprint05_network:
+    dice-db-network:
